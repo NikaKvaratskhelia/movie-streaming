@@ -1,23 +1,16 @@
 import { prisma } from "@/src/lib/prisma";
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { User } from "@/generated/prisma/browser";
+import { checkJwt } from "@/src/utils/check-auth";
 
 export async function GET(req: Request) {
   try {
-    const authHeader = req.headers.get("authorization");
+    const userId = await checkJwt(req);
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return NextResponse.json({ message: "No token" }, { status: 401 });
+    if (!userId) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-
-    const token = authHeader.split(" ")[1];
-
-    const { userId } = jwt.verify(token, process.env.JWT_SECRET!) as {
-      userId: string;
-    };
-
     const users = await prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -39,18 +32,11 @@ export async function GET(req: Request) {
 
 export async function PUT(req: Request) {
   try {
-    const authHeader = req.headers.get("authorization");
+    const userId = await checkJwt(req);
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return NextResponse.json({ message: "No token" }, { status: 401 });
+    if (!userId) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-
-    const token = authHeader.split(" ")[1];
-
-    const { userId } = jwt.verify(token, process.env.JWT_SECRET!) as {
-      userId: string;
-    };
-
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });
@@ -91,16 +77,11 @@ export async function PUT(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
-    const authHeader = req.headers.get("authorization");
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return NextResponse.json({ message: "No token" }, { status: 401 });
+    const userId = await checkJwt(req);
+
+    if (!userId) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-
-    const token = authHeader.split(" ")[1];
-    const { userId } = jwt.verify(token, process.env.JWT_SECRET!) as {
-      userId: string;
-    };
-
     const currentUser = await prisma.user.findUnique({
       where: { id: userId },
     });
