@@ -1,0 +1,130 @@
+import { prisma } from "@/src/lib/prisma";
+import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import { User } from "@/generated/prisma/browser";
+
+export async function GET(req: Request) {
+  try {
+    const authHeader = req.headers.get("authorization");
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return NextResponse.json({ message: "No token" }, { status: 401 });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const { userId } = jwt.verify(token, process.env.JWT_SECRET!) as {
+      userId: string;
+    };
+
+    const users = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        role: true,
+      },
+    });
+    return NextResponse.json(users, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error fetching user", error: error },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PUT(req: Request) {
+  try {
+    const authHeader = req.headers.get("authorization");
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return NextResponse.json({ message: "No token" }, { status: 401 });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const { userId } = jwt.verify(token, process.env.JWT_SECRET!) as {
+      userId: string;
+    };
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user)
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+
+    const body = await req.json();
+
+    const updateData: Partial<User> = {};
+
+    if (body.firstName) updateData.firstName = body.firstName;
+    if (body.lastName) updateData.lastName = body.lastName;
+    if (body.email) updateData.email = body.email;
+    if (body.password)
+      updateData.password = await bcrypt.hash(body.password, 10);
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: updateData,
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        role: true,
+      },
+    });
+
+    return NextResponse.json(updatedUser, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error updating user", error: error },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const authHeader = req.headers.get("authorization");
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return NextResponse.json({ message: "No token" }, { status: 401 });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const { userId } = jwt.verify(token, process.env.JWT_SECRET!) as {
+      userId: string;
+    };
+
+    const currentUser = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!currentUser?.role || currentUser.role !== "ADMIN")
+      return NextResponse.json({ message: "Unauthorized" }, { status: 403 });
+
+    const { id } = await req.json();
+    const deletedUser = await prisma.user.delete({
+      where: { id },
+    });
+
+    if (!deletedUser) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(
+      { message: "User deleted", user: deletedUser },
+      { status: 200 },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error deleting user", error: error },
+      { status: 500 },
+    );
+  }
+}
