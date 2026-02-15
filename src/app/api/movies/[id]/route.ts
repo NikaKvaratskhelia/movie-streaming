@@ -1,5 +1,5 @@
 import { prisma } from "@/src/lib/prisma";
-import { Movie } from "@/src/types/Movie";
+import { Movie } from "@/generated/prisma/browser";
 import { NextResponse } from "next/server";
 
 export async function GET(
