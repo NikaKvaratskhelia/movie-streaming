@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "@/src/lib/prisma";
 
 export async function GET() {
   const data = await prisma.movie.findMany({
@@ -23,7 +23,14 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { title, description, coverPhoto, yearPublished, actorIds } = body;
+    const {
+      title,
+      description,
+      coverPhoto,
+      yearPublished,
+      actorIds,
+      producerId,
+    } = body;
 
     if (!title || !description || !coverPhoto || !yearPublished) {
       return NextResponse.json(
@@ -38,7 +45,7 @@ export async function POST(req: Request) {
         description,
         coverPhoto,
         yearPublished,
-
+        producerId,
         actors: actorIds?.length
           ? {
               connect: actorIds.map((id: number) => ({ id })),
@@ -56,7 +63,6 @@ export async function POST(req: Request) {
       { status: 201 },
     );
   } catch (error: any) {
-
     return NextResponse.json(
       { message: "Something went wrong", error: error.message },
       { status: 500 },

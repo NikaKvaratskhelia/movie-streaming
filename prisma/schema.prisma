@@ -20,8 +20,8 @@ model Movie {
   coverPhoto    String
   yearPublished Int
 
-  producerId Int?
-  producer   Producer? @relation(fields: [producerId], references: [id])
+  producerId Int
+  producer   Producer @relation(fields: [producerId], references: [id])
 
   actors Actor[]
 }
