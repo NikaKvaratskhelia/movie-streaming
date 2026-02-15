@@ -56,7 +56,6 @@ export async function PUT(
         status: 404,
       });
     }
-
     const updatedMovie = await prisma.movie.update({
       where: { id: Number(id) },
       data: updateData,
@@ -77,6 +76,7 @@ export async function PUT(
 }
 
 export async function DELETE(
+  
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
