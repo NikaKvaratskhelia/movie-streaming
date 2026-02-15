@@ -1,4 +1,5 @@
 import { prisma } from "@/src/lib/prisma";
+import { Movie } from "@/src/types/Movie";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -39,7 +40,7 @@ export async function PUT(
     const body = await request.json();
     const { title, description, coverPhoto, yearPublished } = body;
 
-    const updateData: any = {};
+    const updateData: Partial<Movie> = {};
 
     if (title !== undefined) updateData.title = title;
     if (description !== undefined) updateData.description = description;
@@ -65,11 +66,13 @@ export async function PUT(
       { updatedMovie, message: "Movie update successfully" },
       { status: 200 },
     );
-  } catch (error: any) {
-    return NextResponse.json(
-      { message: "Update failed", error: error.message },
-      { status: 500 },
-    );
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { message: "Something went wrong", error: error.message },
+        { status: 500 },
+      );
+    }
   }
 }
 
@@ -84,7 +87,9 @@ export async function DELETE(
       status: 400,
     });
 
-  const exsistingMovie = await prisma.movie.findUnique({ where: { id: Number(id) } });
+  const exsistingMovie = await prisma.movie.findUnique({
+    where: { id: Number(id) },
+  });
 
   if (!exsistingMovie)
     return new NextResponse(`Movie with id of ${id} does not exsist`, {
@@ -95,5 +100,5 @@ export async function DELETE(
     where: { id: Number(id) },
   });
 
-  return new NextResponse("Movie deleted successfully!", {status:200})
+  return new NextResponse("Movie deleted successfully!", { status: 200 });
 }

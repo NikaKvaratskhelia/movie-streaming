@@ -62,10 +62,12 @@ export async function POST(req: Request) {
       { movie, message: "Movie added successfully" },
       { status: 201 },
     );
-  } catch (error: any) {
-    return NextResponse.json(
-      { message: "Something went wrong", error: error.message },
-      { status: 500 },
-    );
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { message: "Something went wrong", error: error.message },
+        { status: 500 },
+      );
+    }
   }
 }

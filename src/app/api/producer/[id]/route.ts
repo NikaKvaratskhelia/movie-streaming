@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/src/lib/prisma";
+import { Producer } from "@/generated/prisma/browser";
 
 export async function GET(
   req: Request,
-  { params }: { params: Promise<{ id: String }> },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
 
@@ -36,7 +37,7 @@ export async function PUT(
       status: 404,
     });
 
-  const newData: any = {};
+  const newData: Partial<Producer> = {};
 
   if (body.fullName !== null) newData.fullName = body.fullName;
   if (body.nationality !== null) newData.nationality = body.nationality;
