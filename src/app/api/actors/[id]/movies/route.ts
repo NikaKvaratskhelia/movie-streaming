@@ -8,16 +8,16 @@ export async function GET(
   try {
     const { id } = await params;
 
-    const producer = await prisma.producer.findUnique({
+    const actor = await prisma.actor.findUnique({
       where: { id: Number(id) },
       include: { movies: true },
     });
 
-    if (!producer) {
-      return new NextResponse("Producer not found", { status: 404 });
+    if (!actor) {
+      return new NextResponse("Actor not found", { status: 404 });
     }
 
-    return NextResponse.json(producer.movies);
+    return NextResponse.json(actor.movies);
   } catch (error) {
     return NextResponse.json(error);
   }
@@ -37,15 +37,15 @@ export async function POST(
     );
   }
 
-  const producer = prisma.producer.findUnique({
+  const actor = prisma.actor.findUnique({
     where: { id: Number(id) },
     include: { movies: true },
   });
 
-  if (!producer)
-    return NextResponse.json(`No producer with id of ${id}`, { status: 404 });
+  if (!actor)
+    return NextResponse.json(`No actor with id of ${id}`, { status: 404 });
 
-  const updated = await prisma.producer.update({
+  const updated = await prisma.actor.update({
     where: { id: Number(id) },
     data: {
       movies: {
