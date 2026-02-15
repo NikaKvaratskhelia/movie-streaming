@@ -14,16 +14,20 @@ datasource db {
 }
 
 model Movie {
-  id            Int    @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   title         String
   description   String
   coverPhoto    String
   yearPublished Int
+  duration      Int      @default(0)
+  rating        Int      @default(0)
+  genres        String[]
 
   producerId Int
   producer   Producer @relation(fields: [producerId], references: [id])
 
-  actors Actor[]
+  actors     Actor[]
+  watchlists Watchlist[]
 }
 
 model Producer {
@@ -45,15 +49,27 @@ model Actor {
 }
 
 model User {
-  id        String @id @default(uuid())
-  firstName String
-  lastName  String
-  email     String @unique
-  password  String
-  role      Role   @default(USER)
+  id         String      @id @default(uuid())
+  firstName  String
+  lastName   String
+  email      String      @unique
+  password   String
+  role       Role        @default(USER)
+  watchlists Watchlist[]
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model Watchlist {
+  id      Int    @id @default(autoincrement())
+  userId  String
+  movieId Int
+
+  user  User  @relation(fields: [userId], references: [id])
+  movie Movie @relation(fields: [movieId], references: [id])
+
+  @@unique([userId, movieId])
 }
