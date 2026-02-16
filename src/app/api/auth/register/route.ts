@@ -7,6 +7,9 @@ export async function POST(req: Request) {
 
   const { firstName, lastName, email, password } = data;
 
+  if (!firstName || !lastName || !email || !password)
+    return NextResponse.json("Missing reuqired fields!", { status: 400 });
+
   const exsistingUser = await prisma.user.findUnique({
     where: { email: email },
   });
@@ -29,4 +32,3 @@ export async function POST(req: Request) {
 
   return NextResponse.json(createdUser, { status: 200 });
 }
-
