@@ -7,6 +7,9 @@ export async function GET() {
       producer: true,
       actors: true,
     },
+    orderBy: {
+      rating: 'desc',
+    },
   });
 
   if (data.length === 0) {
