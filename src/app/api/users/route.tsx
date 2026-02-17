@@ -15,7 +15,7 @@ export async function GET(req: Request) {
       );
     }
 
-    await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
         id: true,
@@ -27,7 +27,7 @@ export async function GET(req: Request) {
     });
 
     return NextResponse.json(
-      { message: "User fetched successfully", ok: true },
+      { message: "User fetched successfully", user, ok: true },
       { status: 200 },
     );
   } catch (error) {

@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
 import { useMovieStore } from "@/src/store/useMovieStore";
-import ResultCard from "./result-card";
+import ResultCard from "./ResultCard";
 
 const SearchInput = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { movies } = useMovieStore();
 
-  const filteredMovies = movies.filter(movie =>
-    movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredMovies = movies.filter((movie) =>
+    movie.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -18,7 +18,16 @@ const SearchInput = () => {
         placeholder="Search movies..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-104 h-12 px-4 rounded-full bg-white text-black placeholder:text-gray-500"
+        className="w-104 h-12 px-4 pr-12
+        rounded-full
+         bg-white text-black placeholder:text-gray-500
+        outline-none
+        border border-transparent
+        transition-all duration-200
+         focus:border-red-600
+        focus:ring-2 focus:ring-red-600/40
+        focus:shadow-lg
+        "
       />
 
       <svg
@@ -39,7 +48,7 @@ const SearchInput = () => {
         <div className="absolute top-14 left-0 right-0 bg-black rounded-lg shadow-lg max-h-96 overflow-y-auto z-50">
           {filteredMovies.length > 0 ? (
             filteredMovies.map((movie) => (
-              <ResultCard movie={movie} key={movie.id}/>
+              <ResultCard movie={movie} key={movie.id} />
             ))
           ) : (
             <div className="p-3 text-gray-400">

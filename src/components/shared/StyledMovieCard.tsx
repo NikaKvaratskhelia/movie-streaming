@@ -32,7 +32,7 @@ export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
           alt={movie.title}
           width={352}
           height={300}
-          className="w-full h-[292px] rounded-[10px] object-cover "
+          className="w-full h-73 rounded-[10px] object-cover "
         />
       ) : (
         <div className="w-full h-auto bg-gray-700 flex items-center justify-center text-gray-400">
@@ -54,15 +54,15 @@ export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
         {movie.rating || 0}
       </div>
       
-      <div className="flex justify-between items-start p-[10px]">
+      <div className="flex justify-between items-start p-2.5">
         <h3 className="text-white text-lg font-bold mb-2 truncate flex-1 mr-2">
           {movie.title.length > 11 ? `${movie.title.slice(0, 11)}...` : movie.title}
         </h3>
-        <div className="flex flex-wrap gap-2 flex-shrink-0">
+        <div className="flex flex-wrap gap-2 shrink-0">
           {(movie.genres || []).map((genre: string, index: number) => (
             <span
               key={index}
-              className="text-white bg-[#FF0000] w-auto h-[40px] rounded-[10px] p-[5px] flex items-center"
+              className="text-white bg-[#FF0000] w-auto h-10 rounded-[10px] p-1.25 flex items-center"
             >
               {genre}
             </span>

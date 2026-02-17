@@ -1,5 +1,5 @@
 "use client";
-import StyledMovieCard from "@/src/components/shared/styled-movie-card";
+import StyledMovieCard from "@/src/components/shared/StyledMovieCard";
 import MovieCard from "@/src/components/shared/MovieCard";
 import { useMovieStore } from "@/src/store/useMovieStore";
 import { useEffect } from "react";
