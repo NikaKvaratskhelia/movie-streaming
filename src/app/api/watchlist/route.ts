@@ -6,20 +6,27 @@ export async function GET(req: Request) {
   const userId = await checkJwt(req);
 
   if (!userId) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { message: "Unauthorized", ok: false },
+      { status: 401 },
+    );
   }
-  const user = await prisma.user.findUnique({
+
+  await prisma.user.findUnique({
     where: { id: userId },
     include: {
       watchlists: {
-        include:{
-          movie:true
-        }
+        include: {
+          movie: true,
+        },
       },
     },
   });
 
-  return NextResponse.json(user?.watchlists, { status: 200 });
+  return NextResponse.json(
+    { message: "Watchlist fetched successfully", ok: true },
+    { status: 200 },
+  );
 }
 
 export async function POST(req: Request) {
@@ -27,25 +34,34 @@ export async function POST(req: Request) {
     const userId = await checkJwt(req);
 
     if (!userId) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json(
+        { message: "Unauthorized", ok: false },
+        { status: 401 },
+      );
     }
 
     const { movieId } = await req.json();
 
     if (!movieId)
-      return NextResponse.json("Missing movie id!", { status: 400 });
+      return NextResponse.json(
+        { message: "Missing movie id!", ok: false },
+        { status: 400 },
+      );
 
-    const updatedWatchlist = await prisma.watchlist.create({
+    await prisma.watchlist.create({
       data: {
         userId,
         movieId,
       },
     });
 
-    return NextResponse.json(updatedWatchlist, { status: 200 });
+    return NextResponse.json(
+      { message: "Movie added to watchlist successfully", ok: true },
+      { status: 200 },
+    );
   } catch (error) {
     return NextResponse.json(
-      { message: "Error occured", error },
+      { message: "Error occurred", error, ok: false },
       { status: 500 },
     );
   }
@@ -56,7 +72,10 @@ export async function DELETE(req: Request) {
     const userId = await checkJwt(req);
 
     if (!userId) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json(
+        { message: "Unauthorized", ok: false },
+        { status: 401 },
+      );
     }
 
     const { movieId } = await req.json();
@@ -71,12 +90,12 @@ export async function DELETE(req: Request) {
     });
 
     return NextResponse.json(
-      { message: "Movie removed from watchlist successfully" },
+      { message: "Movie removed from watchlist successfully", ok: true },
       { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
-      { message: "Error occurred", error },
+      { message: "Error occurred", error, ok: false },
       { status: 500 },
     );
   }
