@@ -12,9 +12,12 @@ interface MovieSectionProps {
   limit: number;
 }
 
-export default function NewReleaseMovie({ movies: propMovies, limit }: MovieSectionProps) {
+export default function NewReleaseMovie({
+  movies: propMovies,
+  limit,
+}: MovieSectionProps) {
   const { movies: storeMovies, loading, error, fetchMovies } = useMovieStore();
-  
+
   useEffect(() => {
     fetchMovies();
   }, [fetchMovies]);
@@ -34,19 +37,16 @@ export default function NewReleaseMovie({ movies: propMovies, limit }: MovieSect
   }
 
   return (
-    <div className="w-full flex flex-col items-center">
-      {/* Title */}
-      <div className="w-full max-w-[1200px] mb-[33px]">
-        <h2 className="text-white text-[24px] font-semibold">
-          New Release - Movies
-        </h2>
-      </div>
-
-      {/* Cards */}
-      <div className="flex gap-[33px]">
-        {movies.slice(0, limit).map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
+    <div className="w-full flex flex-col items-start">
+      <h2 className="ml-[12%] mt-20 mb-6 text-2xl font-semibold text-white">
+        New Release - Movies
+      </h2>
+      <div className="w-full flex justify-center">
+        <div className="flex gap-8.25">
+          {movies.slice(0, limit).map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+        </div>
       </div>
     </div>
   );
