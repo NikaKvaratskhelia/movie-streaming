@@ -1,6 +1,6 @@
-import MovieHeroSection from "@/src/components/home/movie-hero-section";
+import MovieHeroSection from "@/src/components/home/MovieHeroSection";
 import RecentlyUpdated from "@/src/components/home/RecentlyUpdated";
-import MovieSections from "@/src/components/home/movie-sections";
+import MovieSections from "@/src/components/home/MovieSection";
 
 export default function Home() {
 
