@@ -6,12 +6,15 @@ export async function GET() {
 
   if (data.length === 0) {
     return NextResponse.json(
-      { message: "There is no data in this table" },
+      { message: "There is no data in this table", ok: false },
       { status: 200 },
     );
   }
 
-  return NextResponse.json(data, { status: 200 });
+  return NextResponse.json(
+    { message: "Producers fetched successfully", ok: true },
+    { status: 200 },
+  );
 }
 
 export async function POST(req: Request) {
@@ -20,10 +23,13 @@ export async function POST(req: Request) {
   const { fullName, nationality, dateOfBirth, debutYear } = data;
 
   if (!fullName || !nationality || !dateOfBirth || !debutYear) {
-    return new NextResponse("Missing required fields", { status: 400 });
+    return NextResponse.json(
+      { message: "Missing required fields!", ok: false },
+      { status: 400 },
+    );
   }
 
-  const newProducer = await prisma.producer.create({
+  await prisma.producer.create({
     data: {
       fullName,
       nationality,
@@ -33,7 +39,7 @@ export async function POST(req: Request) {
   });
 
   return NextResponse.json(
-    { message: "Producer Created successfully!", newProducer },
+    { message: "Producer Created successfully!", ok: true },
     { status: 200 },
   );
 }

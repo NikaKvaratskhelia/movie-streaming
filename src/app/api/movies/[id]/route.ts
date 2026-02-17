@@ -9,20 +9,25 @@ export async function GET(
   const { id } = await params;
 
   if (!id)
-    return new NextResponse(`Id is required`, {
-      status: 400,
-    });
+    return NextResponse.json(
+      { message: "Id is required", ok: false },
+      { status: 400 },
+    );
 
   const movie = await prisma.movie.findUnique({
     where: { id: Number(id) },
   });
 
   if (!movie)
-    return new NextResponse(`There is not a movie with id of ${id}`, {
-      status: 404,
-    });
+    return NextResponse.json(
+      { message: `There is not a movie with id of ${id}`, ok: false },
+      { status: 404 },
+    );
 
-  return new NextResponse(JSON.stringify(movie), { status: 200 });
+  return NextResponse.json(
+    { message: "Movie fetched successfully", ok: true },
+    { status: 200 },
+  );
 }
 
 export async function PUT(
@@ -33,9 +38,10 @@ export async function PUT(
     const { id } = await params;
 
     if (!id)
-      return new NextResponse(`Id is required`, {
-        status: 400,
-      });
+      return NextResponse.json(
+        { message: "Id is required", ok: false },
+        { status: 400 },
+      );
 
     const body = await request.json();
     const { title, description, coverPhoto, yearPublished } = body;
@@ -52,23 +58,25 @@ export async function PUT(
     });
 
     if (!existingMovie) {
-      return new NextResponse(`There is not a movie with id of ${id}`, {
-        status: 404,
-      });
+      return NextResponse.json(
+        { message: `There is not a movie with id of ${id}`, ok: false },
+        { status: 404 },
+      );
     }
-    const updatedMovie = await prisma.movie.update({
+
+    await prisma.movie.update({
       where: { id: Number(id) },
       data: updateData,
     });
 
     return NextResponse.json(
-      { updatedMovie, message: "Movie update successfully" },
+      { message: "Movie update successfully", ok: true },
       { status: 200 },
     );
   } catch (error: unknown) {
     if (error instanceof Error) {
       return NextResponse.json(
-        { message: "Something went wrong", error: error.message },
+        { message: "Something went wrong", ok: false },
         { status: 500 },
       );
     }
@@ -83,22 +91,27 @@ export async function DELETE(
   const { id } = await params;
 
   if (!id)
-    return new NextResponse(`Id is required`, {
-      status: 400,
-    });
+    return NextResponse.json(
+      { message: "Id is required", ok: false },
+      { status: 400 },
+    );
 
   const exsistingMovie = await prisma.movie.findUnique({
     where: { id: Number(id) },
   });
 
   if (!exsistingMovie)
-    return new NextResponse(`Movie with id of ${id} does not exsist`, {
-      status: 404,
-    });
+    return NextResponse.json(
+      { message: `Movie with id of ${id} does not exsist`, ok: false },
+      { status: 404 },
+    );
 
   await prisma.movie.delete({
     where: { id: Number(id) },
   });
 
-  return new NextResponse("Movie deleted successfully!", { status: 200 });
+  return NextResponse.json(
+    { message: "Movie deleted successfully!", ok: true },
+    { status: 200 },
+  );
 }

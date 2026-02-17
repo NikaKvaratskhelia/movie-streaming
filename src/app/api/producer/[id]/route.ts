@@ -14,11 +14,15 @@ export async function GET(
   });
 
   if (!existingProducer)
-    return new NextResponse(`Producer with id of ${id} does not exist`, {
-      status: 404,
-    });
+    return NextResponse.json(
+      { message: `Producer with id of ${id} does not exist`, ok: false },
+      { status: 404 },
+    );
 
-  return NextResponse.json(existingProducer, { status: 200 });
+  return NextResponse.json(
+    { message: "Producer fetched successfully", ok: true },
+    { status: 200 },
+  );
 }
 
 export async function PUT(
@@ -33,9 +37,10 @@ export async function PUT(
   });
 
   if (!existingProducer)
-    return new NextResponse(`Producer with id of ${id} does not exist`, {
-      status: 404,
-    });
+    return NextResponse.json(
+      { message: `Producer with id of ${id} does not exist`, ok: false },
+      { status: 404 },
+    );
 
   const newData: Partial<Producer> = {};
 
@@ -44,15 +49,15 @@ export async function PUT(
   if (body.dateOfBirth !== null) newData.dateOfBirth = body.dateOfBirth;
   if (body.debutYear !== null) newData.debutYear = body.debutYear;
 
-  const updatedProducer = await prisma.producer.update({
+  await prisma.producer.update({
     where: { id: Number(id) },
     data: newData,
   });
 
-  return NextResponse.json({
-    updatedProducer,
-    message: "Producer updated successfully!",
-  });
+  return NextResponse.json(
+    { message: "Producer updated successfully!", ok: true },
+    { status: 200 },
+  );
 }
 
 export async function DELETE(
@@ -66,16 +71,17 @@ export async function DELETE(
   });
 
   if (!existingProducer)
-    return new NextResponse(`Producer with id of ${id} does not exist`, {
-      status: 404,
-    });
+    return NextResponse.json(
+      { message: `Producer with id of ${id} does not exist`, ok: false },
+      { status: 404 },
+    );
 
-  const deletedProducer = await prisma.producer.delete({
+  await prisma.producer.delete({
     where: { id: Number(id) },
   });
 
   return NextResponse.json(
-    { deletedProducer, message: "Deleted successfully!" },
+    { message: "Deleted successfully!", ok: true },
     { status: 200 },
   );
 }

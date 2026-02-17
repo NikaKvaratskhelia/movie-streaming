@@ -15,9 +15,12 @@ export async function GET(
   });
 
   if (!wantedActor)
-    return NextResponse.json(`No actor with id of ${id}`, { status: 404 });
+    return NextResponse.json(
+      { message: `No actor with id of ${id}`, ok: false },
+      { status: 404 },
+    );
 
-  return NextResponse.json(wantedActor, { status: 200 });
+  return NextResponse.json({ wantedActor, ok: true }, { status: 200 });
 }
 
 export async function PUT(
@@ -31,7 +34,10 @@ export async function PUT(
   });
 
   if (!wantedActor)
-    return NextResponse.json(`No actor with id of ${id}`, { status: 404 });
+    return NextResponse.json(
+      { message: `No actor with id of ${id}`, ok: false },
+      { status: 404 },
+    );
 
   const newData: Partial<Actor> = {};
 
@@ -51,6 +57,7 @@ export async function PUT(
     {
       updatedActor,
       message: "Actor updated successfully!",
+      ok: true,
     },
     { status: 200 },
   );
@@ -67,7 +74,10 @@ export async function DELETE(
   });
 
   if (!wantedActor)
-    return NextResponse.json(`No actor with id of ${id}`, { status: 404 });
+    return NextResponse.json(
+      { message: `No actor with id of ${id}`, ok: false },
+      { status: 404 },
+    );
 
   const deletedActor = prisma.actor.delete({ where: { id: Number(id) } });
 
@@ -75,6 +85,7 @@ export async function DELETE(
     {
       deletedActor,
       message: "Actor updated successfully!",
+      ok: true,
     },
     { status: 200 },
   );
@@ -89,18 +100,37 @@ export async function POST(
 
   if (!Array.isArray(movieIds) || movieIds.length === 0) {
     return NextResponse.json(
-      { message: "movieIds must be a non-empty array of numbers" },
+      { message: "movieIds must be a non-empty array of numbers", ok: false },
       { status: 400 },
     );
   }
 
-  const actor = prisma.actor.findUnique({
+  const numericMovieIds = movieIds.map((id) => Number(id));
+
+  const existingMovies = await prisma.movie.findMany({
+    where: {
+      id: { in: numericMovieIds },
+    },
+    select: { id: true },
+  });
+
+  if (existingMovies.length !== numericMovieIds.length) {
+    return NextResponse.json(
+      { message: "Some movies do not exist", ok: false },
+      { status: 400 },
+    );
+  }
+
+  const actor = await prisma.actor.findUnique({
     where: { id: Number(id) },
     include: { movies: true },
   });
 
   if (!actor)
-    return NextResponse.json(`No actor with id of ${id}`, { status: 404 });
+    return NextResponse.json(
+      { message: `No actor with id of ${id}`, ok: false },
+      { status: 404 },
+    );
 
   const updated = await prisma.actor.update({
     where: { id: Number(id) },
@@ -112,5 +142,5 @@ export async function POST(
     include: { movies: true },
   });
 
-  return NextResponse.json(updated, { status: 200 });
+  return NextResponse.json({ updated, ok: true }, { status: 200 });
 }
