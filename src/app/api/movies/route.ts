@@ -11,12 +11,15 @@ export async function GET() {
 
   if (data.length === 0) {
     return NextResponse.json(
-      { message: "There is no data in this table" },
+      { message: "There is no data in this table", ok: false },
       { status: 200 },
     );
   }
 
-  return NextResponse.json(data, { status: 200 });
+  return NextResponse.json(
+    { message: "Movies fetched successfully", ok: true },
+    { status: 200 },
+  );
 }
 
 export async function POST(req: Request) {
@@ -34,12 +37,12 @@ export async function POST(req: Request) {
 
     if (!title || !description || !coverPhoto || !yearPublished) {
       return NextResponse.json(
-        { message: "Missing required fields" },
+        { message: "Missing required fields", ok: false },
         { status: 400 },
       );
     }
 
-    const movie = await prisma.movie.create({
+    await prisma.movie.create({
       data: {
         title,
         description,
@@ -59,13 +62,13 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(
-      { movie, message: "Movie added successfully" },
+      { message: "Movie added successfully", ok: true },
       { status: 201 },
     );
   } catch (error: unknown) {
     if (error instanceof Error) {
       return NextResponse.json(
-        { message: "Something went wrong", error: error.message },
+        { message: "Something went wrong", ok: false },
         { status: 500 },
       );
     }

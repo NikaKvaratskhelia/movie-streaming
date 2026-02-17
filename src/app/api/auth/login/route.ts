@@ -7,23 +7,32 @@ export async function POST(req: Request) {
   const body = await req.json();
 
   if (body.email === undefined || body.password === undefined)
-    return NextResponse.json("Missing required fields", { status: 400 });
+    return NextResponse.json(
+      { message: "Missing required fields!", ok: false },
+      { status: 400 },
+    );
 
   const existingUser = await prisma.user.findUnique({
     where: { email: body.email },
   });
 
   if (!existingUser)
-    return NextResponse.json("Email or password is incorrect!", {
-      status: 401,
-    });
+    return NextResponse.json(
+      { message: "Email or password is incorrect!", ok: false },
+      {
+        status: 401,
+      },
+    );
 
   const isValid = await bcrypt.compare(body.password, existingUser.password);
 
   if (!isValid)
-    return NextResponse.json("Email or password is incorrect!", {
-      status: 401,
-    });
+    return NextResponse.json(
+      { message: "Email or password is incorrect!", ok: false },
+      {
+        status: 401,
+      },
+    );
 
   const jwtToken = jwt.sign(
     { userId: existingUser.id },
@@ -33,5 +42,5 @@ export async function POST(req: Request) {
     },
   );
 
-  return NextResponse.json({ token: jwtToken }, { status: 200 });
+  return NextResponse.json({ token: jwtToken, ok: true }, { status: 200 });
 }
