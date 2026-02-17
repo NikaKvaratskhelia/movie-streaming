@@ -6,14 +6,16 @@ import { useAuthStore } from "@/src/store/useLoginStore";
 import { useUserStore } from "@/src/store/useUserStore";
 
 export default function UserLink() {
-  const { token } = useAuthStore();
+  const { token, hasHydrated } = useAuthStore();
   const { user, fetchUser } = useUserStore();
 
   useEffect(() => {
-    if (token) {
+    if (hasHydrated && token) {
       fetchUser(token);
     }
-  }, [token, fetchUser]);
+  }, [token, fetchUser, hasHydrated]);
+
+  if (!hasHydrated) return null;
 
   const isAuthenticated = !!token;
 

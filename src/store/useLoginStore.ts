@@ -1,37 +1,59 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { logIn } from "../services/auth-service";
 
 interface AuthState {
   token: string | null;
+  hasHydrated: boolean;
+
   login: (credentials: {
     email: string;
     password: string;
   }) => Promise<{ success: boolean; error?: string }>;
+
   logout: () => void;
+
+  setHasHydrated: (value: boolean) => void;
+  setToken: (token: string | null) => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  token: typeof window !== "undefined" ? localStorage.getItem("token") : null,
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      token: null,
+      hasHydrated: false,
 
-  login: async (credentials) => {
-    try {
-      const data = await logIn(credentials);
+      setHasHydrated: (value) => set({ hasHydrated: value }),
 
-      localStorage.setItem("token", data.token);
+      setToken: (token) => set({ token }),
 
-      set({ token: data.token });
+      login: async (credentials) => {
+        try {
+          const response = await logIn(credentials);
 
-      return { success: true };
-    } catch (error) {
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : "Login failed",
-      };
-    }
-  },
+          if (response.token) {
+            set({ token: response.token });
+            return { success: true };
+          }
 
-  logout: () => {
-    localStorage.removeItem("token");
-    set({ token: null });
-  },
-}));
+          return { success: false, error: "Invalid credentials" };
+        } catch (error) {
+          if (error instanceof Error) {
+            return { success: false, error: error.message };
+          }
+
+          return { success: false, error:"Error occured" };
+        }
+      },
+
+      logout: () => set({ token: null }),
+    }),
+    {
+      name: "auth-storage",
+
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
+    },
+  ),
+);
