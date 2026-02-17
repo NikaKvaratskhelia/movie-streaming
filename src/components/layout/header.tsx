@@ -1,5 +1,5 @@
 import Link from "next/link";
-import SearchInput from "@/src/components/shared/search-input";
+import SearchInput from "@/src/components/shared/SearchInputCode/search-input";
 
 const Header = () => {
   return (
