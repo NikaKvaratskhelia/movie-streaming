@@ -13,11 +13,22 @@ export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
     return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const isValidUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const coverPhoto = movie.coverPhoto && isValidUrl(movie.coverPhoto) ? movie.coverPhoto : null;
+
   return (
     <div className="relative w-full rounded-lg shadow-lg group">
-      {movie.coverPhoto ? (
+      {coverPhoto ? (
         <Image
-          src={movie.coverPhoto}
+          src={coverPhoto}
           alt={movie.title}
           width={352}
           height={300}

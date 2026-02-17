@@ -1,14 +1,15 @@
+"use client";
 import StyledMovieCard from "@/src/components/shared/styled-movie-card";
 import MovieCard from "@/src/components/shared/movie-card";
-import { Movie } from "../../../generated/prisma/client";
+import { useMovieStore } from "@/src/store/use-move-store";
+import { useEffect } from "react";
 
-interface MovieSectionsProps {
-  movies: Movie[];
-  loading: boolean;
-  error: string | null;
-}
+export default function MovieSections() {
 
-export default function MovieSections({ movies, loading, error }: MovieSectionsProps) {
+  const { movies, loading, error, fetchMovies } = useMovieStore();
+
+  useEffect(() => {fetchMovies()}, [fetchMovies]);
+  
   if (loading) {
     return (
       <div className="text-center py-8">Loading movies...</div>
@@ -28,19 +29,17 @@ export default function MovieSections({ movies, loading, error }: MovieSectionsP
   }
 
   return (
-    <>
-      {/* Top 3 Highest Rated Movies */}
+    <section>
       <div className="bg-black p-6 px-20">
-        <div className="flex justify-center gap-[49px]">
+        <div className="flex justify-center gap-12.25">
           {movies.slice(0, 3).map((movie) => (
-            <div key={movie.id} className="flex-shrink-0 w-96">
+            <div key={movie.id} className="shrink-0 w-96">
               <StyledMovieCard movie={movie} />
             </div>
           ))}
         </div>
       </div>
 
-      {/* All Other Movies */}
       {movies.length > 3 && (
         <div className="px-20">
           <h3 className="text-xl font-bold mb-6">All Movies</h3>
@@ -51,6 +50,6 @@ export default function MovieSections({ movies, loading, error }: MovieSectionsP
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 }
