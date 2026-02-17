@@ -20,7 +20,7 @@ export async function addMovie(movie: Movie) {
   return await res.json();
 }
 
-export async function updateMovie(id: number, movie: Movie) {
+export async function updateMovie(id: number, movie: Partial<Movie>) {
   const res = await fetch(`/api/movies/${id}`, {
     method: "PUT",
     body: JSON.stringify(movie),
