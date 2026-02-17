@@ -86,37 +86,40 @@ export default function Form() {
     <>
       {isLoading && <Loader />}
       <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-2">
-          <Input
-            type="text"
-            text="First Name"
-            id="firstName"
-            placeholder="Enter First Name"
-            value={values.firstName}
-            onChange={handleChange}
-          />
+        <div className="flex flex-col justify-between lg:flex-row gap-4">
+          <div className="flex flex-col gap-2">
+            <Input
+              type="text"
+              text="First Name"
+              id="firstName"
+              placeholder="Enter First Name"
+              value={values.firstName}
+              onChange={handleChange}
+            />
 
-          {errors.firstName && (
-            <p className="text-red-400 font-semibold text-sm">
-              {errors.firstName}
-            </p>
-          )}
-        </div>
-        <div className="flex flex-col gap-2">
-          <Input
-            type="text"
-            text="Last Name"
-            id="lastName"
-            placeholder="Enter First Name"
-            value={values.lastName}
-            onChange={handleChange}
-          />
+            {errors.firstName && (
+              <p className="text-red-400 font-semibold text-sm">
+                {errors.firstName}
+              </p>
+            )}
+          </div>
 
-          {errors.lastName && (
-            <p className="text-red-400 font-semibold text-sm">
-              {errors.lastName}
-            </p>
-          )}
+          <div className="flex flex-col gap-2 max-w-">
+            <Input
+              type="text"
+              text="Last Name"
+              id="lastName"
+              placeholder="Enter Last Name"
+              value={values.lastName}
+              onChange={handleChange}
+            />
+
+            {errors.lastName && (
+              <p className="text-red-400 font-semibold text-sm">
+                {errors.lastName}
+              </p>
+            )}
+          </div>
         </div>
         <div className="flex flex-col gap-2">
           <Input

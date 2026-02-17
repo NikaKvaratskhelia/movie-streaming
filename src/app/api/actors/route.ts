@@ -13,10 +13,7 @@ export async function POST(req: Request) {
   const { fullName, nationality, dateOfBirth, debutYear } = data;
 
   if (!fullName || !nationality || !dateOfBirth || !debutYear) {
-    return NextResponse.json(
-      { message: "Missing required fields!", ok: false },
-      { status: 400 },
-    );
+    return new NextResponse("Missing required fields", { status: 400 });
   }
 
   const newActor = await prisma.actor.create({
@@ -28,5 +25,5 @@ export async function POST(req: Request) {
     },
   });
 
-  return NextResponse.json({ newActor, ok: true }, { status: 200 });
+  return NextResponse.json(newActor, { status: 200 });
 }
