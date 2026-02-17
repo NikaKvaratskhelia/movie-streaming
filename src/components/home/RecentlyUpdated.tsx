@@ -15,14 +15,14 @@ export default function RecentlyUpdated() {
               alt="The Flash"
               width={64}
               height={144}
-              className="w-[64px] h-[103px] object-cover"
+              className="w-16 h-25.75 object-cover"
             />
-            <div className="mt-[9px]">
+            <div className="mt-2.25">
               <h3 className="text-[16px] font-medium">The Flash</h3>
-              <p className="text-[#FFFFFF]text-lg mt-[4px]">
+              <p className="text-[#FFFFFF]text-lg mt-1">
                 Series/S 2/EP 9
               </p>
-              <p className="text-[#FFFFFF]text-lg mt-[4px]">
+              <p className="text-[#FFFFFF]text-lg mt-1">
                 11/05/23
               </p>
             </div>
@@ -33,14 +33,14 @@ export default function RecentlyUpdated() {
               alt="Fubar"
               width={64}
               height={103}
-              className="w-[64px] h-[103px] object-cover "
+              className="w-16 h-25.75 object-cover "
             />
-            <div  className="mt-[9px]">
+            <div  className="mt-2.25">
               <h3 className="text-[16px] font-medium">Fubar</h3>
-  <p className="text-[#FFFFFF]text-lg mt-[4px]">
+  <p className="text-[#FFFFFF]text-lg mt-1">
                 Series/S 1/EP 8
               </p>
-  <p className="text-[#FFFFFF]text-lg mt-[4px]">
+  <p className="text-[#FFFFFF]text-lg mt-1">
                 11/05/23
               </p>
             </div>
@@ -51,14 +51,14 @@ export default function RecentlyUpdated() {
               alt="Fubar"
               width={64}
               height={103}
-              className="w-[64px] h-[103px] object-cover "
+              className="w-16 h-25.75 object-cover "
             />
-            <div className="mt-[9px]">
+            <div className="mt-2.25">
               <h3 className="text-[16px] font-medium">manifest</h3>
-              <p className="text-[#FFFFFF]text-lg mt-[4px]">
+              <p className="text-[#FFFFFF]text-lg mt-1">
                 Series/S 1/EP 8
               </p>
-              <p className="text-[#FFFFFF]text-lg mt-[4px]">
+              <p className="text-[#FFFFFF]text-lg mt-1">
                 11/05/23
               </p>
             </div>
@@ -69,21 +69,21 @@ export default function RecentlyUpdated() {
               alt="Fubar"
               width={64}
               height={103}
-              className="w-[64px] h-[103px] object-cover"
+              className="w-16 h-25.75 object-cover"
             />
-            <div className="mt-[9px]">
+            <div className="mt-2.25">
               <h3 className="text-[16px] font-medium">silo</h3>
-              <p className="text-[#FFFFFF]text-lg mt-[4px]">
+              <p className="text-[#FFFFFF]text-lg mt-1">
                 Series/S 1/EP 8
               </p>
-              <p className="text-[#FFFFFF]text-lg mt-[4px]">
+              <p className="text-[#FFFFFF]text-lg mt-1">
                 11/05/23
               </p>
             </div>
           </div>
 
         </div>
-        <button className="w-[88px] h-[88px] bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-400 transition mr-[10%]">
+        <button className="w-22 h-22 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-400 transition mr-[10%]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-8 h-8 text-black"

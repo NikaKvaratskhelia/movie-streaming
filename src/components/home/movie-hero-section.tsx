@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section
+    <main
       className="relative h-186 w-full bg-cover bg-center flex items-center px-20"
       style={{ backgroundImage: "url('/do-you-think-james-camerons-avatar-took-inspiration-from-v0-buq2mcyzoxvf1.webp')" }}
     >
@@ -67,6 +67,6 @@ export default function Hero() {
         <div className="w-5 h-5 bg-white rounded-full"></div>
         <div className="w-5 h-5 bg-white rounded-full"></div>
       </div>
-    </section>
+    </main>
   );
 }
