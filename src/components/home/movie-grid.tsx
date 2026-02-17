@@ -1,5 +1,5 @@
 import { Movie } from "../../../generated/prisma/client";
-import MovieCard from "@/src/components/shared/movie-card";
+import MovieCard from "@/src/components/shared/MovieCard";
 
 interface MovieGridProps {
   movies: Movie[];

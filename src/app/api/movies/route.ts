@@ -7,9 +7,6 @@ export async function GET() {
       producer: true,
       actors: true,
     },
-    orderBy: {
-      rating: 'desc',
-    },
   });
 
   if (data.length === 0) {
@@ -20,7 +17,7 @@ export async function GET() {
   }
 
   return NextResponse.json(
-    { message: "Movies fetched successfully", ok: true },
+    { message: "Movies fetched successfully", data, ok: true },
     { status: 200 },
   );
 }

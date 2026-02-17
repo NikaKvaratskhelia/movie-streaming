@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Button from "../shared/Button";
 import Input from "../shared/Input";
 import { useState } from "react";
-import { useAuthStore } from "@/src/store/use-login-store";
+import { useAuthStore } from "@/src/store/useLoginStore";
 import { z } from "zod";
 import Loader from "../ui/Loader";
 

@@ -17,7 +17,7 @@ interface MovieStore {
   updateMovie: (id: number, movie: Partial<Movie>) => Promise<void>;
 }
 
-export const useMovieStore = create<MovieStore>((set, get) => ({
+export const useMovieStore = create<MovieStore>((set) => ({
   movies: [],
   loading: false,
   error: null,
@@ -25,8 +25,10 @@ export const useMovieStore = create<MovieStore>((set, get) => ({
   fetchMovies: async () => {
     set({ loading: true, error: null });
     try {
-      const movies = await fetchMovies();
-      set({ movies, loading: false });
+      const resp = await fetchMovies();
+      console.log(resp);
+
+      set({ movies: resp.data, loading: false });
     } catch (error) {
       set({
         error:

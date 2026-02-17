@@ -1,11 +1,7 @@
+import { Movie } from "@/generated/prisma/browser";
 import Image from "next/image";
-import { Movie } from "../../../generated/prisma/client";
 
-interface MovieCardProps {
-  movie: Movie;
-}
-
-export default function MovieCard({ movie }: MovieCardProps) {
+export default function MovieCard({ movie }: {movie:Movie}) {
   return (
     <div>
       <div>

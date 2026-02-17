@@ -1,7 +1,7 @@
 "use client";
 import StyledMovieCard from "@/src/components/shared/styled-movie-card";
-import MovieCard from "@/src/components/shared/movie-card";
-import { useMovieStore } from "@/src/store/use-move-store";
+import MovieCard from "@/src/components/shared/MovieCard";
+import { useMovieStore } from "@/src/store/useMovieStore";
 import { useEffect } from "react";
 
 export default function MovieSections() {

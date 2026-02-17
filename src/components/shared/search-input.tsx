@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useMovieStore } from "@/src/store/use-move-store";
+import { useMovieStore } from "@/src/store/useMovieStore";
 import ResultCard from "./result-card";
 
 const SearchInput = () => {
