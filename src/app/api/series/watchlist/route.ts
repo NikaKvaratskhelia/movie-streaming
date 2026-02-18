@@ -2,33 +2,6 @@ import { prisma } from "@/src/lib/prisma";
 import { checkJwt } from "@/src/utils/check-auth";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request) {
-  const userId = await checkJwt(req);
-
-  if (!userId) {
-    return NextResponse.json(
-      { message: "Unauthorized", ok: false },
-      { status: 401 },
-    );
-  }
-
-  await prisma.user.findUnique({
-    where: { id: userId },
-    include: {
-      watchlists: {
-        include: {
-          movie: true,
-        },
-      },
-    },
-  });
-
-  return NextResponse.json(
-    { message: "Watchlist fetched successfully", ok: true },
-    { status: 200 },
-  );
-}
-
 export async function POST(req: Request) {
   try {
     const userId = await checkJwt(req);
@@ -40,23 +13,39 @@ export async function POST(req: Request) {
       );
     }
 
-    const { movieId } = await req.json();
+    const { seriesId } = await req.json();
 
-    if (!movieId)
+    if (!seriesId)
       return NextResponse.json(
-        { message: "Missing movie id!", ok: false },
+        { message: "Missing serie id!", ok: false },
         { status: 400 },
       );
 
-    await prisma.watchlist.create({
+    const existingWatchlist = await prisma.seriesWatchlist.findUnique({
+      where: {
+        userId_seriesId: {
+          userId,
+          seriesId,
+        },
+      },
+    });
+
+    if (existingWatchlist) {
+      return NextResponse.json(
+        { message: "Serie is already in watchlist!", ok: false },
+        { status: 409 },
+      );
+    }
+
+    await prisma.seriesWatchlist.create({
       data: {
         userId,
-        movieId,
+        seriesId,
       },
     });
 
     return NextResponse.json(
-      { message: "Movie added to watchlist successfully", ok: true },
+      { message: "Serie added to watchlist successfully", ok: true },
       { status: 200 },
     );
   } catch (error) {
@@ -78,19 +67,19 @@ export async function DELETE(req: Request) {
       );
     }
 
-    const { movieId } = await req.json();
+    const { seriesId } = await req.json();
 
-    await prisma.watchlist.delete({
+    await prisma.seriesWatchlist.delete({
       where: {
-        userId_movieId: {
+        userId_seriesId: {
           userId,
-          movieId,
+          seriesId,
         },
       },
     });
 
     return NextResponse.json(
-      { message: "Movie removed from watchlist successfully", ok: true },
+      { message: "Serie removed from watchlist successfully", ok: true },
       { status: 200 },
     );
   } catch (error) {
