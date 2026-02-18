@@ -4,17 +4,21 @@ import SeriesCard from "../shared/SeriesCard";
 import LoadingSpinner from "../shared/LoadingSpinner";
 import ErrorComponent from "../shared/ErrorComponent";
 import NoData from "../shared/NoData";
+import ViewAllLink from "../shared/ViewAllLink";
 import { useSeriesStore } from "../../store/useSeriesStore";
 import { useEffect } from "react";
+import { useDataOnLoaded } from "../../hooks/useDataOnLoaded";
 
 interface SeriesSectionProps {
   series?: Series[];
   limit: number;
+  onLoaded?: () => void;
 }
 
 export default function NewReleaseSeries({
   series: propSeries,
   limit,
+  onLoaded,
 }: SeriesSectionProps) {
   const { series: storeSeries, loading, error, fetchSeries } = useSeriesStore();
 
@@ -24,9 +28,7 @@ export default function NewReleaseSeries({
 
   const series = propSeries || storeSeries;
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  useDataOnLoaded({ data: series, loading, onLoaded });
 
   if (error) {
     return <ErrorComponent error={error} />;
@@ -38,9 +40,12 @@ export default function NewReleaseSeries({
 
   return (
     <div className="w-full flex flex-col items-start">
-      <h2 className="ml-[12%] mt-20 mb-6 text-2xl font-semibold text-white">
-        New Release - Series
-      </h2>
+      <div className="w-[75%] flex justify-between items-center ml-[12%] mr-[12%] mt-20 mb-6">
+        <h2 className="text-2xl font-semibold text-white">
+          New Release - Series
+        </h2>
+        <ViewAllLink href="/series" />
+      </div>
       <div className="w-full flex justify-center">
         <div className="flex gap-8.25">
           {series.slice(0, limit).map((seriesItem) => (
