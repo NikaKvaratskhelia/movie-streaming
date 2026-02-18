@@ -1,0 +1,82 @@
+'use client';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Autoplay, EffectFade } from 'swiper/modules';
+import { useEffect } from 'react';
+import { useMovieStore } from '../../store/useMovieStore';
+import LoadingSpinner from '../shared/LoadingSpinner';
+import ErrorComponent from '../shared/ErrorComponent';
+
+const Hero = () => {
+  const { movies, loading, error, fetchMovies } = useMovieStore();
+
+  useEffect(() => {
+    fetchMovies();
+  }, [fetchMovies]);
+
+  if (loading) return <LoadingSpinner />;
+  if (error) return <ErrorComponent error={error} />;
+  if (movies.length === 0) return null;
+
+  const heroMovies = movies.slice(0, 5);
+
+  return (
+    <section className="h-screen w-full">
+      <Swiper
+        modules={[Pagination, Autoplay, EffectFade]}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 2000, disableOnInteraction: false }}
+        effect="fade"
+        loop
+        className="h-full"
+      >
+        {heroMovies.map((movie) => (
+          <SwiperSlide key={movie.id}>
+            <div
+              className="h-screen w-full bg-cover bg-center flex flex-col justify-between"
+              style={{ backgroundImage: `url(${movie.coverPhoto})` }}
+            >
+              <div className="flex mt-[20%] justify-center">
+                <div className="flex gap-6">
+                  <button className="flex items-center justify-center w-[223px] h-[76px] bg-[#FF0000] text-white text-[24px] font-bold gap-[10px]">
+                    Watch Now <span>▶</span>
+                  </button>
+                  <button className="flex items-center justify-center w-[223px] h-[76px] border-[3px] border-[#FF0000] text-white text-[24px] font-bold">
+                    Watch Later
+                  </button>
+                </div>
+              </div>
+
+              <div className="w-full p-[10%] flex justify-start">
+                <div className="max-w-2xl text-white">
+                  <h1 className="text-[32px] font-bold mb-4 leading-tight">
+                    {movie.title}
+                  </h1>
+
+                  <div className="flex flex-wrap items-center gap-4 mb-4 text-[16px] text-black font-bold">
+                    <span className="h-[44px] bg-white rounded-full px-4 flex items-center">
+                      {movie.yearPublished}
+                    </span>
+                    <span className="h-[44px] bg-white rounded-full px-4 flex items-center">
+                      {movie.duration} min
+                    </span>
+                    <span className="h-[44px] bg-white rounded-full px-4 flex items-center">
+                      {Number(movie.rating).toFixed(1)}
+                    </span>
+                  </div>
+
+                  <p className="text-[16px] font-bold leading-relaxed">
+                    {movie.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </section>
+  );
+};
+
+export default Hero;
