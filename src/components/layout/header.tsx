@@ -1,46 +1,41 @@
 import Link from "next/link";
-import SearchInput from "@/src/components/shared/SearchInputCode/search-input";
+import SearchInput from "@/src/components/shared/SearchInput";
+import UserLink from "../header/userLink";
+import NavItem from "../header/Navitem";
 
-const Header = () => {
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/movies", label: "Movies" },
+  { href: "/series", label: "Series" },
+  { href: "/producers", label: "Producers" },
+  { href: "/actors", label: "Actors" },
+  { href: "/country", label: "Country" },
+];
+
+export default function Header() {
   return (
-    <header className="h-28 bg-black text-white flex items-center">
-      <div className="max-w-300 w-full mx-auto flex items-center justify-between">
-        <nav className="flex items-center gap-6">
-          <Link href="/" className="text-[16px]  transition-colors relative group">
-            Home
-            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-          </Link>
-          <Link href="/genre" className="text-[16px]  transition-colors relative group">
-            Genre
-            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-          </Link>
-          <Link href="/country" className="text-[16px]  transition-colors relative group">
-            Country
-            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-          </Link>
+    <header className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
+        <Link
+          href="/"
+          className="text-2xl font-semibold tracking-wide text-white"
+        >
+          CINE<span className="text-red-600">VAULT</span>
+        </Link>
+
+        <nav className="hidden lg:flex items-center gap-10">
+          {navItems.map((item, index) => (
+            <NavItem key={index} href={item.href} label={item.label} />
+          ))}
         </nav>
-        <SearchInput />
-        <nav className="flex items-center gap-6">
-          <Link href="/movies" className="text-[16px]  transition-colors relative group">
-            Movies
-            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-          </Link>
-          <Link href="/series" className="text-[16px] transition-colors relative group">
-            Series
-            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-          </Link>
-          <Link href="/animation" className="text-[16px]transition-colors relative group">
-            Animation
-            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-          </Link>
-          <Link href="/login" className="text-[16px]  transition-colors relative group">
-            Login/Signup
-            <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-          </Link>
-        </nav>
+
+        <div className="flex items-center gap-6">
+          <div className="hidden md:block w-65">
+            <SearchInput />
+          </div>
+          <UserLink />
+        </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}

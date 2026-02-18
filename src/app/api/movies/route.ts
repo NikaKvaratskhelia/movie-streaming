@@ -31,6 +31,7 @@ export async function POST(req: Request) {
       description,
       coverPhoto,
       yearPublished,
+      genres,
       actorIds,
       producerId,
     } = body;
@@ -48,6 +49,7 @@ export async function POST(req: Request) {
         description,
         coverPhoto,
         yearPublished,
+        genres,
         producerId,
         actors: actorIds?.length
           ? {
