@@ -1,6 +1,7 @@
 // import Hero from "./Hero";
 import MovieSections from "./MovieSections";
 import NewReleaseMovie from "./NewReleaseMovie";
+import NewReleaseSeries from "./NewReleaseSeries";
 
 export default function HomeImport() {
   return (
@@ -9,6 +10,7 @@ export default function HomeImport() {
 
       <MovieSections />
       <NewReleaseMovie limit={4} />
+      <NewReleaseSeries limit={4} />
     </>
   );
 }
