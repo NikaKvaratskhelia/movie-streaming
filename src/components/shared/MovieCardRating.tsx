@@ -50,7 +50,7 @@ export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
           {formatDuration(movie.duration || 0)}
         </div>
         <div className="absolute top-3 right-3 text-white text-[16px] flex items-center gap-1">
-          {movie.rating || 0}
+          {Number(movie.rating) || 0}
         </div>
       </div>
       <div className="flex justify-between items-center mt-2.5">
