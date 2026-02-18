@@ -14,9 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col justify-between">
+      <body className="min-h-screen flex flex-col justify-between bg-black">
         <Header />
-        {children}
+        <div className="mt-20">{children}</div>
       </body>
     </html>
   );
