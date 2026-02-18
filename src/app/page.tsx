@@ -1,20 +1,9 @@
-import MovieHeroSection from "@/src/components/home/MovieHeroSection";
-import RecentlyUpdated from "@/src/components/home/RecentlyUpdated";
-import MovieSections from "@/src/components/home/MovieSection";
+import HomePage from "../components/home/HomePage";
 
 export default function Home() {
-
   return (
     <>
-    
-      <MovieHeroSection />
-    
-      <RecentlyUpdated />
-
-      <MovieSections />
+      <HomePage />
     </>
   );
 }
-
-
-
