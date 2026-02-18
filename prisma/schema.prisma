@@ -14,21 +14,23 @@ datasource db {
 }
 
 model Movie {
-  id            Int      @id @default(autoincrement())
+  id            Int     @id @default(autoincrement())
   title         String
   description   String
   coverPhoto    String
   yearPublished Int
-  duration      Int      @default(0)
-  rating        Int      @default(0)
-  genres        String[]
+  duration      Int     @default(0)
+  rating        Decimal @default(0) @db.Decimal(3, 1)
+
+  genres String[] @default([])
 
   producerId Int
-  producer   Producer @relation(fields: [producerId], references: [id])
+  producer   Producer @relation(fields: [producerId], references: [id], onDelete: Cascade)
 
   actors     Actor[]
-  watchlists Watchlist[]
+  watchlists MovieWatchlist[]
 }
+
 
 model Producer {
   id          Int      @id @default(autoincrement())
@@ -37,7 +39,9 @@ model Producer {
   nationality String
   dateOfBirth DateTime
   debutYear   Int
+  series      Series[]
 }
+
 
 model Actor {
   id          Int      @id @default(autoincrement())
@@ -46,16 +50,18 @@ model Actor {
   nationality String
   dateOfBirth DateTime
   debutYear   Int
+  series      Series[]
 }
 
 model User {
-  id         String      @id @default(uuid())
-  firstName  String
-  lastName   String
-  email      String      @unique
-  password   String
-  role       Role        @default(USER)
-  watchlists Watchlist[]
+  id               String            @id @default(uuid())
+  firstName        String
+  lastName         String
+  email            String            @unique
+  password         String
+  role             Role              @default(USER)
+  movieWatchlists  MovieWatchlist[]
+  seriesWatchlists SeriesWatchlist[]
 }
 
 enum Role {
@@ -63,13 +69,73 @@ enum Role {
   ADMIN
 }
 
-model Watchlist {
+model MovieWatchlist {
   id      Int    @id @default(autoincrement())
   userId  String
   movieId Int
 
-  user  User  @relation(fields: [userId], references: [id])
-  movie Movie @relation(fields: [movieId], references: [id])
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
 
   @@unique([userId, movieId])
+}
+
+
+model SeriesWatchlist {
+  id       Int    @id @default(autoincrement())
+  userId   String
+  seriesId Int
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  series Series @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, seriesId])
+}
+
+model Series {
+  id            Int      @id @default(autoincrement())
+  title         String
+  description   String
+  coverPhoto    String
+  yearPublished Int
+  rating        Decimal  @default(0) @db.Decimal(3, 1)
+  genres        String[] @default([])
+
+  producerId Int
+  producer   Producer @relation(fields: [producerId], references: [id], onDelete: Cascade)
+
+  actors           Actor[]
+  seasons          Season[]
+  seriesWatchlists SeriesWatchlist[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Season {
+  id           Int @id @default(autoincrement())
+  countInSerie Int
+  seriesId     Int
+
+  series   Series    @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  episodes Episode[]
+
+  createdAt DateTime @default(now())
+
+  @@unique([seriesId, countInSerie])
+}
+
+model Episode {
+  id            Int    @id @default(autoincrement())
+  title         String
+  description   String
+  duration      Int
+  countInSeason Int
+  seasonId      Int
+
+  season Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([seasonId, countInSeason])
 }
