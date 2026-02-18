@@ -2,33 +2,6 @@ import { prisma } from "@/src/lib/prisma";
 import { checkJwt } from "@/src/utils/check-auth";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request) {
-  const userId = await checkJwt(req);
-
-  if (!userId) {
-    return NextResponse.json(
-      { message: "Unauthorized", ok: false },
-      { status: 401 },
-    );
-  }
-
-  await prisma.user.findUnique({
-    where: { id: userId },
-    include: {
-      watchlists: {
-        include: {
-          movie: true,
-        },
-      },
-    },
-  });
-
-  return NextResponse.json(
-    { message: "Watchlist fetched successfully", ok: true },
-    { status: 200 },
-  );
-}
-
 export async function POST(req: Request) {
   try {
     const userId = await checkJwt(req);
@@ -48,7 +21,23 @@ export async function POST(req: Request) {
         { status: 400 },
       );
 
-    await prisma.watchlist.create({
+    const existingWatchlist = await prisma.movieWatchlist.findUnique({
+      where: {
+        userId_movieId: {
+          userId,
+          movieId,
+        },
+      },
+    });
+
+    if (existingWatchlist) {
+      return NextResponse.json(
+        { message: "Movie is already in watchlist!", ok: false },
+        { status: 409 },
+      );
+    }
+
+    await prisma.movieWatchlist.create({
       data: {
         userId,
         movieId,
@@ -80,7 +69,7 @@ export async function DELETE(req: Request) {
 
     const { movieId } = await req.json();
 
-    await prisma.watchlist.delete({
+    await prisma.movieWatchlist.delete({
       where: {
         userId_movieId: {
           userId,
