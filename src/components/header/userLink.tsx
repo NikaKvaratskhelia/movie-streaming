@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthStore } from "@/src/store/useLoginStore";
 import { useUserStore } from "@/src/store/useUserStore";
 
@@ -9,12 +9,26 @@ export default function UserLink() {
   const { token, hasHydrated } = useAuthStore();
   const { user, fetchUser } = useUserStore();
   const [open, setOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (hasHydrated && token) {
       fetchUser(token);
     }
   }, [token, fetchUser, hasHydrated]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   if (!hasHydrated) return null;
 
@@ -56,7 +70,10 @@ export default function UserLink() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-3 w-44 bg-neutral-900 border border-white/10 rounded-xl shadow-xl p-2">
+        <div
+          ref={menuRef}
+          className="absolute right-0 mt-3 w-44 bg-neutral-900 border border-white/10 rounded-xl shadow-xl p-2"
+        >
           <Link
             href="/user-dashboard"
             className="block px-3 py-2 rounded-lg hover:bg-white/10 transition text-white"

@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen flex flex-col justify-between bg-black">
         <Header />
-        <div className="mt-20">{children}</div>
+        <div className="mt-21">{children}</div>
       </body>
     </html>
   );
