@@ -22,7 +22,7 @@ export default function UserLink() {
 
   if (!isAuthenticated) {
     return (
-      <div className="flex items-center gap-4 text-sm">
+      <div className="flex items-center gap-4 text-sm text-white ml-2">
         <Link
           href="/login"
           className="text-white/70 hover:text-white transition-colors"
@@ -42,10 +42,10 @@ export default function UserLink() {
   const initials = user?.firstName?.[0]?.toUpperCase() || "U";
 
   return (
-    <div className="relative">
+    <div className="relative ml-2">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-3 cursor-pointer"
+        className="flex items-center gap-3 cursor-pointer text-white"
       >
         <div className="w-9 h-9 rounded-full bg-red-600 flex items-center justify-center text-sm font-semibold">
           {initials}
