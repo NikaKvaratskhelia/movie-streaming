@@ -1,15 +1,10 @@
 "use client";
 import StyledMovieCard from "../shared/MovieCardRating";
 import ViewAllLink from "../shared/ViewAllLink";
-import { useMovieStore } from "../../store/useMovieStore";
-import { useEffect } from "react";
+import { useMovies } from "@/src/hooks/useMovie";
 
 export default function MovieSections() {
-  const { movies, fetchMovies } = useMovieStore();
-
-  useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
+  const { movies } = useMovies();
 
   return (
     <section className="w-full">

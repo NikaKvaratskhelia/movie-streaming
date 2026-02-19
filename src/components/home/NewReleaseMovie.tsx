@@ -2,8 +2,7 @@
 import { Movie } from "@/generated/prisma/browser";
 import MovieCard from "../shared/MovieCard";
 import ViewAllLink from "../shared/ViewAllLink";
-import { useMovieStore } from "../../store/useMovieStore";
-import { useEffect } from "react";
+import { useMovies } from "@/src/hooks/useMovie";
 
 interface MovieSectionProps {
   movies?: Movie[];
@@ -15,11 +14,7 @@ export default function NewReleaseMovie({
   movies: propMovies,
   limit,
 }: MovieSectionProps) {
-  const { movies: storeMovies, fetchMovies } = useMovieStore();
-
-  useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
+  const { movies: storeMovies } = useMovies();
 
   const movies = propMovies || storeMovies;
 

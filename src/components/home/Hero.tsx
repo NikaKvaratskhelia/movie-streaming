@@ -6,18 +6,13 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, EffectFade } from "swiper/modules";
-import { useEffect } from "react";
-import { useMovieStore } from "../../store/useMovieStore";
 import { Play } from "lucide-react";
+import { useMovies } from "@/src/hooks/useMovie";
 
 const Hero = () => {
-  const { movies, loading, fetchMovies } = useMovieStore();
+  const { movies, isLoading, } = useMovies();
 
-  useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
-
-  if (!loading && movies.length === 0) return null;
+  if (!isLoading && movies.length === 0) return null;
 
   const heroMovies = movies.slice(0, 5);
 
