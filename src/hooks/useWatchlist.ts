@@ -3,6 +3,7 @@ import {
   addMovieToWatchist,
   addSerieToWatchist,
   getWatchlists,
+  getStatistics,
   removeMovieFromWatchist,
   removeSerieFromWatchist,
 } from "../services/watchlist-service";
@@ -23,11 +24,17 @@ interface WatchlistsResponse {
   })[];
 }
 
+interface WatchlistStatistics {
+  avgRating: string;
+  totalRuntime: number;
+}
+
 export const useWatchlist = () => {
   const { token } = useAuthStore();
   const queryClient = useQueryClient();
 
   const queryKey = ["watchlists", token];
+  const statsQueryKey = ["watchlist-stats", token];
 
   const watchlistsQuery = useQuery({
     queryKey,
@@ -46,6 +53,15 @@ export const useWatchlist = () => {
       };
     },
     enabled: typeof token === "string",
+  });
+
+  const statsQuery = useQuery({
+    queryKey: statsQueryKey,
+    queryFn: (): Promise<WatchlistStatistics> => {
+      if (!token) throw new Error("No token");
+      return getStatistics(token);
+    },
+    enabled: !!token,
   });
 
   const optimisticUpdate = async (
@@ -72,6 +88,7 @@ export const useWatchlist = () => {
 
   const invalidate = () => {
     queryClient.invalidateQueries({ queryKey });
+    queryClient.invalidateQueries({ queryKey: statsQueryKey });
   };
 
   const addMovie = useMutation({
@@ -191,6 +208,8 @@ export const useWatchlist = () => {
     seriesWatchlist: watchlistsQuery.data?.seriesWatchlists ?? [],
     isLoading: watchlistsQuery.isLoading,
     error: watchlistsQuery.error,
+    avgRating: statsQuery.data?.avgRating ?? "0",
+    totalRuntime: statsQuery.data?.totalRuntime ?? 0,
     addMovie: addMovie.mutateAsync,
     removeMovie: removeMovie.mutate,
     addSeries: addSeries.mutateAsync,
