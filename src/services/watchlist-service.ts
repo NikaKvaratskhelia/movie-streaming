@@ -20,7 +20,7 @@ export async function getWatchlists(token: string) {
 
 export async function addMovieToWatchist(token: string, movieId: number) {
   try {
-    const res = await fetch("api/movies/watchlist", {
+    const res = await fetch("/api/movies/watchlist", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -37,7 +37,7 @@ export async function addMovieToWatchist(token: string, movieId: number) {
 
 export async function removeMovieFromWatchist(token: string, movieId: number) {
   try {
-    const res = await fetch("api/movies/watchlist", {
+    const res = await fetch("/api/movies/watchlist", {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ export async function removeMovieFromWatchist(token: string, movieId: number) {
 
 export async function addSerieToWatchist(token: string, seriesId: number) {
   try {
-    const res = await fetch("api/series/watchlist", {
+    const res = await fetch("/api/series/watchlist", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -71,7 +71,7 @@ export async function addSerieToWatchist(token: string, seriesId: number) {
 
 export async function removeSerieFromWatchist(token: string, seriesId: number) {
   try {
-    const res = await fetch("api/series/watchlist", {
+    const res = await fetch("/api/series/watchlist", {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

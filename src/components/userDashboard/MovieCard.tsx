@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useWatchlist } from "@/src/hooks/useWatchlist";
 import { Movie, Series } from "@/generated/prisma/browser";
+import { toast } from "sonner";
 
 export default function MovieCard({
   movie = null,
@@ -25,8 +26,10 @@ export default function MovieCard({
   function handleClick() {
     if (type === "MOVIE") {
       removeMovie(id);
+      toast.success("Movie deleted from watchlist!");
     } else {
       removeSeries(id);
+      toast.success("Series deleted from watchlist!");
     }
   }
 

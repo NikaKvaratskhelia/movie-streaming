@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/src/components/layout/header";
 import Providers from "./providers";
 import Loader from "../components/ui/Loader";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +21,8 @@ export default function RootLayout({
         <Providers>
           <Header />
           <div className="mt-21">{children}</div>
-          <Loader/>
+          <Loader />
+          <Toaster richColors position="bottom-right" />
         </Providers>
       </body>
     </html>
