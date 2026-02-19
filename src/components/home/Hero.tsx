@@ -1,11 +1,6 @@
 "use client";
-
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-fade";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, EffectFade } from "swiper/modules";
+import { Pagination, Autoplay, EffectFade, Navigation } from "swiper/modules";
 import { useEffect } from "react";
 import { useMovieStore } from "../../store/useMovieStore";
 import LoadingSpinner from "../shared/LoadingSpinner";
@@ -26,15 +21,26 @@ const Hero = () => {
 
   return (
     <section className="h-screen w-full">
-      <Swiper
-        modules={[Pagination, Autoplay, EffectFade]}
-        slidesPerView={1}
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 2000, disableOnInteraction: false }}
-        effect="fade"
-        loop
-        className="h-full"
-      >
+         <Swiper
+           modules={[Pagination, Autoplay, EffectFade, Navigation]}
+           slidesPerView={1}
+           pagination={{ clickable: true }}
+           navigation
+           autoplay={{ delay: 3000, disableOnInteraction: false }}
+           effect="fade"
+           loop
+           className="
+             h-full
+             [&_.swiper-pagination-bullet]:w-8
+             [&_.swiper-pagination-bullet]:h-8
+             [&_.swiper-pagination-bullet]:bg-white
+             [&_.swiper-pagination-bullet]:opacity-70
+             [&_.swiper-pagination-bullet-active]:w-6
+             [&_.swiper-pagination-bullet-active]:bg-red-600
+             [&_.swiper-pagination-bullet-active]:opacity-100
+           "
+         >
+
         {heroMovies.map((movie) => (
           <SwiperSlide key={movie.id}>
             <div
