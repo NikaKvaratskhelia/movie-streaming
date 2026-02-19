@@ -10,7 +10,7 @@ export default function AddToWatchlistBtn({
   category: string;
 }) {
   const { token } = useAuthStore();
-  const { addSeries, addMovie } = useWatchlist(token ?? "");
+  const { addSeries, addMovie } = useWatchlist();
 
   async function handleClick() {
     if (!token) {

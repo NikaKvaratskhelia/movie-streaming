@@ -1,13 +1,13 @@
 "use client";
 
 import { useWatchlist } from "@/src/hooks/useWatchlist";
-import { useAuthStore } from "@/src/store/useLoginStore";
 import MovieCard from "./MovieCard";
 
 export default function MoviesSection({ text }: { text: "Movies" | "Series" }) {
-  const { token } = useAuthStore();
-  const { movieWatchlist, seriesWatchlist } = useWatchlist(token ?? "");
+  const { movieWatchlist, seriesWatchlist } = useWatchlist();
   const watchlist = text === "Movies" ? movieWatchlist : seriesWatchlist;
+
+  console.log(seriesWatchlist);
 
   if (watchlist.length === 0) return null;
 
@@ -17,10 +17,10 @@ export default function MoviesSection({ text }: { text: "Movies" | "Series" }) {
       <div className="flex gap-4 flex-wrap">
         {text === "Movies"
           ? movieWatchlist.map((e) => (
-              <MovieCard type={"MOVIE"} id={e.movieId} key={e.id} />
+              <MovieCard type={"MOVIE"} movie={e.movie} key={e.id} />
             ))
           : seriesWatchlist.map((e) => (
-              <MovieCard type={"SERIES"} id={e.seriesId} key={e.id} />
+              <MovieCard type={"SERIES"} series={e.series} key={e.id} />
             ))}
       </div>
     </div>
