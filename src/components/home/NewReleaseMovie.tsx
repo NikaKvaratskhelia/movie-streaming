@@ -1,14 +1,12 @@
 "use client";
 import { Movie } from "@/generated/prisma/browser";
 import MovieCard from "../shared/MovieCard";
-import LoadingSpinner from "../shared/LoadingSpinner";
 import ErrorComponent from "../shared/ErrorComponent";
 import NoData from "../shared/NoData";
 import ViewAllLink from "../shared/ViewAllLink";
 import { useMovieStore } from "../../store/useMovieStore";
 import { useEffect } from "react";
 import { useDataOnLoaded } from "../../hooks/useDataOnLoaded";
-import Link from "next/link";
 
 interface MovieSectionProps {
   movies?: Movie[];
