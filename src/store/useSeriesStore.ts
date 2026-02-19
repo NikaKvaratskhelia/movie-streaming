@@ -18,7 +18,7 @@ export const useSeriesStore = create<SeriesStore>((set) => ({
     set({ loading: true, error: null });
     try {             
       const seriesData = await fetchSeries();
-      set({ series: seriesData, loading: false });
+      set({ series: seriesData.data, loading: false });
     } catch (error) {
       set({ 
         error: error instanceof Error ? error.message : "Failed to fetch series",

@@ -8,6 +8,7 @@ interface AuthState {
   token: string | null;
   user: User | null;
   hasHydrated: boolean;
+  fetching: boolean;
 
   login: (credentials: {
     email: string;
@@ -27,6 +28,7 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       hasHydrated: false,
       user: null,
+      fetching: false,
 
       setHasHydrated: (value) => set({ hasHydrated: value }),
 
@@ -51,9 +53,10 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      logout: () => set({ token: null, user:null }),
+      logout: () => set({ token: null, user: null }),
 
       fetchUser: async (token) => {
+        set({ fetching: true });
         const current = get().user;
         if (current) return;
 
@@ -63,6 +66,8 @@ export const useAuthStore = create<AuthState>()(
         } catch (error) {
           console.error(error);
         }
+
+        set({ fetching: false });
       },
     }),
 
