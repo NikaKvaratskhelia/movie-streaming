@@ -1,17 +1,16 @@
 "use client";
 
+import { useMovies } from "@/src/hooks/useMovie";
+import { useSeries } from "@/src/hooks/useSeries";
 import { useWatchlist } from "@/src/hooks/useWatchlist";
-import { useMovieStore } from "@/src/store/useMovieStore";
-import { useSeriesStore } from "@/src/store/useSeriesStore";
 
 export default function Loader({
   loadingProp = false,
 }: {
   loadingProp?: boolean;
 }) {
-
-  const { loading } = useSeriesStore();
-  const loading1 = useMovieStore((s) => s.loading);
+  const { isLoading: loading } = useSeries();
+  const { isLoading: loading1 } = useMovies();
   const { isLoading } = useWatchlist();
 
   const showLoader = loading || loading1 || isLoading || loadingProp;

@@ -2,8 +2,7 @@
 import { Series } from "@/generated/prisma/browser";
 import SeriesCard from "../shared/SeriesCard";
 import ViewAllLink from "../shared/ViewAllLink";
-import { useSeriesStore } from "../../store/useSeriesStore";
-import { useEffect } from "react";
+import { useSeries } from "@/src/hooks/useSeries";
 
 interface SeriesSectionProps {
   series?: Series[];
@@ -15,11 +14,7 @@ export default function NewReleaseSeries({
   series: propSeries,
   limit,
 }: SeriesSectionProps) {
-  const { series: storeSeries, fetchSeries } = useSeriesStore();
-
-  useEffect(() => {
-    fetchSeries();
-  }, [fetchSeries]);
+  const { series: storeSeries, } = useSeries();
 
   const series = propSeries || storeSeries;
 

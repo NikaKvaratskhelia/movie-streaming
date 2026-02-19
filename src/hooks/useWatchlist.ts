@@ -155,6 +155,7 @@ export const useWatchlist = () => {
               producerId: 0,
               createdAt: new Date(),
               updatedAt: new Date(),
+              isSeries: true,
             },
           },
         ],

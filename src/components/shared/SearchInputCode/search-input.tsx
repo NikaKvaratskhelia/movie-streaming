@@ -1,18 +1,13 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
-import { useMovieStore } from "@/src/store/useMovieStore";
-import { useSeriesStore } from "@/src/store/useSeriesStore";
+import { useState, useMemo } from "react";
 import ResultCard from "./result-card";
+import { useSeries } from "@/src/hooks/useSeries";
+import { useMovies } from "@/src/hooks/useMovie";
 
 const SearchInput = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { movies, fetchMovies } = useMovieStore();
-  const { series, fetchSeries } = useSeriesStore();
-
-  useEffect(() => {
-    fetchMovies();
-    fetchSeries();
-  }, [fetchMovies, fetchSeries]);
+  const { movies } = useMovies();
+  const { series } = useSeries();
 
   const filteredItems = useMemo(() => {
     const combined = [
