@@ -28,18 +28,18 @@ export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
     movie.coverPhoto && isValidUrl(movie.coverPhoto) ? movie.coverPhoto : null;
 
   return (
-    <div className="w-88 h-85.25">
-      <div className="relative w-88 h-73.25 group">
+  <div className="w-full xs:w-full sm:w-88 max-w-[352px] mx-auto">
+
+      <div className="relative w-full h-auto aspect-[352/293] group">
         {coverPhoto ? (
           <Image
             src={coverPhoto}
             alt={movie.title}
-            width={352}
-            height={293}
-            className="w-88 h-73.25 object-cover rounded-[10px]"
+            fill
+            className="w-full h-full object-cover rounded-[10px]"
           />
         ) : (
-          <div className="w-88 h-73.25 bg-gray-700 flex items-center justify-center text-gray-400 rounded-[10px]">
+          <div className="w-full h-full bg-gray-700 flex items-center justify-center text-gray-400 rounded-[10px]">
             No Cover
           </div>
         )}
@@ -53,14 +53,14 @@ export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
           {Number(movie.rating) || 0}
         </div>
       </div>
-      <div className="flex justify-between items-center mt-2.5">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-2.5 gap-2">
         <h3 className="text-white text-[24px] font-semibold">
           {movie.title.length > 10
             ? movie.title.slice(0, 10) + "..."
             : movie.title}
         </h3>
 
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {(movie.genres || [])
             .slice(0, 2)
             .map((genre: string, index: number) => (
