@@ -1,3 +1,4 @@
+import MoviesSection from "./MoviesSection";
 import Statistics from "./Statistics";
 
 export default function DashboardPage() {
@@ -11,6 +12,9 @@ export default function DashboardPage() {
       <div className="flex flex-wrap gap-4 mt-10">
         <Statistics />
       </div>
+
+      <MoviesSection text="Movies"/>
+      <MoviesSection text="Series"/>
     </div>
   );
 }
