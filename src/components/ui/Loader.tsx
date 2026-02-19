@@ -1,20 +1,18 @@
 "use client";
 
 import { useWatchlist } from "@/src/hooks/useWatchlist";
-import { useAuthStore } from "@/src/store/useLoginStore";
 import { useMovieStore } from "@/src/store/useMovieStore";
 import { useSeriesStore } from "@/src/store/useSeriesStore";
 
 export default function Loader({
   loadingProp = false,
 }: {
-  loadingProp: boolean;
+  loadingProp?: boolean;
 }) {
-  const { token } = useAuthStore();
 
   const { loading } = useSeriesStore();
   const loading1 = useMovieStore((s) => s.loading);
-  const { isLoading } = useWatchlist(token ?? "");
+  const { isLoading } = useWatchlist();
 
   const showLoader = loading || loading1 || isLoading || loadingProp;
   return showLoader ? (

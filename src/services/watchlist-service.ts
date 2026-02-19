@@ -85,3 +85,15 @@ export async function removeSerieFromWatchist(token: string, seriesId: number) {
     console.error("Error fetching watchlists:", error);
   }
 }
+
+export async function getStatistics(token: string) {
+  const res = await fetch("/api/watchlists/stats", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch statistics");
+  }
+
+  return res.json();
+}
