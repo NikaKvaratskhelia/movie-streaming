@@ -43,10 +43,10 @@ export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
             No Cover
           </div>
         )}
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-[10px]">
-          <button className="text-white text-5xl">
-            <Play />
-          </button>
+     <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-[10px]">
+          <div className="bg-red-600 rounded-full p-4 transform scale-90 group-hover:scale-100 transition-transform duration-300">
+            <Play size={32} className="text-white fill-white" />
+          </div>
         </div>
         <div className="absolute top-3 left-3 text-white text-[16px]">
           {formatDuration(movie.duration || 0)}
