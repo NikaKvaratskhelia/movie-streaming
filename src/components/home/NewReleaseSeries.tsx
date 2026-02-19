@@ -1,13 +1,8 @@
 "use client";
 import { Series } from "@/generated/prisma/browser";
 import SeriesCard from "../shared/SeriesCard";
-import LoadingSpinner from "../shared/LoadingSpinner";
-import ErrorComponent from "../shared/ErrorComponent";
-import NoData from "../shared/NoData";
 import ViewAllLink from "../shared/ViewAllLink";
-import { useSeriesStore } from "../../store/useSeriesStore";
-import { useEffect } from "react";
-import { useDataOnLoaded } from "../../hooks/useDataOnLoaded";
+import { useSeries } from "@/src/hooks/useSeries";
 
 interface SeriesSectionProps {
   series?: Series[];
@@ -18,25 +13,10 @@ interface SeriesSectionProps {
 export default function NewReleaseSeries({
   series: propSeries,
   limit,
-  onLoaded,
 }: SeriesSectionProps) {
-  const { series: storeSeries, loading, error, fetchSeries } = useSeriesStore();
-
-  useEffect(() => {
-    fetchSeries();
-  }, [fetchSeries]);
+  const { series: storeSeries, } = useSeries();
 
   const series = propSeries || storeSeries;
-
-  useDataOnLoaded({ data: series, loading, onLoaded });
-
-  if (error) {
-    return <ErrorComponent error={error} />;
-  }
-
-  if (series.length === 0) {
-    return <NoData />;
-  }
 
   return (
     <div className="w-full flex flex-col items-start">

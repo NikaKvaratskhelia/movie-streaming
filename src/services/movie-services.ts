@@ -5,6 +5,11 @@ export async function fetchMovies() {
   return await res.json();
 }
 
+export async function fetchMovieById(id: number) {
+  const res = await fetch(`/api/movies/${id}`);
+  return await res.json();
+}
+
 export async function deleteMovie(id: number) {
   const res = await fetch(`/api/movies/${id}`, {
     method: "DELETE",
@@ -17,7 +22,9 @@ export async function addMovie(movie: Movie) {
     method: "POST",
     body: JSON.stringify(movie),
   });
-  return await res.json();
+
+  const data = await res.json();
+  return await data;
 }
 
 export async function updateMovie(id: number, movie: Partial<Movie>) {

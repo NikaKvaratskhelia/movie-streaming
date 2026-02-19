@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Movie } from "../../../generated/prisma/client";
+import { Play } from "lucide-react";
 
 interface StyledMovieCardProps {
   movie: Movie;
@@ -28,9 +29,8 @@ export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
     movie.coverPhoto && isValidUrl(movie.coverPhoto) ? movie.coverPhoto : null;
 
   return (
-  <div className="w-full xs:w-full sm:w-88 max-w-[352px] mx-auto">
-
-      <div className="relative w-full h-auto aspect-[352/293] group">
+    <div className="w-full xs:w-full sm:w-88 max-w-88 mx-auto">
+      <div className="relative w-full h-auto aspect-352/293 group">
         {coverPhoto ? (
           <Image
             src={coverPhoto}
@@ -44,7 +44,9 @@ export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
           </div>
         )}
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 rounded-[10px]">
-          <button className="text-white text-5xl">▶</button>
+          <button className="text-white text-5xl">
+            <Play />
+          </button>
         </div>
         <div className="absolute top-3 left-3 text-white text-[16px]">
           {formatDuration(movie.duration || 0)}

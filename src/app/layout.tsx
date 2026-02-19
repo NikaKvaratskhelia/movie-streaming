@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/src/components/layout/header";
+import Providers from "./providers";
+import Loader from "../components/ui/Loader";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -9,14 +11,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col justify-between bg-black">
-        <Header />
-        <div className="mt-21">{children}</div>
+        <Providers>
+          <Header />
+          <div className="mt-21">{children}</div>
+          <Loader/>
+        </Providers>
       </body>
     </html>
   );

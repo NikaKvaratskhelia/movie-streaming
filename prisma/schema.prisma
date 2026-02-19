@@ -31,7 +31,6 @@ model Movie {
   watchlists MovieWatchlist[]
 }
 
-
 model Producer {
   id          Int      @id @default(autoincrement())
   movies      Movie[]
@@ -41,7 +40,6 @@ model Producer {
   debutYear   Int
   series      Series[]
 }
-
 
 model Actor {
   id          Int      @id @default(autoincrement())
@@ -80,7 +78,6 @@ model MovieWatchlist {
   @@unique([userId, movieId])
 }
 
-
 model SeriesWatchlist {
   id       Int    @id @default(autoincrement())
   userId   String
@@ -100,6 +97,7 @@ model Series {
   yearPublished Int
   rating        Decimal  @default(0) @db.Decimal(3, 1)
   genres        String[] @default([])
+  isSeries      Boolean  @default(true)
 
   producerId Int
   producer   Producer @relation(fields: [producerId], references: [id], onDelete: Cascade)

@@ -16,6 +16,10 @@ export async function GET(
 
   const movie = await prisma.movie.findUnique({
     where: { id: Number(id) },
+    include: {
+      producer: true,
+      actors: true,
+    },
   });
 
   if (!movie)
@@ -25,7 +29,7 @@ export async function GET(
     );
 
   return NextResponse.json(
-    { message: "Movie fetched successfully", ok: true },
+    { message: "Movie fetched successfully", data: movie, ok: true },
     { status: 200 },
   );
 }
@@ -84,7 +88,6 @@ export async function PUT(
 }
 
 export async function DELETE(
-  
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {

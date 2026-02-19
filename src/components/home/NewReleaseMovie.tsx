@@ -1,12 +1,8 @@
 "use client";
 import { Movie } from "@/generated/prisma/browser";
 import MovieCard from "../shared/MovieCard";
-import ErrorComponent from "../shared/ErrorComponent";
-import NoData from "../shared/NoData";
 import ViewAllLink from "../shared/ViewAllLink";
-import { useMovieStore } from "../../store/useMovieStore";
-import { useEffect } from "react";
-import { useDataOnLoaded } from "../../hooks/useDataOnLoaded";
+import { useMovies } from "@/src/hooks/useMovie";
 
 interface MovieSectionProps {
   movies?: Movie[];
@@ -17,25 +13,10 @@ interface MovieSectionProps {
 export default function NewReleaseMovie({
   movies: propMovies,
   limit,
-  onLoaded,
 }: MovieSectionProps) {
-  const { movies: storeMovies, loading, error, fetchMovies } = useMovieStore();
-
-  useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
+  const { movies: storeMovies } = useMovies();
 
   const movies = propMovies || storeMovies;
-
-  useDataOnLoaded({ data: movies, loading, onLoaded });
-
-  if (error) {
-    return <ErrorComponent error={error} />;
-  }
-
-  if (movies.length === 0) {
-    return <NoData />;
-  }
 
   return (
     <div className="w-full flex flex-col items-start">

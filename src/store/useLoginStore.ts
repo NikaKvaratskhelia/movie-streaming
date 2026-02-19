@@ -1,10 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { logIn } from "../services/auth-service";
+import { User } from "@/generated/prisma/browser";
+import { getCurrentUser } from "../services/user-service";
 
 interface AuthState {
   token: string | null;
+  user: User | null;
   hasHydrated: boolean;
+  fetching: boolean;
 
   login: (credentials: {
     email: string;
@@ -12,6 +16,7 @@ interface AuthState {
   }) => Promise<{ success: boolean; error?: string }>;
 
   logout: () => void;
+  fetchUser: (token: string) => void;
 
   setHasHydrated: (value: boolean) => void;
   setToken: (token: string | null) => void;
@@ -19,9 +24,11 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       token: null,
       hasHydrated: false,
+      user: null,
+      fetching: false,
 
       setHasHydrated: (value) => set({ hasHydrated: value }),
 
@@ -42,15 +49,31 @@ export const useAuthStore = create<AuthState>()(
             return { success: false, error: error.message };
           }
 
-          return { success: false, error:"Error occured" };
+          return { success: false, error: "Error occured" };
         }
       },
 
-      logout: () => set({ token: null }),
+      logout: () => set({ token: null, user: null }),
+
+      fetchUser: async (token) => {
+        set({ fetching: true });
+        const current = get().user;
+        if (current) return;
+
+        try {
+          const res = await getCurrentUser(token);
+          set({ user: res.user });
+        } catch (error) {
+          console.error(error);
+        }
+
+        set({ fetching: false });
+      },
     }),
+
     {
       name: "auth-storage",
-
+      partialize: (state) => ({ token: state.token, user: state.user }),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
       },

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import SearchInput from "@/src/components/shared/SearchInput";
+import SearchInput from "@/src/components/shared/SearchInputCode/search-input";
 import UserLink from "../header/userLink";
 import NavItem from "../header/Navitem";
 
