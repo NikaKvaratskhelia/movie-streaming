@@ -20,16 +20,16 @@ const Hero = () => {
   const heroMovies = movies.slice(0, 5);
 
   return (
-    <section className="h-screen w-full">
-         <Swiper
-           modules={[Pagination, Autoplay, EffectFade, Navigation]}
-           slidesPerView={1}
-           pagination={{ clickable: true }}
-           navigation
-           autoplay={{ delay: 3000, disableOnInteraction: false }}
-           effect="fade"
-           loop
-           className="
+    <section className="h-186 w-full">
+      <Swiper
+        modules={[Pagination, Autoplay, EffectFade, Navigation]}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+        navigation
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        effect="fade"
+        loop
+        className="
              h-full
              [&_.swiper-pagination-bullet]:w-8
              [&_.swiper-pagination-bullet]:h-8
@@ -39,8 +39,7 @@ const Hero = () => {
              [&_.swiper-pagination-bullet-active]:bg-red-600
              [&_.swiper-pagination-bullet-active]:opacity-100
            "
-         >
-
+      >
         {heroMovies.map((movie) => (
           <SwiperSlide key={movie.id}>
             <div
