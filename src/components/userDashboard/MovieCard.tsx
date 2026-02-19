@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useWatchlist } from "@/src/hooks/useWatchlist";
 import { useAuthStore } from "@/src/store/useLoginStore";
+import Loader from "../ui/Loader";
 
 export default function MovieCard({
   id,
@@ -19,6 +20,7 @@ export default function MovieCard({
   const [moviesData, setMoviesData] = useState<Movie | Series>();
   const { token } = useAuthStore();
   const { removeMovie, removeSeries } = useWatchlist(token!);
+  const [loading, setLoading] = useState(false);
 
   function deleteMovie() {
     removeMovie(id);
@@ -38,13 +40,17 @@ export default function MovieCard({
 
   useEffect(() => {
     async function handleMovieFetch() {
+      setLoading(true);
       const res = await fetchMovieById(id);
       setMoviesData(res.data);
+      setLoading(false);
     }
 
     async function handleSeriesFetch() {
+      setLoading(true);
       const res = await fetchSeriesById(id);
       setMoviesData(res.data);
+      setLoading(false);
     }
     if (type === "MOVIE") {
       handleMovieFetch();
@@ -57,6 +63,10 @@ export default function MovieCard({
 
   if (!moviesData) return null;
 
+  if (loading) {
+    <Loader loadingProp={loading} />;
+  }
+
   return (
     <div
       className="flex flex-col w-fit rounded-2xl border border-white/40 overflow-hidden 
@@ -64,6 +74,7 @@ export default function MovieCard({
     >
       <div className="relative">
         <div className="absolute inset-0 transition-all duration-500 group-hover:bg-linear-to-t group-hover:from-black/80 group-hover:from-0% group-hover:to-transparent group-hover:to-60% z-1"></div>
+        <div className="absolute top-2 left-2 px-2 py-1 border-bg-600 border text-red-600 bg-black/90 rounded-md text-[10px] font-bold tracking-widest">{type}</div>
         <Image
           src={moviesData.coverPhoto}
           alt={moviesData.title}
