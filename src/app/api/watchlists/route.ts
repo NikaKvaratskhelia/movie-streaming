@@ -12,7 +12,7 @@ export async function GET(req: Request) {
     );
   }
 
-  await prisma.user.findUnique({
+  const data = await prisma.user.findUnique({
     where: { id: userId },
     include: {
       movieWatchlists: {
@@ -29,7 +29,7 @@ export async function GET(req: Request) {
   });
 
   return NextResponse.json(
-    { message: "Watchlist fetched successfully", ok: true },
+    { message: "Watchlist fetched successfully", data, ok: true },
     { status: 200 },
   );
 }
