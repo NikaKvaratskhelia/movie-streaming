@@ -13,8 +13,10 @@ export default function DashboardPage() {
         <Statistics />
       </div>
 
-      <MoviesSection text="Movies"/>
-      <MoviesSection text="Series"/>
+      <div className="flex flex-wrap gap-16">
+        <MoviesSection text="Movies" />
+        <MoviesSection text="Series" />
+      </div>
     </div>
   );
 }
