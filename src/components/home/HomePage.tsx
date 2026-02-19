@@ -1,33 +1,32 @@
 "use client";
+
+import { useMovieStore } from "@/src/store/useMovieStore";
+import { useSeriesStore } from "@/src/store/useSeriesStore";
+import Loader from "../ui/Loader";
 import Hero from "./Hero";
 import MovieSections from "./MovieSections";
 import NewReleaseMovie from "./NewReleaseMovie";
 import NewReleaseSeries from "./NewReleaseSeries";
-import LoadingSpinner from "../shared/LoadingSpinner";
-import { useState, useEffect } from "react";
 
 export default function HomeImport() {
-  const [isLoading, setIsLoading] = useState(true);
+  const { loading } = useMovieStore();
+  const loadingSeries = useSeriesStore((s) => s.loading);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  const isLoading = loading || loadingSeries;
 
   return (
-    <>
-      <Hero />
-
-      <MovieSections />
-      <NewReleaseMovie limit={4} />
-      <NewReleaseSeries limit={4} />
-    </>
+    <div className="relative">
+      <div
+        className={`transition-opacity duration-700 ${
+          isLoading ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        <Hero />
+        <MovieSections />
+        <NewReleaseMovie limit={4} />
+        <NewReleaseSeries limit={4} />
+      </div>
+      {isLoading && <Loader />}
+    </div>
   );
 }

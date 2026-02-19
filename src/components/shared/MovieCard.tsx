@@ -1,23 +1,12 @@
 import { Movie } from "@/generated/prisma/browser";
 import Image from "next/image";
-import { Clock, Heart } from "lucide-react";
-import { useState } from "react";
+import { Clock } from "lucide-react";
+import AddToWatchlistBtn from "../ui/AddToWatchlistBtn";
 
-export default function MovieCard({
-  movie,
-}: {
-  movie: Movie;
-}) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(false);
-
+export default function MovieCard({ movie }: { movie: Movie }) {
   return (
-    <div className="w-[256px] h-auto  overflow-hidden bg-black text-white">
-      <div
-        className="relative w-[256px] h-86 group"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
+    <div className="w-[256px] h-auto  overflow-hidden bg-black text-white group">
+      <div className="relative w-[256px] h-86">
         <Image
           src={movie.coverPhoto}
           alt={movie.title}
@@ -25,21 +14,7 @@ export default function MovieCard({
           className="object-cover rounded-[10px]"
         />
 
-        <button
-          onClick={() => setIsWishlisted(!isWishlisted)}
-          className={`absolute top-3 right-3 w-10 h-10 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 transform ${
-            isHovered ? "opacity-100 scale-100" : "opacity-0 scale-75"
-          } hover:bg-black/80 hover:scale-110`}
-        >
-          <Heart
-            size={18}
-            className={`transition-colors duration-300 ${
-              isWishlisted
-                ? "fill-red-500 text-red-500"
-                : "text-white hover:text-red-400"
-            }`}
-          />
-        </button>
+        <AddToWatchlistBtn id={movie.id} category="movie" />
       </div>
       <div className="mt-4 flex justify-between items-center p-2">
         <h3 className="text-[16px]">

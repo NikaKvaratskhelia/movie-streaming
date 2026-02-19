@@ -8,19 +8,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, EffectFade } from "swiper/modules";
 import { useEffect } from "react";
 import { useMovieStore } from "../../store/useMovieStore";
-import LoadingSpinner from "../shared/LoadingSpinner";
-import ErrorComponent from "../shared/ErrorComponent";
+import { Play } from "lucide-react";
 
 const Hero = () => {
-  const { movies, loading, error, fetchMovies } = useMovieStore();
+  const { movies, loading, fetchMovies } = useMovieStore();
 
   useEffect(() => {
     fetchMovies();
   }, [fetchMovies]);
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorComponent error={error} />;
-  if (movies.length === 0) return null;
+  if (!loading && movies.length === 0) return null;
 
   const heroMovies = movies.slice(0, 5);
 
@@ -44,7 +41,7 @@ const Hero = () => {
               <div className="flex mt-[40%] lg:mt-[20%] justify-center px-4">
                 <div className="flex flex-col sm:flex-row gap-4 lg:gap-6">
                   <button className="flex items-center justify-center w-full sm:w-55.75 h-14 lg:h-19 bg-[#FF0000] text-white text-[18px] lg:text-[24px] font-bold gap-2.5">
-                    Watch Now <span>▶</span>
+                    Watch Now <span><Play/></span>
                   </button>
 
                   <button className="flex items-center justify-center w-full sm:w-55.75 h-14 lg:h-19 border-[3px] border-[#FF0000] text-white text-[18px] lg:text-[24px] font-bold">
