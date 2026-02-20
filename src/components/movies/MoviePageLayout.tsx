@@ -44,7 +44,7 @@ export default function MoviePageLayout({
         onFilteredMovies={setFilteredMovies} 
       />
       
-      <div className="w-full px-4 lg:px-[12%] pb-12">
+      <div className="w-full px-4 lg:px-[12%] pb-8 lg:pb-12">
         <div className="max-w-7xl mx-auto">
           <MovieGrid movies={filteredMovies} />
         </div>
