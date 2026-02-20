@@ -1,29 +1,15 @@
 import Image from "next/image";
 import { Movie } from "../../../generated/prisma/client";
 import { Play } from "lucide-react";
+import { useFormatDuration } from "../../hooks/useFormatDuration";
+import { isValidUrl } from "../../utils/validation";
 
 interface StyledMovieCardProps {
   movie: Movie;
 }
 
 export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
-  const formatDuration = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hours}:${minutes.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
-  };
-
-  const isValidUrl = (url: string) => {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
+  const { formatDuration } = useFormatDuration();
 
   const coverPhoto =
     movie.coverPhoto && isValidUrl(movie.coverPhoto) ? movie.coverPhoto : null;
