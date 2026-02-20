@@ -30,8 +30,8 @@ export default function SeriesPageLayout({
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-white text-center">
-          <h2 className="text-2xl font-bold mb-4">Error Loading Series</h2>
-          <p className="text-gray-400">Failed to load series. Please try again later.</p>
+          <h2 className="text-2xl font-bold mb-4">Error Loading Movies</h2>
+          <p className="text-gray-400">Failed to load movies. Please try again later.</p>
         </div>
       </div>
     );
