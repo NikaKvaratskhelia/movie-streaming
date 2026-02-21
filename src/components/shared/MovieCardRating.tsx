@@ -1,16 +1,15 @@
 import Image from "next/image";
 import { Movie } from "../../../generated/prisma/client";
 import { Play } from "lucide-react";
-import { useFormatDuration } from "../../hooks/useFormatDuration";
 import { isValidUrl } from "../../utils/validation";
+import { useFormatDuration } from "@/src/hooks/useFormatDuration";
+import Link from "next/link";
 
 interface StyledMovieCardProps {
   movie: Movie;
 }
 
 export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
-  const { formatDuration } = useFormatDuration();
-
   const coverPhoto =
     movie.coverPhoto && isValidUrl(movie.coverPhoto) ? movie.coverPhoto : null;
 
@@ -29,19 +28,25 @@ export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
             No Cover
           </div>
         )}
-     <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-[10px]">
-          <div className="bg-red-600 rounded-full p-4 transform scale-90 group-hover:scale-100 transition-transform duration-300">
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-[10px]">
+          <Link
+            href={`/details/movie/${movie.id}`}
+            className="bg-red-600 rounded-full p-4 transform scale-90 group-hover:scale-100 transition-transform duration-300"
+          >
             <Play size={32} className="text-white fill-white" />
-          </div>
+          </Link>
         </div>
         <div className="absolute top-3 left-3 text-white text-[16px]">
-          {formatDuration(movie.duration || 0)}
+          {useFormatDuration(movie.duration || 0)}
         </div>
         <div className="absolute top-3 right-3 text-white text-[16px] flex items-center gap-1">
           {Number(movie.rating) || 0}
         </div>
       </div>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-2.5 gap-2">
+      <Link
+        href={`/details/movie/${movie.id}`}
+        className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-2.5 gap-2"
+      >
         <h3 className="text-white text-[24px] font-semibold">
           {movie.title.length > 10
             ? movie.title.slice(0, 10) + "..."
@@ -60,7 +65,7 @@ export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
               </span>
             ))}
         </div>
-      </div>
+      </Link>
     </div>
   );
 }

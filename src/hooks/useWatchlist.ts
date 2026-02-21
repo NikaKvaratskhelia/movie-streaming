@@ -14,14 +14,11 @@ import {
   SeriesWatchlist,
 } from "@/generated/prisma/browser";
 import { useAuthStore } from "../store/useLoginStore";
+import { toast } from "sonner";
 
 interface WatchlistsResponse {
-  movieWatchlists: (MovieWatchlist & {
-    movie: Movie;
-  })[];
-  seriesWatchlists: (SeriesWatchlist & {
-    series: Series;
-  })[];
+  movieWatchlists: (MovieWatchlist & { movie: Movie })[];
+  seriesWatchlists: (SeriesWatchlist & { series: Series })[];
 }
 
 interface WatchlistStatistics {
@@ -34,35 +31,51 @@ export const useWatchlist = () => {
   const queryClient = useQueryClient();
 
   const queryKey = ["watchlists", token];
-  const statsQueryKey = ["watchlist-stats", token];
+  const statsKey = ["watchlist-stats", token];
+
+  /*
+  =========================
+  FETCH WATCHLISTS
+  =========================
+  */
 
   const watchlistsQuery = useQuery({
     queryKey,
+    enabled: !!token,
     queryFn: async (): Promise<WatchlistsResponse> => {
-      if (!token) throw new Error("No Token");
+      if (!token) throw new Error("Missing token");
 
       const res = await getWatchlists(token);
 
-      if (!res.ok) {
-        throw new Error(res.message);
-      }
+      if (!res.ok) throw new Error(res.message);
 
       return {
         movieWatchlists: res.data.movieWatchlists ?? [],
         seriesWatchlists: res.data.seriesWatchlists ?? [],
       };
     },
-    enabled: typeof token === "string",
   });
 
+  /*
+  =========================
+  FETCH STATS
+  =========================
+  */
+
   const statsQuery = useQuery({
-    queryKey: statsQueryKey,
-    queryFn: (): Promise<WatchlistStatistics> => {
-      if (!token) throw new Error("No token");
+    queryKey: statsKey,
+    enabled: !!token,
+    queryFn: async (): Promise<WatchlistStatistics> => {
+      if (!token) throw new Error("Missing token");
       return getStatistics(token);
     },
-    enabled: !!token,
   });
+
+  /*
+  =========================
+  SHARED HELPERS
+  =========================
+  */
 
   const optimisticUpdate = async (
     updater: (old: WatchlistsResponse) => WatchlistsResponse,
@@ -78,142 +91,161 @@ export const useWatchlist = () => {
     return { previous };
   };
 
-  const rollback = (
-    context: { previous: WatchlistsResponse | undefined } | undefined,
-  ) => {
-    if (context?.previous) {
-      queryClient.setQueryData(queryKey, context.previous);
+  const rollback = (ctx: { previous?: WatchlistsResponse } | undefined) => {
+    if (ctx?.previous) {
+      queryClient.setQueryData(queryKey, ctx.previous);
     }
   };
 
   const invalidate = () => {
     queryClient.invalidateQueries({ queryKey });
-    queryClient.invalidateQueries({ queryKey: statsQueryKey });
+    queryClient.invalidateQueries({ queryKey: statsKey });
   };
 
   const addMovie = useMutation({
-    mutationFn: (movieId: number) => {
+    mutationFn: async (movieId: number) => {
       if (!token) throw new Error("No token");
       return addMovieToWatchist(token, movieId);
     },
-    onMutate: async (movieId) => {
-      return optimisticUpdate((old) => ({
-        ...old,
-        movieWatchlists: [
-          ...old.movieWatchlists,
-          {
-            id: Date.now(),
-            userId: "temp",
-            movieId,
-            movie: {
-              id: movieId,
-              title: "Loading...",
-              description: "",
-              coverPhoto: "",
-              yearPublished: 0,
-              duration: 0,
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              rating: 0 as any,
-              genres: [],
-              producerId: 0,
+
+    onMutate: async (movieId) =>
+      optimisticUpdate((old) => {
+        if (old.movieWatchlists.some((m) => m.movieId === movieId)) return old;
+
+        return {
+          ...old,
+          movieWatchlists: [
+            ...old.movieWatchlists,
+            {
+              id: Date.now(),
+              userId: "temp",
+              movieId,
+              movie: {} as Movie,
             },
-          },
-        ],
-      }));
+          ],
+        };
+      }),
+
+    onError: (err: Error, _id, ctx) => {
+      toast.error(err.message);
+      rollback(ctx);
     },
-    onError: (_err, _id, context) => {
-      rollback(context);
+
+    onSuccess: (data) => {
+      if (data.ok) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
     },
     onSettled: invalidate,
   });
 
   const removeMovie = useMutation({
-    mutationFn: (movieId: number) => {
+    mutationFn: async (movieId: number) => {
       if (!token) throw new Error("No token");
       return removeMovieFromWatchist(token, movieId);
     },
-    onMutate: async (movieId) => {
-      return optimisticUpdate((old) => ({
+
+    onMutate: async (movieId) =>
+      optimisticUpdate((old) => ({
         ...old,
         movieWatchlists: old.movieWatchlists.filter(
           (m) => m.movieId !== movieId,
         ),
-      }));
+      })),
+
+    onSuccess: (data) => toast.success(data.message),
+    onError: (err: Error, _id, ctx) => {
+      toast.error(err.message);
+      rollback(ctx);
     },
-    onError: (_err, _id, context) => {
-      rollback(context);
-    },
+
     onSettled: invalidate,
   });
 
   const addSeries = useMutation({
-    mutationFn: (seriesId: number) => {
+    mutationFn: async (seriesId: number) => {
       if (!token) throw new Error("No token");
       return addSerieToWatchist(token, seriesId);
     },
-    onMutate: async (seriesId) => {
-      return optimisticUpdate((old) => ({
-        ...old,
-        seriesWatchlists: [
-          ...old.seriesWatchlists,
-          {
-            id: Date.now(),
-            userId: "temp",
-            seriesId,
-            series: {
-              id: seriesId,
-              title: "Loading...",
-              description: "",
-              coverPhoto: "",
-              yearPublished: 0,
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              rating: 0 as any,
-              genres: [],
-              producerId: 0,
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              isSeries: true,
+
+    onMutate: async (seriesId) =>
+      optimisticUpdate((old) => {
+        if (old.seriesWatchlists.some((s) => s.seriesId === seriesId))
+          return old;
+
+        return {
+          ...old,
+          seriesWatchlists: [
+            ...old.seriesWatchlists,
+            {
+              id: Date.now(),
+              userId: "temp",
+              seriesId,
+              series: {} as Series,
             },
-          },
-        ],
-      }));
+          ],
+        };
+      }),
+
+    onError: (err: Error, _id, ctx) => {
+      toast.error(err.message);
+      rollback(ctx);
     },
-    onError: (_err, _id, context) => {
-      rollback(context);
+    onSuccess: (data) => {
+      if (data.ok) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
     },
     onSettled: invalidate,
   });
 
   const removeSeries = useMutation({
-    mutationFn: (seriesId: number) => {
+    mutationFn: async (seriesId: number) => {
       if (!token) throw new Error("No token");
       return removeSerieFromWatchist(token, seriesId);
     },
-    onMutate: async (seriesId) => {
-      return optimisticUpdate((old) => ({
+
+    onMutate: async (seriesId) =>
+      optimisticUpdate((old) => ({
         ...old,
         seriesWatchlists: old.seriesWatchlists.filter(
           (s) => s.seriesId !== seriesId,
         ),
-      }));
+      })),
+    onSuccess: (data) => {
+      if (data.ok) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
     },
-    onError: (_err, _id, context) => {
-      rollback(context);
+    onError: (err: Error, _id, ctx) => {
+      toast.error(err.message);
+      rollback(ctx);
     },
+
     onSettled: invalidate,
   });
 
   return {
     movieWatchlist: watchlistsQuery.data?.movieWatchlists ?? [],
     seriesWatchlist: watchlistsQuery.data?.seriesWatchlists ?? [],
-    isLoading: watchlistsQuery.isLoading,
-    error: watchlistsQuery.error,
+
     avgRating: statsQuery.data?.avgRating ?? "0",
     totalRuntime: statsQuery.data?.totalRuntime ?? 0,
+
+    isLoading: watchlistsQuery.isLoading,
+    error: watchlistsQuery.error,
+
     addMovie: addMovie.mutateAsync,
     removeMovie: removeMovie.mutate,
     addSeries: addSeries.mutateAsync,
     removeSeries: removeSeries.mutate,
+
     isAddingMovie: addMovie.isPending,
     isRemovingMovie: removeMovie.isPending,
     isAddingSeries: addSeries.isPending,

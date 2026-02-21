@@ -43,7 +43,7 @@ export default function MoviePageLayout({
     <div className="min-h-screen bg-black">
       <MovieHeader movies={movies} onFilteredMovies={setFilteredMovies} />
 
-      <div className="w-full px-4 lg:px-[12%] pb-8 lg:pb-12 my-4">
+      <div className="w-full px-4 lg:px-[12%] pb-8 lg:pb-12 my-4 py-10">
         <div className="w-full mx-auto">
           <MovieGrid movies={filteredMovies} />
         </div>

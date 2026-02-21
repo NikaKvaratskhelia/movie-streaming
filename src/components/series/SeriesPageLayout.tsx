@@ -44,7 +44,7 @@ export default function SeriesPageLayout({
       <SeriesHeader series={series} onFilteredSeries={setFilteredSeries} />
 
       <div className="w-full px-4 lg:px-[12%] pb-12">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto py-10">
           <SeriesGrid series={filteredSeries} />
         </div>
       </div>
