@@ -5,12 +5,12 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, EffectFade } from "swiper/modules";
+import { Pagination, Autoplay, EffectFade, Navigation } from "swiper/modules";
 import { Play } from "lucide-react";
 import { useMovies } from "@/src/hooks/useMovie";
 
 const Hero = () => {
-  const { movies, isLoading, } = useMovies();
+  const { movies, isLoading } = useMovies();
 
   if (!isLoading && movies.length === 0) return null;
 
@@ -19,13 +19,14 @@ const Hero = () => {
   return (
     <section className="h-screen w-full">
       <Swiper
-        modules={[Pagination, Autoplay, EffectFade]}
+        modules={[Pagination, Autoplay, EffectFade, Navigation]}
         slidesPerView={1}
         pagination={{ clickable: true }}
+        navigation={true}
         autoplay={{ delay: 2000, disableOnInteraction: false }}
         effect="fade"
         loop
-        className="h-full"
+        className="h-186"
       >
         {heroMovies.map((movie) => (
           <SwiperSlide key={movie.id}>
@@ -36,7 +37,10 @@ const Hero = () => {
               <div className="flex mt-[40%] lg:mt-[20%] justify-center px-4">
                 <div className="flex flex-col sm:flex-row gap-4 lg:gap-6">
                   <button className="flex items-center justify-center w-full sm:w-55.75 h-14 lg:h-19 bg-[#FF0000] text-white text-[18px] lg:text-[24px] font-bold gap-2.5">
-                    Watch Now <span><Play/></span>
+                    Watch Now{" "}
+                    <span>
+                      <Play />
+                    </span>
                   </button>
 
                   <button className="flex items-center justify-center w-full sm:w-55.75 h-14 lg:h-19 border-[3px] border-[#FF0000] text-white text-[18px] lg:text-[24px] font-bold">
