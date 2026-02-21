@@ -8,13 +8,13 @@ import MovieGrid from "./Movies";
 interface MoviePageLayoutProps {
   movies: Movie[];
   isLoading: boolean;
-  error: any;
+  error: Error | null;
 }
 
-export default function MoviePageLayout({ 
-  movies, 
-  isLoading, 
-  error 
+export default function MoviePageLayout({
+  movies,
+  isLoading,
+  error,
 }: MoviePageLayoutProps) {
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>(movies);
 
@@ -31,7 +31,9 @@ export default function MoviePageLayout({
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-white text-center">
           <h2 className="text-2xl font-bold mb-4">Error Loading Movies</h2>
-          <p className="text-gray-400">Failed to load movies. Please try again later.</p>
+          <p className="text-gray-400">
+            Failed to load movies. Please try again later.
+          </p>
         </div>
       </div>
     );
@@ -39,13 +41,10 @@ export default function MoviePageLayout({
 
   return (
     <div className="min-h-screen bg-black">
-      <MovieHeader 
-        movies={movies} 
-        onFilteredMovies={setFilteredMovies} 
-      />
-      
-      <div className="w-full px-4 lg:px-[12%] pb-8 lg:pb-12">
-        <div className="max-w-7xl mx-auto">
+      <MovieHeader movies={movies} onFilteredMovies={setFilteredMovies} />
+
+      <div className="w-full px-4 lg:px-[12%] pb-8 lg:pb-12 my-4">
+        <div className="w-full mx-auto">
           <MovieGrid movies={filteredMovies} />
         </div>
       </div>

@@ -6,7 +6,7 @@ import AddToWatchlistBtn from "../ui/AddToWatchlistBtn";
 export default function MovieCard({ movie }: { movie: Movie }) {
   return (
     <div className="w-[256px] h-auto  overflow-hidden bg-black text-white group">
-      <div className="relative w-[256px] h-86 group">
+      <div className="relative w-[256px] h-86 group z-0">
         <Image
           src={movie.coverPhoto}
           alt={movie.title}

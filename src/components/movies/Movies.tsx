@@ -20,7 +20,7 @@ export default function MovieGrid({ movies }: MovieGridProps) {
   }
 
   return (
-    <div className="flex flex-col items-center lg:grid lg:grid-cols-4 gap-4 lg:gap-[32px]">
+    <div className="flex flex-wrap justify-center items-center gap-4 lg:gap-8">
       {movies.map((movie) => (
         <MovieCard key={movie.id} movie={movie} />
       ))}

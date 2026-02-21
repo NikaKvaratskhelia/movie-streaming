@@ -12,7 +12,7 @@ export default function SeriesGrid({ series }: SeriesGridProps) {
         <h2 className="text-xl lg:text-2xl font-semibold text-white mb-3 lg:mb-4">
           No Series Available
         </h2>
-       <p className="text-gray-400 text-sm lg:text-base">
+        <p className="text-gray-400 text-sm lg:text-base">
           Check back later for new series releases.
         </p>
       </div>
@@ -20,7 +20,7 @@ export default function SeriesGrid({ series }: SeriesGridProps) {
   }
 
   return (
-    <div className="flex flex-col items-center lg:grid lg:grid-cols-4 gap-4 lg:gap-[32px]">
+    <div className="flex flex-wrap justify-center items-center gap-4 lg:gap-8">
       {series.map((item) => (
         <SeriesCard key={item.id} series={item} />
       ))}

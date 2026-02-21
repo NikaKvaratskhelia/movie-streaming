@@ -8,13 +8,13 @@ import SeriesGrid from "./Series";
 interface SeriesPageLayoutProps {
   series: Series[];
   isLoading: boolean;
-  error: any;
+  error: Error | null;
 }
 
-export default function SeriesPageLayout({ 
-  series, 
-  isLoading, 
-  error 
+export default function SeriesPageLayout({
+  series,
+  isLoading,
+  error,
 }: SeriesPageLayoutProps) {
   const [filteredSeries, setFilteredSeries] = useState<Series[]>(series);
 
@@ -31,7 +31,9 @@ export default function SeriesPageLayout({
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-white text-center">
           <h2 className="text-2xl font-bold mb-4">Error Loading Movies</h2>
-          <p className="text-gray-400">Failed to load movies. Please try again later.</p>
+          <p className="text-gray-400">
+            Failed to load movies. Please try again later.
+          </p>
         </div>
       </div>
     );
@@ -39,11 +41,8 @@ export default function SeriesPageLayout({
 
   return (
     <div className="min-h-screen bg-black">
-      <SeriesHeader 
-        series={series} 
-        onFilteredSeries={setFilteredSeries} 
-      />
-      
+      <SeriesHeader series={series} onFilteredSeries={setFilteredSeries} />
+
       <div className="w-full px-4 lg:px-[12%] pb-12">
         <div className="max-w-7xl mx-auto">
           <SeriesGrid series={filteredSeries} />
