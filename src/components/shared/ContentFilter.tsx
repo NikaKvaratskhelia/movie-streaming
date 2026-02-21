@@ -74,7 +74,7 @@ export default function ContentFilter({
     contentType === "movie" ? "Search movies..." : "Search series...";
 
   return (
-    <div className="w-full px-4 lg:px-[12%] py-6 bg-black/50 backdrop-blur-sm border-b border-white/10 relative z-100">
+    <div className="w-full px-4 lg:px-[12%] py-6 bg-black/50 backdrop-blur-sm border-b border-white/10 relative z-10">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-4 items-center">
           <div className="flex-1">
