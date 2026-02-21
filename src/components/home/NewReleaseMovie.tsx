@@ -20,7 +20,7 @@ export default function NewReleaseMovie({
 
   return (
     <div className="w-full flex flex-col items-start">
-      <div className="w-full lg:w-[75%] flex justify-between items-center px-4 lg:ml-[12%] lg:mr-[12%] mt-12 lg:mt-20 mb-6">
+      <div className="w-full lg:w-[75%] flex flex-col sm:flex-row items-center sm:justify-between lg:ml-[12%] lg:mr-[12%] mt-12 lg:mt-20 mb-6 gap-3 text-center sm:text-left">
         <h2 className="text-xl lg:text-2xl font-semibold text-white">
           New Release - Movies
         </h2>
