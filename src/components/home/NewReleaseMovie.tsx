@@ -19,15 +19,15 @@ export default function NewReleaseMovie({
   const movies = propMovies || storeMovies;
 
   return (
-    <div className="w-full flex flex-col items-start">
-      <div className="w-full lg:w-[75%] flex justify-between items-center px-4 lg:ml-[12%] lg:mr-[12%] mt-12 lg:mt-20 mb-6">
+    <div className="flex flex-col items-start">
+      <div className="w-full flex justify-between items-center mt-12 lg:mt-20 mb-6 px-8">
         <h2 className="text-xl lg:text-2xl font-semibold text-white">
           New Release - Movies
         </h2>
         <ViewAllLink href="/movies" />
       </div>
-      <div className="w-full flex justify-center px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8.25">
+      <div className="w-full flex justify-center">
+        <div className="flex flex-wrap gap-8">
           {movies.slice(0, limit).map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
