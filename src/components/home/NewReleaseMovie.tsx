@@ -27,7 +27,7 @@ export default function NewReleaseMovie({
         <ViewAllLink href="/movies" />
       </div>
       <div className="w-full flex justify-center">
-        <div className="flex flex-wrap gap-8">
+        <div className="flex flex-wrap gap-8 justify-center">
           {movies.slice(0, limit).map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}

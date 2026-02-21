@@ -27,7 +27,7 @@ export default function NewReleaseSeries({
         <ViewAllLink href="/series" />
       </div>
       <div className="w-full flex justify-center px-4">
-        <div className="flex flex-wrap gap-8">
+        <div className="flex flex-wrap gap-8 justify-center">
           {series.slice(0, limit).map((seriesItem) => (
             <SeriesCard key={seriesItem.id} series={seriesItem} />
           ))}
