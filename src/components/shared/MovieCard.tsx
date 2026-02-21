@@ -2,6 +2,7 @@ import { Movie } from "@/generated/prisma/browser";
 import Image from "next/image";
 import { Clock, Play, Star } from "lucide-react";
 import AddToWatchlistBtn from "../ui/AddToWatchlistBtn";
+import Link from "next/link";
 
 export default function MovieCard({ movie }: { movie: Movie }) {
   return (
@@ -13,7 +14,7 @@ export default function MovieCard({ movie }: { movie: Movie }) {
           fill
           className="object-cover rounded-[10px]"
         />
-        
+
         <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm rounded-lg px-2 py-1 flex items-center gap-1">
           <Star size={14} className="text-yellow-400 fill-yellow-400" />
           <span className="text-white text-sm font-medium">
@@ -22,14 +23,17 @@ export default function MovieCard({ movie }: { movie: Movie }) {
         </div>
 
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-[10px]">
-          <div className="bg-red-600 rounded-full p-4 transform scale-90 group-hover:scale-100 transition-transform duration-300">
+          <Link href={`/details/movie/${movie.id}`} className="bg-red-600 rounded-full p-4 transform scale-90 group-hover:scale-100 transition-transform duration-300">
             <Play size={32} className="text-white fill-white" />
-          </div>
+          </Link>
         </div>
 
-        <AddToWatchlistBtn id={movie.id} category="movie" />
+        <AddToWatchlistBtn id={movie.id} category="movie"/>
       </div>
-      <div className="mt-4 flex justify-between items-center p-2">
+      <Link
+        href={`/details/movie/${movie.id}`}
+        className="mt-4 flex justify-between items-center p-2"
+      >
         <h3 className="text-[16px]">
           {movie.title.length > 10
             ? movie.title.slice(0, 10) + "..."
@@ -45,7 +49,7 @@ export default function MovieCard({ movie }: { movie: Movie }) {
             <span>{Math.ceil(movie.duration / 60)}</span>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }

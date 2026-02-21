@@ -40,18 +40,14 @@ export default function AddToWatchlistBtn({
       if (category === "movie") {
         if (isInWatchlist) {
           removeMovie(id);
-          toast.success("Removed from watchlist");
         } else {
           await addMovie(id);
-          toast.success("Added to watchlist!");
         }
       } else {
         if (isInWatchlist) {
           removeSeries(id);
-          toast.success("Removed from watchlist");
         } else {
           await addSeries(id);
-          toast.success("Added to watchlist!");
         }
       }
     } catch {
