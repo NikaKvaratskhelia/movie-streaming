@@ -18,7 +18,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function Form() {
   const router = useRouter();
-  const { login, isLoading } = useAuthStore();
+  const { login, fetching } = useAuthStore();
   const [values, setValues] = useState<FormValues>({ email: "", password: "" });
   const [errors, setErrors] = useState<
     Partial<Record<keyof FormValues, string>>
@@ -67,7 +67,7 @@ export default function Form() {
 
   return (
     <>
-      {isLoading && <Loader />}
+      {fetching && <Loader />}
       <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
           <Input
@@ -101,8 +101,8 @@ export default function Form() {
         </div>
 
         <Button
-          text={isLoading ? "Logging in..." : "Log In"}
-          disabled={isLoading}
+          text={fetching ? "Logging in..." : "Log In"}
+          disabled={fetching}
         />
 
         <Link
