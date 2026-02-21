@@ -1,5 +1,5 @@
 "use client";
-import StyledMovieCard from "../shared/MovieCardRating";
+import MovieCardRating from "../shared/MovieCardRating";
 import ViewAllLink from "../shared/ViewAllLink";
 import { useMovies } from "@/src/hooks/useMovie";
 
@@ -8,7 +8,7 @@ export default function MovieSections() {
 
   return (
     <section className="w-full">
-      <div className="w-full lg:w-[75%] flex justify-between items-center px-4 lg:ml-[12%] lg:mr-[12%] mt-12 lg:mt-20 mb-6">
+      <div className="w-full lg:w-[75%] flex flex-col sm:flex-row items-center sm:justify-between lg:ml-[12%] lg:mr-[12%] mt-12 lg:mt-20 mb-6 gap-3 text-center sm:text-left">
         <h2 className="text-xl lg:text-2xl font-semibold text-white">
           Trending
         </h2>
@@ -18,7 +18,7 @@ export default function MovieSections() {
       <div className="flex justify-center px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
           {movies.slice(0, 3).map((movie) => (
-            <StyledMovieCard key={movie.id} movie={movie} />
+            <MovieCardRating key={movie.id} movie={movie} />
           ))}
         </div>
       </div>
