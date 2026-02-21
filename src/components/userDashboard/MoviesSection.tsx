@@ -7,8 +7,6 @@ export default function MoviesSection({ text }: { text: "Movies" | "Series" }) {
   const { movieWatchlist, seriesWatchlist } = useWatchlist();
   const watchlist = text === "Movies" ? movieWatchlist : seriesWatchlist;
 
-  console.log(seriesWatchlist);
-
   if (watchlist.length === 0) return null;
 
   return (

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { z } from "zod";
 import Loader from "../ui/Loader";
 import { register } from "@/src/services/auth-service";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   firstName: z.string().min(2, "First Name is required"),
@@ -68,10 +69,8 @@ export default function Form() {
 
     const res = await register(values);
 
-    console.log(res);
-
     if (!res.ok) {
-      console.log("could not register");
+      toast.error(res.message);
     }
 
     if (res.ok) {
