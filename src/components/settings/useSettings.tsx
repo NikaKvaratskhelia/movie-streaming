@@ -37,11 +37,6 @@ export function useSettings() {
     const res = await updateProfileSettings(token, data);
 
     if (res.ok) {
-      setMessage("Profile updated");
-      setUser((u: any) => (u ? { ...u, ...data } : u));
-
-
-     //////////////
       if (globalUser) {
         refreshUser(token);
       }
