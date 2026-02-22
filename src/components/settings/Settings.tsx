@@ -4,6 +4,7 @@ import { useSettings } from "./useSettings";
 import ProfileSettingsForm from "./ProfileSettingsForm";
 import PasswordSettingsForm from "./PasswordSettingsForm";
 import AccountInfo from "./AccountInfo";
+import AccountOverview from "./AccountOverview";
 
 export default function Settings() {
   const {
@@ -19,9 +20,14 @@ export default function Settings() {
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-8">
-      <h1 className="text-2xl font-bold text-white">Settings</h1>
+      <div>
+        <h1 className="text-[32px] text-white">Profile & Settings</h1>
+        <p className="text-[#6b6880] text-[14px] mt-2">Manage your account details and preferences.</p>
+      </div>
 
       {message && <div>{message}</div>}
+      
+      <AccountOverview user={user} />
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <ProfileSettingsForm
