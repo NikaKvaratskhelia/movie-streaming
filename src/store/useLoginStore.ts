@@ -17,6 +17,7 @@ interface AuthState {
 
   logout: () => void;
   fetchUser: (token: string) => void;
+  refreshUser: (token: string) => void;
 
   setHasHydrated: (value: boolean) => void;
   setToken: (token: string | null) => void;
@@ -59,7 +60,20 @@ export const useAuthStore = create<AuthState>()(
         set({ fetching: true });
         const current = get().user;
         if (current) return;
+// davamate rom hedershi ganaxldes saxeli egreve
+        try {
+          const res = await getCurrentUser(token);
+          set({ user: res.user });
+        } catch (error) {
+          console.error(error);
+        }
 
+        set({ fetching: false });
+      },
+
+      refreshUser: async (token) => {
+        set({ fetching: true });
+//
         try {
           const res = await getCurrentUser(token);
           set({ user: res.user });

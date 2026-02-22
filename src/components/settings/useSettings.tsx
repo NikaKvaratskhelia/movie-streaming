@@ -9,7 +9,7 @@ import { updatePassword } from "@/src/services/password-service";
 import { useAuthStore } from "@/src/store/useLoginStore";
 
 export function useSettings() {
-  const { token, hasHydrated } = useAuthStore();
+  const { token, hasHydrated, user: globalUser, refreshUser } = useAuthStore();
 
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -39,6 +39,14 @@ export function useSettings() {
     if (res.ok) {
       setMessage("Profile updated");
       setUser((u: any) => (u ? { ...u, ...data } : u));
+
+
+     //////////////
+      if (globalUser) {
+        refreshUser(token);
+      }
+
+      //
     } else {
       setMessage(res.message || "Update failed");
     }
