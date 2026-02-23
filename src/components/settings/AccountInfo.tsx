@@ -3,9 +3,20 @@
 import { useWatchlist } from "@/src/hooks/useWatchlist";
 import { useSettings } from "../../hooks/useSettings";
 import Loader from "../ui/Loader";
+import { queryClient } from "@/src/lib/tanstack-query";
+import { useAuthStore } from "@/src/store/useLoginStore";
+import { useRouter } from "next/navigation";
 export default function AccountInfo() {
   const { movieWatchlist, seriesWatchlist } = useWatchlist();
   const { user } = useSettings();
+  const router = useRouter();
+  const logout = useAuthStore((s) => s.logout);
+
+  const handleLogout = () => {
+    logout();
+    queryClient.removeQueries({ queryKey: ["currentUser"] });
+    router.push("/");
+  };
 
   if (!user) return <Loader />;
 
@@ -33,6 +44,13 @@ export default function AccountInfo() {
           <span className="text-[#6C6980]">Account ID</span>
           <span className=" text-white text-sm">{user.id}</span>
         </div>
+
+        <button
+          onClick={handleLogout}
+          className="w-full mt-4 bg-red-600 hover:bg-red-700 active:scale-[.98] transition text-white font-medium py-2 rounded-lg cursor-pointer"
+        >
+          Sign Out
+        </button>
       </div>
     </div>
   );

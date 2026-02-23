@@ -12,7 +12,7 @@ export function useSettings() {
   const queryClient = useQueryClient();
 
   const userQuery = useQuery({
-    queryKey: ["currentUser"],
+    queryKey: ["currentUser", token],
     queryFn: () => getCurrentUser(token),
     enabled: !!token,
     staleTime: 1000 * 60 * 5,

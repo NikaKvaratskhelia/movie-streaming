@@ -54,13 +54,15 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      logout: () => set({ token: null, user: null }),
+      logout: () => {
+        set({ token: null, user: null });
+        localStorage.removeItem("auth-storage");
+      },
 
       fetchUser: async (token) => {
         set({ fetching: true });
         const current = get().user;
         if (current) return;
-// davamate rom hedershi ganaxldes saxeli egreve
         try {
           const res = await getCurrentUser(token);
           set({ user: res.user });
@@ -73,7 +75,7 @@ export const useAuthStore = create<AuthState>()(
 
       refreshUser: async (token) => {
         set({ fetching: true });
-//
+
         try {
           const res = await getCurrentUser(token);
           set({ user: res.user });
