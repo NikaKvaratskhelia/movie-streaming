@@ -6,6 +6,7 @@ import {
   addSeries,
   updateSeries,
 } from "@/src/services/seriesService";
+import { SeriesWithCount } from "../types/SeriesWithCount";
 
 export const useSeries = () => {
   const queryClient = useQueryClient();
@@ -15,16 +16,16 @@ export const useSeries = () => {
     queryKey,
     queryFn: async () => {
       const resp = await fetchSeries();
-      return resp.data as Series[];
+      return resp.data as SeriesWithCount[];
     },
   });
 
   const addSeriesMutation = useMutation({
-    mutationFn: (series: Series) => addSeries(series),
+    mutationFn: (series: SeriesWithCount) => addSeries(series),
     onMutate: async (newSeries) => {
       await queryClient.cancelQueries({ queryKey });
-      const previous = queryClient.getQueryData<Series[]>(queryKey);
-      queryClient.setQueryData<Series[]>(queryKey, (old = []) => [
+      const previous = queryClient.getQueryData(queryKey);
+      queryClient.setQueryData<SeriesWithCount[]>(queryKey, (old = []) => [
         ...old,
         newSeries,
       ]);
@@ -42,8 +43,8 @@ export const useSeries = () => {
     mutationFn: (id: number) => deleteSeries(id),
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey });
-      const previous = queryClient.getQueryData<Series[]>(queryKey);
-      queryClient.setQueryData<Series[]>(queryKey, (old = []) =>
+      const previous = queryClient.getQueryData(queryKey);
+      queryClient.setQueryData<SeriesWithCount[]>(queryKey, (old = []) =>
         old.filter((s) => s.id !== id),
       );
       return { previous };
@@ -61,8 +62,8 @@ export const useSeries = () => {
       updateSeries(id, data),
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey });
-      const previous = queryClient.getQueryData<Series[]>(queryKey);
-      queryClient.setQueryData<Series[]>(queryKey, (old = []) =>
+      const previous = queryClient.getQueryData(queryKey);
+      queryClient.setQueryData<SeriesWithCount[]>(queryKey, (old = []) =>
         old.map((s) => (s.id === id ? { ...s, ...data } : s)),
       );
       return { previous };

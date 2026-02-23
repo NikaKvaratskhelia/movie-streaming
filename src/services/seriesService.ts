@@ -34,19 +34,3 @@ export async function updateSeries(id: number, series: Partial<Series>) {
   });
   return await res.json();
 }
-
-export const fetchSeasonsCount = async (seriesId: number): Promise<number> => {
-  try {
-    const response = await fetch(`/api/series/${seriesId}/seasons-count`);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch seasons count");
-    }
-
-    const result = await response.json();
-    return result.data.seasonsCount || 0;
-  } catch (error) {
-    console.error("Error fetching seasons count:", error);
-    return 0;
-  }
-};

@@ -1,11 +1,11 @@
 "use client";
-import { Series } from "@/generated/prisma/browser";
 import SeriesCard from "../shared/SeriesCard";
 import ViewAllLink from "../shared/ViewAllLink";
 import { useSeries } from "@/src/hooks/useSeries";
+import { SeriesWithCount } from "@/src/types/SeriesWithCount";
 
 interface SeriesSectionProps {
-  series?: Series[];
+  series?: SeriesWithCount[];
   limit: number;
   onLoaded?: () => void;
 }

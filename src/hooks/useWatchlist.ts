@@ -33,12 +33,6 @@ export const useWatchlist = () => {
   const queryKey = ["watchlists", token];
   const statsKey = ["watchlist-stats", token];
 
-  /*
-  =========================
-  FETCH WATCHLISTS
-  =========================
-  */
-
   const watchlistsQuery = useQuery({
     queryKey,
     enabled: !!token,
@@ -56,12 +50,6 @@ export const useWatchlist = () => {
     },
   });
 
-  /*
-  =========================
-  FETCH STATS
-  =========================
-  */
-
   const statsQuery = useQuery({
     queryKey: statsKey,
     enabled: !!token,
@@ -71,11 +59,6 @@ export const useWatchlist = () => {
     },
   });
 
-  /*
-  =========================
-  SHARED HELPERS
-  =========================
-  */
 
   const optimisticUpdate = async (
     updater: (old: WatchlistsResponse) => WatchlistsResponse,

@@ -1,23 +1,10 @@
-import { Series } from "@/generated/prisma/browser";
 import Image from "next/image";
 import { Tv, Star, Play } from "lucide-react";
-import { useState, useEffect } from "react";
-import { fetchSeasonsCount } from "../../services/seriesService";
 import AddToWatchlistBtn from "../ui/AddToWatchlistBtn";
 import Link from "next/link";
+import { SeriesWithCount } from "@/src/types/SeriesWithCount";
 
-export default function SeriesCard({ series }: { series: Series }) {
-  const [seasonsCount, setSeasonsCount] = useState<number>(0);
-
-  useEffect(() => {
-    const getSeasonsCount = async () => {
-      const count = await fetchSeasonsCount(series.id);
-      setSeasonsCount(count);
-    };
-
-    getSeasonsCount();
-  }, [series.id]);
-
+export default function SeriesCard({ series }: { series: SeriesWithCount }) {
   return (
     <div className="w-[256px] h-auto  overflow-hidden bg-black text-white group">
       <div className="relative w-[256px] h-86 group">
@@ -36,7 +23,10 @@ export default function SeriesCard({ series }: { series: Series }) {
         </div>
 
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-[10px]">
-          <Link href={`/details/series/${series.id}`} className="bg-red-600 rounded-full p-4 transform scale-90 group-hover:scale-100 transition-transform duration-300">
+          <Link
+            href={`/details/series/${series.id}`}
+            className="bg-red-600 rounded-full p-4 transform scale-90 group-hover:scale-100 transition-transform duration-300"
+          >
             <Play size={32} className="text-white fill-white" />
           </Link>
         </div>
@@ -59,7 +49,7 @@ export default function SeriesCard({ series }: { series: Series }) {
           </div>
           <div className="w-20 h-8 border border-[#FF0000] rounded-md flex items-center justify-center gap-1 text-[12px]">
             <Tv size={14} />
-            <span>{seasonsCount} Seasons</span>
+            {/* <span>{series._count.seasons} Seasons</span> */}
           </div>
         </div>
       </Link>

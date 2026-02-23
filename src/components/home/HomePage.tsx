@@ -1,3 +1,4 @@
+import RecommendationSection from "../shared/RecommendationSection";
 import Hero from "./Hero";
 import MovieSections from "./MovieSections";
 import NewReleaseMovie from "./NewReleaseMovie";
@@ -12,6 +13,7 @@ export default function HomeImport() {
           <MovieSections />
           <NewReleaseMovie limit={4} />
           <NewReleaseSeries limit={4} />
+          <RecommendationSection />
         </div>
       </div>
     </div>

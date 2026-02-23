@@ -6,9 +6,8 @@ export const useMovieDetails = (id: number | null) => {
 
   const moviesQuery = useQuery({
     queryKey,
-    queryFn: async ({ queryKey }) => {
-      const [, movieId] = queryKey as [string, number];
-      const resp = await fetchMovieById(movieId);
+    queryFn: async () => {
+      const resp = await fetchMovieById(id as number);
       return resp.data;
     },
     enabled: !!id,
