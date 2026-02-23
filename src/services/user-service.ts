@@ -1,25 +1,70 @@
-export async function getCurrentUser(token: string) {
-  const res = await fetch(`${window.location.origin}/api/users`, {
+export async function getCurrentUser(token: string | null) {
+  if (!token) throw new Error("Token is required!");
+
+  const res = await fetch("/api/users", {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    cache: "no-store"
   });
 
-  return res.json();
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message ?? "Request failed");
+  }
+
+  const { user } = await res.json();
+
+  return user;
 }
 
-export async function updateProfileSettings(token: string, data: { firstName?: string; lastName?: string; email?: string }) {
-  const res = await fetch(`${window.location.origin}/api/users`, {
+export async function updateProfileSettings(
+  token: string | null,
+  data: Partial<{
+    firstName: string;
+    lastName: string;
+    email: string;
+  }>,
+) {
+  if (!token) throw new Error("Token is required!");
+
+  const res = await fetch("/api/users", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
-    cache: "no-store"
   });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message ?? "Request failed");
+  }
+
+  return res.json();
+}
+
+export async function updatePassword(
+  token: string | null,
+  oldPass: string,
+  newPass: string,
+) {
+  if (!token) throw new Error("Token is required!");
+
+  const res = await fetch("/api/users/password", {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ oldPass, newPass }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message  ?? "Request failed");
+  }
 
   return res.json();
 }
