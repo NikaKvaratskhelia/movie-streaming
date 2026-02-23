@@ -31,11 +31,11 @@ const Hero = () => {
         {heroMovies.map((movie) => (
           <SwiperSlide key={movie.id}>
             <div
-              className="h-screen w-full bg-cover bg-center flex flex-col justify-between"
+              className="h-screen w-full bg-cover bg-center flex flex-col justify-between py-10"
               style={{ backgroundImage: `url(${movie.coverPhoto})` }}
             >
-              <div className="flex mt-[40%] lg:mt-[20%] justify-center px-4">
-                <div className="flex flex-col sm:flex-row gap-4 lg:gap-6">
+              <div className="flex mt-[20%] justify-center px-4">
+                <div className="flex flex-wrap gap-4 lg:gap-6">
                   <button className="flex items-center justify-center w-full sm:w-55.75 h-14 lg:h-19 bg-[#FF0000] text-white text-[18px] lg:text-[24px] font-bold gap-2.5">
                     Watch Now{" "}
                     <span>
@@ -49,7 +49,7 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div className="w-full p-6 sm:p-10 lg:p-[10%] flex justify-start">
+              <div className="w-full p-6 sm:p-10 flex justify-start">
                 <div className="max-w-2xl text-white">
                   <h1 className="text-[22px] sm:text-[26px] lg:text-[32px] font-bold mb-4 leading-tight">
                     {movie.title}

@@ -26,6 +26,11 @@ export async function GET(
             episodes: true,
           },
         },
+        _count: {
+          select: {
+            seasons: true,
+          },
+        },
       },
     });
 

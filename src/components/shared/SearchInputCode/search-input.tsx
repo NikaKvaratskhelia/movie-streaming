@@ -57,7 +57,7 @@ const SearchInput = () => {
       </div>
 
       {searchTerm && (
-        <div className="absolute top-14 left-0 right-0 bg-neutral-900 border border-white/10 rounded-xl shadow-2xl max-h-96 overflow-y-auto z-50">
+        <div className="absolute top-14 left-0 right-0 bg-neutral-900 border border-white/10 rounded-xl shadow-2xl max-h-96 overflow-y-auto z-50 custom-scroll">
           {filteredItems.length > 0 ? (
             filteredItems.map((movie) => (
               <ResultCard data={movie} key={movie.id} />

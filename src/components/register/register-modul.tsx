@@ -12,7 +12,7 @@ export default function RegisterModul() {
       <p className="text-white">
         Already have an account?{" "}
         <Link href={"/login"} className="underline text-[#119BFF]">
-          Create One
+          Sign In
         </Link>
       </p>
     </div>

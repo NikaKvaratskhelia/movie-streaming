@@ -1,9 +1,7 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useWatchlist } from "@/src/hooks/useWatchlist";
 import { Movie, Series } from "@/generated/prisma/browser";
+import RemoveBtn from "./RemoveBtn";
 
 export default function MovieCard({
   movie = null,
@@ -14,23 +12,14 @@ export default function MovieCard({
   series?: Series | null;
   type: "MOVIE" | "SERIES";
 }) {
-  const { removeMovie, removeSeries } = useWatchlist();
-
   const data = type === "MOVIE" ? movie : series;
 
   if (!data) return null;
 
   const id = data.id;
 
-  function handleClick() {
-    if (type === "MOVIE") {
-      removeMovie(id);
-    } else {
-      removeSeries(id);
-    }
-  }
-
-  const href = type === "MOVIE" ? `/movies/${id}` : `/series/${id}`;
+  const href =
+    type === "MOVIE" ? `details/movie/${id}` : `details/series/${id}`;
 
   return (
     <div
@@ -50,12 +39,7 @@ export default function MovieCard({
           height={250}
         />
 
-        <div
-          className="opacity-0 z-2 group-hover:opacity-100 absolute bottom-2 left-2 py-2 px-2.5 bg-[#e05a5ad9] w-fit rounded-md text-[11px] transition-all duration-500 font-bold cursor-pointer"
-          onClick={handleClick}
-        >
-          ✕ Remove
-        </div>
+        <RemoveBtn type={type} id={id} />
       </div>
 
       <Link href={href} className="p-3">

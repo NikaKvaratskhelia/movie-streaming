@@ -2,25 +2,9 @@
 
 import { useWatchlist } from "@/src/hooks/useWatchlist";
 import StatisticsDiv from "./StatisticsDiv";
-import { getStatistics } from "@/src/services/watchlist-service";
-import { useAuthStore } from "@/src/store/useLoginStore";
-import { useQuery } from "@tanstack/react-query";
 
 export default function Statistics() {
-  const { movieWatchlist, seriesWatchlist } = useWatchlist();
-  const { token } = useAuthStore();
-
-  const { data } = useQuery({
-    queryKey: ["watchlist-stats", token],
-    queryFn: () => {
-      if (!token) throw new Error("No token");
-      return getStatistics(token);
-    },
-    enabled: !!token,
-  });
-
-  const avgRating = data?.avgRating ?? "0";
-  const totalRuntime = data?.totalRuntime ?? 0;
+  const { movieWatchlist, seriesWatchlist, avgRating, totalRuntime } = useWatchlist();
 
   return (
     <div className="flex flex-wrap gap-4">
