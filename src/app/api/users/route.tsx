@@ -1,6 +1,5 @@
 import { prisma } from "@/src/lib/prisma";
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
 import { User } from "@/generated/prisma/browser";
 import { checkJwt } from "@/src/utils/check-auth";
 
@@ -66,8 +65,6 @@ export async function PUT(req: Request) {
     if (body.firstName) updateData.firstName = body.firstName;
     if (body.lastName) updateData.lastName = body.lastName;
     if (body.email) updateData.email = body.email;
-    if (body.password)
-      updateData.password = await bcrypt.hash(body.password, 10);
 
     await prisma.user.update({
       where: { id: userId },
