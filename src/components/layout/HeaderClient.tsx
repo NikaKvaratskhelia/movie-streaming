@@ -3,7 +3,6 @@
 import { useState } from "react";
 import SearchInput from "@/src/components/shared/SearchInputCode/search-input";
 import UserLink from "../header/userLink";
-import NavItem from "../header/Navitem";
 
 const navItems = [
   { href: "/", label: "Home" },

@@ -1,30 +1,16 @@
 "use client";
 
 import { useWatchlist } from "@/src/hooks/useWatchlist";
-import { getStatistics } from "@/src/services/watchlist-service";
-import { User } from "@/generated/prisma/browser";
-import { useAuthStore } from "@/src/store/useLoginStore";
-import { useQuery } from "@tanstack/react-query";
-
-interface AccountInfoProps {
-  user: User;
-}
-
-export default function AccountInfo({ user }: AccountInfoProps) {
+import { useSettings } from "../../hooks/useSettings";
+import Loader from "../ui/Loader";
+export default function AccountInfo() {
   const { movieWatchlist, seriesWatchlist } = useWatchlist();
-  const { token } = useAuthStore();
+  const { user } = useSettings();
 
-  useQuery({
-    queryKey: ["watchlist-stats", token],
-    queryFn: () => {
-      if (!token) throw new Error("No token");
-      return getStatistics(token);
-    },
-    enabled: !!token,
-  });
+  if (!user) return <Loader />;
 
   return (
-    <div className="bg-[#13131a] rounded-lg shadow-sm border border-[#232328] p-6 w-full max-w-[600px]">
+    <div className="bg-[#13131a] rounded-lg shadow-sm border border-[#232328] p-6 w-full max-w-150">
       <h2 className="text-xl text-white font-semibold mb-4">My Stats</h2>
 
       <div className="space-y-3">

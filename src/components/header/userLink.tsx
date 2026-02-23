@@ -2,17 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { useAuthStore } from "@/src/store/useLoginStore";
+import { useSettings } from "@/src/hooks/useSettings";
+import Loader from "../ui/Loader";
 
 export default function UserLink() {
-  const { token, hasHydrated, user, fetchUser } = useAuthStore();
+  const { user, loading } = useSettings();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!hasHydrated || !token || user) return;
-    fetchUser(token);
-  }, [hasHydrated, token, user, fetchUser]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -27,9 +23,9 @@ export default function UserLink() {
     };
   }, []);
 
-  if (!hasHydrated) return null;
+  if (loading) return <Loader />;
 
-  const isAuthenticated = !!token;
+  const isAuthenticated = !!user;
 
   if (!isAuthenticated) {
     return (

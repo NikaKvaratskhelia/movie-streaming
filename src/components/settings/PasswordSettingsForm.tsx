@@ -3,26 +3,25 @@
 import { useState } from "react";
 import PasswordInput from "@/src/components/shared/UserSettingsInput";
 import PasswordButton from "@/src/components/shared/UserSettingsButton";
+import { useSettings } from "../../hooks/useSettings";
+import { toast } from "sonner";
 
-interface PasswordSettingsFormProps {
-  saving: boolean;
-  onUpdate: (password: string) => Promise<void>;
-}
-
-export default function PasswordSettingsForm({
-  saving,
-  onUpdate,
-}: PasswordSettingsFormProps) {
+export default function PasswordSettingsForm({}) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const { saving, handlePasswordUpdate } = useSettings();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (newPassword !== confirmPassword) return;
+    if (newPassword !== confirmPassword) {
+      toast.error("Password fields must match!");
+      return;
+    }
 
-    await onUpdate(newPassword);
+    handlePasswordUpdate({ oldPass: currentPassword, newPass: newPassword });
   };
 
   return (
@@ -34,7 +33,7 @@ export default function PasswordSettingsForm({
         rounded-xl
         shadow-lg
         w-full
-        max-w-[600px]
+        max-w-150
       "
     >
       <h2 className="text-xl sm:text-2xl font-bold text-white mb-5 sm:mb-6">

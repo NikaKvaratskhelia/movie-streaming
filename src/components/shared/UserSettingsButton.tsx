@@ -18,6 +18,7 @@ export default function PasswordButton({
         whitespace-nowrap
         disabled:opacity-50
         disabled:cursor-not-allowed
+        cursor-pointer
       "
     >
       {text}
