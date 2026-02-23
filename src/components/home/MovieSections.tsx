@@ -1,5 +1,5 @@
 "use client";
-import StyledMovieCard from "../shared/MovieCardRating";
+import MovieCardRating from "../shared/MovieCardRating";
 import ViewAllLink from "../shared/ViewAllLink";
 import { useMovies } from "@/src/hooks/useMovie";
 
@@ -18,7 +18,7 @@ export default function MovieSections() {
       <div className="flex justify-center">
         <div className="flex flex-wrap gap-8">
           {movies.slice(0, 3).map((movie) => (
-            <StyledMovieCard key={movie.id} movie={movie} />
+            <MovieCardRating key={movie.id} movie={movie} />
           ))}
         </div>
       </div>

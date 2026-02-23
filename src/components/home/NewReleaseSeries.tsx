@@ -24,6 +24,7 @@ export default function NewReleaseSeries({
         <h2 className="text-xl lg:text-2xl font-semibold text-white">
           New Release - Series
         </h2>
+
         <ViewAllLink href="/series" />
       </div>
       <div className="w-full flex justify-center px-4">

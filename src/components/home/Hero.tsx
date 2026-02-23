@@ -5,7 +5,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, EffectFade } from "swiper/modules";
+import { Pagination, Autoplay, EffectFade, Navigation } from "swiper/modules";
 import { Play } from "lucide-react";
 import { useMovies } from "@/src/hooks/useMovie";
 
@@ -19,13 +19,14 @@ const Hero = () => {
   return (
     <section className="h-screen w-full">
       <Swiper
-        modules={[Pagination, Autoplay, EffectFade]}
+        modules={[Pagination, Autoplay, EffectFade, Navigation]}
         slidesPerView={1}
         pagination={{ clickable: true }}
+        navigation={true}
         autoplay={{ delay: 2000, disableOnInteraction: false }}
         effect="fade"
         loop
-        className="h-full"
+        className="h-186"
       >
         {heroMovies.map((movie) => (
           <SwiperSlide key={movie.id}>
