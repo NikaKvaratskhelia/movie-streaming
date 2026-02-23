@@ -19,18 +19,29 @@ export default function PasswordSettingsForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (newPassword !== confirmPassword) {
-      return;
-    }
+
+    if (newPassword !== confirmPassword) return;
 
     await onUpdate(newPassword);
   };
 
   return (
-    <div className="bg-[#13131a] border-[1px] border-[#232328] p-8 rounded-xl shadow-lg w-150">
-      <h2 className="text-2xl font-bold text-white mb-6">Change Password</h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <div
+      className="
+        bg-[#13131a]
+        border border-[#232328]
+        p-5 sm:p-6 lg:p-8
+        rounded-xl
+        shadow-lg
+        w-full
+        max-w-[600px]
+      "
+    >
+      <h2 className="text-xl sm:text-2xl font-bold text-white mb-5 sm:mb-6">
+        Change Password
+      </h2>
+
+      <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
         <PasswordInput
           type="password"
           text="CURRENT PASSWORD"
