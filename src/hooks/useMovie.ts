@@ -78,7 +78,7 @@ export const useMovies = () => {
 
   return {
     movies: moviesQuery.data ?? [],
-    isLoading: moviesQuery.isLoading,
+    isLoading: moviesQuery.isFetching,
     error: moviesQuery.error,
     addMovie: addMovieMutation.mutateAsync,
     removeMovie: removeMovieMutation.mutate,

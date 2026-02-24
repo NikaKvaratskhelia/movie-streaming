@@ -79,7 +79,7 @@ export const useSeries = () => {
 
   return {
     series: seriesQuery.data ?? [],
-    isLoading: seriesQuery.isLoading,
+    isLoading: seriesQuery.isFetching,
     error: seriesQuery.error,
     addSeries: addSeriesMutation.mutateAsync,
     removeSeries: removeSeriesMutation.mutate,
