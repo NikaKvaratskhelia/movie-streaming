@@ -12,11 +12,9 @@ import Loader from "../ui/Loader";
 export default function RecommendationSection() {
   const { data, isLoading } = useRecommendations();
   const swiperRef = useRef<SwiperRef>(null);
-  console.log(useRecommendations());
-  
 
   if (isLoading) return <Loader />;
-  if (!data || data.length === 0) return <p>No recommendations available.</p>;
+  if (!data || data.length === 0) return <p>No recommendations available.</p>;  
 
   return (
     <div className="flex flex-col gap-10 mt-12 lg:mt-20 max-w-[80vw]">

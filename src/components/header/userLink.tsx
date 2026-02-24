@@ -65,6 +65,7 @@ export default function UserLink() {
       {open && (
         <div
           ref={menuRef}
+          onClick={() => setOpen(false)}
           className="absolute right-0 mt-3 w-44 bg-neutral-900 border border-white/10 rounded-xl shadow-xl p-2"
         >
           <Link

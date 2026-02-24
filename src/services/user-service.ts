@@ -69,8 +69,9 @@ export async function updatePassword(
   return res.json();
 }
 
-export async function deleteProfile(token: string | null, pass: string) {
-  if (!token) throw new Error("Token is required!");
+export async function deleteProfile(token: string | null, pass: string | null) {
+  if (!token || !pass || pass.length === 0)
+    throw new Error("Missing required fields!");
 
   if (!pass || pass === "") {
     throw new Error("Password is required!");

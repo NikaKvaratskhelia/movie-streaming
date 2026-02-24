@@ -55,7 +55,7 @@ export function useSettings() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (pass: string) => deleteProfile(token, pass),
+    mutationFn: (pass: string | null) => deleteProfile(token, pass),
 
     onSuccess: () => {
       toast.success("Account deleted successfully");

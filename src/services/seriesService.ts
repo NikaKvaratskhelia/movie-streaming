@@ -12,6 +12,7 @@ export async function fetchSeriesById(id: number | null) {
   const data = await res.json();
 
   if (!res.ok) {
+    
     throw new Error(data.message);
   }
 
