@@ -28,7 +28,7 @@ export default function EpisodesSection({ series }: EpisodesSectionProps) {
   const currentEpisodes = series.seasons[currentSeason]?.episodes || [];
 
   return (
-    <div className="flex flex-col gap-3 relative text-white w-full mt-14">
+    <div className="flex flex-col gap-3 relative text-white w-full mt-8 sm:mt-14">
       <div className="relative">
         <Dropdown
           value={"0"}

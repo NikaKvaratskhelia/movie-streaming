@@ -45,24 +45,24 @@ export default function DetailsPage() {
 
   return (
     <>
-      <div className="text-white flex gap-8 w-full font-regular">
+      <div className="text-white flex flex-col lg:flex-row gap-6 lg:gap-8 w-full font-regular ">
         <Image
           src={data.coverPhoto}
           alt={data.title}
           width={352}
           height={576}
-          className="rounded-[10px] max-w-88 w-full aspect-352/576"
+          className="rounded-[10px] max-w-88 w-full aspect-352/576 mx-auto lg:mx-0"
         />
         <div className="flex flex-col w-full">
           <div className="flex justify-between items-center gap-4">
-            <h3 className="text-[34px] font-semibold text-nowrap select-none">
+            <h3 className="text-[24px] sm:text-[28px] lg:text-[34px] font-semibold text-nowrap select-none">
               {data.title}
             </h3>
 
             <AddToWatchlist type={type} id={id} />
           </div>
 
-          <div className="mt-10 lg:mt-16 mb-5 flex flex-wrap gap-2 select-none">
+          <div className="mt-6 lg:mt-10 mb-5 flex flex-wrap gap-2 select-none">
             {data.genres.map((g: string, index: number) => (
               <div
                 key={index}
@@ -96,23 +96,23 @@ export default function DetailsPage() {
             </div>
           </div>
 
-          <p>{data.description}</p>
+          <p className="text-sm sm:text-base">{data.description}</p>
 
-          <div className="mt-10 flex flex-col gap-y-2">
+          <div className="mt-6 lg:mt-10 flex flex-col gap-y-2 text-sm sm:text-base">
             <div className="flex gap-3">
-              <span className="w-25 text-right">Genre</span>
+              <span className="w-20 sm:w-25 text-right">Genre</span>
               <span>:</span>
               <span>{data.genres.join(", ")}</span>
             </div>
 
             <div className="flex gap-3">
-              <span className="w-25 text-right">Date Released</span>
+              <span className="w-20 sm:w-25 text-right">Date Released</span>
               <span>:</span>
               <span>{data.yearPublished}</span>
             </div>
 
             <div className="flex gap-3">
-              <span className="w-25 text-right">Producer</span>
+              <span className="w-20 sm:w-25 text-right">Producer</span>
               <span>:</span>
               <Link href={`/producers/${data.producer.id}`}>
                 {data.producer.fullName}
@@ -120,7 +120,7 @@ export default function DetailsPage() {
             </div>
 
             <div className="flex gap-3">
-              <span className="w-25 text-right">Cast</span>
+              <span className="w-20 sm:w-25 text-right">Cast</span>
               <span>:</span>
               <span>
                 {Array.isArray(data?.actors) && data.actors.length > 0
