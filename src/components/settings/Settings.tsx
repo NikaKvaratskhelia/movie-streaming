@@ -2,6 +2,7 @@ import ProfileSettingsForm from "./ProfileSettingsForm";
 import PasswordSettingsForm from "./PasswordSettingsForm";
 import AccountInfo from "./AccountInfo";
 import AccountOverview from "./AccountOverview";
+import DeleteAccount from "./DeleteAccount";
 
 export default function Settings() {
   return (
@@ -22,6 +23,7 @@ export default function Settings() {
       </div>
 
       <AccountInfo />
+      <DeleteAccount />
     </div>
   );
 }

@@ -17,7 +17,6 @@ export const useMovies = () => {
       const resp = await fetchMovies();
       return resp.data as Movie[];
     },
-    initialData: [],
   });
 
   const addMovieMutation = useMutation({

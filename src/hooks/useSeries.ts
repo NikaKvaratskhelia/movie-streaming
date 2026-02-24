@@ -18,7 +18,6 @@ export const useSeries = () => {
       const resp = await fetchSeries();
       return resp.data as SeriesWithCount[];
     },
-    initialData: [],
   });
 
   const addSeriesMutation = useMutation({

@@ -3,18 +3,18 @@ import {
   getCurrentUser,
   updatePassword,
   updateProfileSettings,
+  deleteProfile,
 } from "@/src/services/user-service";
 import { useAuthStore } from "@/src/store/useLoginStore";
 import { toast } from "sonner";
 
 export function useSettings() {
-  const { token } = useAuthStore();
+  const { token, logout } = useAuthStore();
   const queryClient = useQueryClient();
 
   const userQuery = useQuery({
     queryKey: ["currentUser", token],
-    queryFn: () => getCurrentUser(token),
-    initialData: [],
+    queryFn: () => getCurrentUser(token!),
     enabled: !!token,
     staleTime: 1000 * 60 * 5,
   });
@@ -33,7 +33,7 @@ export function useSettings() {
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+      queryClient.invalidateQueries({ queryKey: ["currentUser", token] });
     },
 
     onError: (err: Error) => {
@@ -49,17 +49,36 @@ export function useSettings() {
       toast.success("Password updated successfully");
     },
 
-    onError: (err) => {
+    onError: (err: Error) => {
       toast.error(err.message ?? "Failed to update password");
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (pass: string) => deleteProfile(token, pass),
+
+    onSuccess: () => {
+      toast.success("Account deleted successfully");
+
+      queryClient.clear();
+      logout();
+    },
+
+    onError: (err: Error) => {
+      toast.error(err.message || "Failed to delete account");
     },
   });
 
   return {
     user: userQuery.data,
     loading: userQuery.isLoading,
-    saving: profileMutation.isPending || passwordMutation.isPending,
+    saving:
+      profileMutation.isPending ||
+      passwordMutation.isPending ||
+      deleteMutation.isPending,
 
     handleProfileUpdate: profileMutation.mutate,
     handlePasswordUpdate: passwordMutation.mutate,
+    handleDeleteProfile: deleteMutation.mutate,
   };
 }

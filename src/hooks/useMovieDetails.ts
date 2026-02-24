@@ -11,12 +11,11 @@ export const useMovieDetails = (id: number | null) => {
       return resp.data;
     },
     enabled: !!id,
-    initialData: [],
   });
 
   return {
     movie: moviesQuery.data ?? null,
-    isLoading: moviesQuery.isLoading,
+    isLoading: moviesQuery.isFetching,
     error: moviesQuery.error,
   };
 };

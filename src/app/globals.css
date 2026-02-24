@@ -1,6 +1,8 @@
 @import "tailwindcss";
+@import "swiper/css";
+@import "swiper/css/autoplay";
+@import "swiper/css/pagination";
 
-/* ჩვეულებრივი ბულეტები */
 .swiper-pagination-bullet {
   background: white;
   opacity: 0.5;
@@ -8,7 +10,6 @@
   height: 12px;
 }
 
-/* აქტიური */
 .swiper-pagination-bullet-active {
   background: #ff0000;
   opacity: 1;

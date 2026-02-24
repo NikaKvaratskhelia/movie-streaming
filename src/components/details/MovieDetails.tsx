@@ -39,8 +39,8 @@ export default function DetailsPage() {
   const time = useFormatDuration(data?.duration);
 
   if (isLoading) return <Loader />;
-  if (error) return <p>Error loading data</p>;
-  if (!data) return <p>No data found</p>;
+  if (error) return <div className="fixed inset-0 bg-[#000000ad] z-10 text-white flex items-center justify-center"><h1 className="text-[40px]">Error fetching data!</h1></div>;
+  if (!data) return <p className="text-white">No data found</p>;
 
   return (
     <>

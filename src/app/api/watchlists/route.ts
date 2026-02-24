@@ -33,3 +33,25 @@ export async function GET(req: Request) {
     { status: 200 },
   );
 }
+
+export async function DELETE(req: Request) {
+  const userId = await checkJwt(req);
+
+  if (!userId) {
+    return NextResponse.json(
+      { message: "Unauthorized", ok: false },
+      { status: 401 },
+    );
+  }
+
+  await prisma.movieWatchlist.deleteMany({ where: { userId } });
+  await prisma.seriesWatchlist.deleteMany({ where: { userId } });
+
+  return NextResponse.json(
+    {
+      message: "Watchlist cleared successfully!",
+      ok: true,
+    },
+    { status: 200 },
+  );
+}

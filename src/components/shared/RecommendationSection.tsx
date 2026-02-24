@@ -10,11 +10,12 @@ import { useRef } from "react";
 import Loader from "../ui/Loader";
 
 export default function RecommendationSection() {
-  const { data, isLoading, isError } = useRecommendations();
+  const { data, isLoading } = useRecommendations();
   const swiperRef = useRef<SwiperRef>(null);
+  console.log(useRecommendations());
+  
 
   if (isLoading) return <Loader />;
-  if (isError) return <p>Failed to load recommendations.</p>;
   if (!data || data.length === 0) return <p>No recommendations available.</p>;
 
   return (

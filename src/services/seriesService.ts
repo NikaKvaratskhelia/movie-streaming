@@ -5,9 +5,17 @@ export async function fetchSeries() {
   return await res.json();
 }
 
-export async function fetchSeriesById(id: number) {
+export async function fetchSeriesById(id: number | null) {
+  if (!id) throw new Error("Id is required!");
   const res = await fetch(`/api/series/${id}`);
-  return await res.json();
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message);
+  }
+
+  return data;
 }
 
 export async function deleteSeries(id: number) {
