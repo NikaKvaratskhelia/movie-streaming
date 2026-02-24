@@ -31,7 +31,7 @@ const Hero = () => {
         {heroMovies.map((movie) => (
           <SwiperSlide key={movie.id}>
             <div
-              className="h-screen w-full bg-cover bg-center flex flex-col justify-between py-10"
+              className="h-screen w-full bg-cover bg-center flex flex-col gap-[20%] mb-10 py-10"
               style={{ backgroundImage: `url(${movie.coverPhoto})` }}
             >
               <div className="flex mt-[20%] justify-center px-4">
