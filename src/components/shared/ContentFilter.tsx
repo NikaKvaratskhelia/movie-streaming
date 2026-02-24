@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { Movie, Series } from "@/generated/prisma/browser";
+import { Movie } from "@/generated/prisma/browser";
 import { Dropdown } from "./Dropdown";
+import { SeriesWithCount } from "@/src/types/SeriesWithCount";
 
 interface MovieFilterProps {
   contentType: "movie";
@@ -12,8 +13,8 @@ interface MovieFilterProps {
 
 interface SeriesFilterProps {
   contentType: "series";
-  content: Series[];
-  onFilteredContent: (filtered: Series[]) => void;
+  content: SeriesWithCount[];
+  onFilteredContent: (filtered: SeriesWithCount[]) => void;
 }
 
 type Props = MovieFilterProps | SeriesFilterProps;
@@ -66,7 +67,7 @@ export default function ContentFilter({
     if (contentType === "movie") {
       onFilteredContent(filteredContent as Movie[]);
     } else {
-      onFilteredContent(filteredContent as Series[]);
+      onFilteredContent(filteredContent as SeriesWithCount[]);
     }
   }, [filteredContent, onFilteredContent, contentType]);
 

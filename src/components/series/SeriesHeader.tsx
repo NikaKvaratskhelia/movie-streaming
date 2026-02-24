@@ -1,9 +1,9 @@
-import { Series } from "@/generated/prisma/browser";
 import ContentFilter from "@/src/components/shared/ContentFilter";
+import { SeriesWithCount } from "@/src/types/SeriesWithCount";
 
 interface SeriesHeaderProps {
-  series: Series[];
-  onFilteredSeries: (filteredSeries: Series[]) => void;
+  series: SeriesWithCount[];
+  onFilteredSeries: (filteredSeries: SeriesWithCount[]) => void;
 }
 
 export default function SeriesHeader({

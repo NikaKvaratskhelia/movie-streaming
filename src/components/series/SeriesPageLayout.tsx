@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Series } from "@/generated/prisma/browser";
 import SeriesHeader from "./SeriesHeader";
 import SeriesGrid from "./Series";
+import { SeriesWithCount } from "@/src/types/SeriesWithCount";
 
 interface SeriesPageLayoutProps {
-  series: Series[];
+  series: SeriesWithCount[];
   isLoading: boolean;
   error: Error | null;
 }
@@ -16,7 +16,8 @@ export default function SeriesPageLayout({
   isLoading,
   error,
 }: SeriesPageLayoutProps) {
-  const [filteredSeries, setFilteredSeries] = useState<Series[]>(series);
+  const [filteredSeries, setFilteredSeries] =
+    useState<SeriesWithCount[]>(series);
 
   if (isLoading) {
     return (

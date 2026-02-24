@@ -1,11 +1,7 @@
-import { Series } from "@/generated/prisma/browser";
 import SeriesCard from "@/src/components/shared/SeriesCard";
+import { SeriesWithCount } from "@/src/types/SeriesWithCount";
 
-interface SeriesGridProps {
-  series: Series[];
-}
-
-export default function SeriesGrid({ series }: SeriesGridProps) {
+export default function SeriesGrid({ series }: { series: SeriesWithCount[] }) {
   if (series.length === 0) {
     return (
       <div className="text-center py-12 lg:py-20">
