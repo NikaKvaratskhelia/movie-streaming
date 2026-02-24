@@ -12,6 +12,7 @@ export const useSeriesDetails = (id: number | null) => {
       return resp.data;
     },
     enabled: !!id,
+    initialData: [],
   });
 
   return {

@@ -14,6 +14,7 @@ export function useSettings() {
   const userQuery = useQuery({
     queryKey: ["currentUser", token],
     queryFn: () => getCurrentUser(token),
+    initialData: [],
     enabled: !!token,
     staleTime: 1000 * 60 * 5,
   });
