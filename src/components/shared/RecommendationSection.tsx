@@ -10,12 +10,11 @@ import { useRef } from "react";
 import Loader from "../ui/Loader";
 
 export default function RecommendationSection() {
-  const { data, isLoading, isError } = useRecommendations();
+  const { data, isLoading } = useRecommendations();
   const swiperRef = useRef<SwiperRef>(null);
 
   if (isLoading) return <Loader />;
-  if (isError) return <p>Failed to load recommendations.</p>;
-  if (!data || data.length === 0) return <p>No recommendations available.</p>;
+  if (!data || data.length === 0) return <p>No recommendations available.</p>;  
 
   return (
     <div className="flex flex-col gap-10 mt-12 lg:mt-20 max-w-[80vw]">

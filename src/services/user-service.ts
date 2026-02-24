@@ -63,8 +63,34 @@ export async function updatePassword(
 
   if (!res.ok) {
     const err = await res.json();
-    throw new Error(err.message  ?? "Request failed");
+    throw new Error(err.message ?? "Request failed");
   }
 
   return res.json();
+}
+
+export async function deleteProfile(token: string | null, pass: string | null) {
+  if (!token || !pass || pass.length === 0)
+    throw new Error("Missing required fields!");
+
+  if (!pass || pass === "") {
+    throw new Error("Password is required!");
+  }
+
+  const res = await fetch("/api/users/delete", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ pass }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message ?? "Request failed");
+  }
+
+  return data.message;
 }

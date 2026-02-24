@@ -50,7 +50,7 @@ export async function GET(
       );
     } else {
       return NextResponse.json(
-        { message: "Failed to fetch", ok: false },
+        { message: "Failed to fetch ucz idk", ok: false },
         { status: 400 },
       );
     }

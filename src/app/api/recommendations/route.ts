@@ -8,13 +8,28 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
   const userId = await checkJwt(req);
 
-  if (!userId) {
-    const fallback = await prisma.movie.findMany({
-      orderBy: [{ rating: "desc" }, { yearPublished: "desc" }],
-      take: 20,
-    });
+  const fallback = await prisma.movie.findMany({
+    orderBy: [{ rating: "desc" }, { yearPublished: "desc" }],
+    take: 20,
+  });
 
-    return NextResponse.json({ ok: true, data: fallback });
+  const fallbackData = [
+    ...fallback.map((m) => ({
+      id: m.id,
+      title: m.title,
+      description: m.description,
+      coverPhoto: m.coverPhoto,
+      yearPublished: m.yearPublished,
+      duration: m.duration,
+      rating: m.rating,
+      genres: m.genres,
+      producerId: m.producerId,
+      type: "movie" as const,
+    })),
+  ];
+
+  if (!userId) {
+    return NextResponse.json({ ok: true, data: fallbackData });
   }
 
   const [movieWL, seriesWL] = await Promise.all([
@@ -72,12 +87,7 @@ export async function GET(req: Request) {
   const favActors = [...actors];
 
   if (userGenres.length === 0) {
-    const fallback = await prisma.movie.findMany({
-      orderBy: [{ rating: "desc" }, { yearPublished: "desc" }],
-      take: 20,
-    });
-
-    return NextResponse.json({ ok: true, data: fallback });
+    return NextResponse.json({ ok: true, data: fallbackData });
   }
 
   const [movies, series] = await Promise.all([

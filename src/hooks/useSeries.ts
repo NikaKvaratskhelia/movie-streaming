@@ -16,9 +16,8 @@ export const useSeries = () => {
     queryKey,
     queryFn: async () => {
       const resp = await fetchSeries();
-      return resp.data as SeriesWithCount[];
+      return resp.data;
     },
-    initialData: [],
   });
 
   const addSeriesMutation = useMutation({

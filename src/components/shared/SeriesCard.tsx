@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import { Tv, Star, Play } from "lucide-react";
 import AddToWatchlistBtn from "../ui/AddToWatchlistBtn";
@@ -5,6 +7,7 @@ import Link from "next/link";
 import { SeriesWithCount } from "@/src/types/SeriesWithCount";
 
 export default function SeriesCard({ series }: { series: SeriesWithCount }) {
+  
   return (
     <div className="w-[256px] h-auto  overflow-hidden bg-black text-white group">
       <div className="relative w-[256px] h-86 group">

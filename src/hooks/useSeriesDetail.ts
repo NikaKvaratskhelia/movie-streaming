@@ -6,18 +6,16 @@ export const useSeriesDetails = (id: number | null) => {
 
   const seriesQuery = useQuery({
     queryKey,
-    queryFn: async ({ queryKey }) => {
-      const [, movieId] = queryKey as [string, number];
-      const resp = await fetchSeriesById(movieId);
+    queryFn: async () => {
+      const resp = await fetchSeriesById(id);
       return resp.data;
     },
     enabled: !!id,
-    initialData: [],
   });
 
   return {
     series: seriesQuery.data ?? null,
-    isLoading: seriesQuery.isLoading,
+    isLoading: seriesQuery.isFetching,
     error: seriesQuery.error,
   };
 };
