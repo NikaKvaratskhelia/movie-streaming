@@ -14,7 +14,7 @@ export default function ProducersPage() {
   return (
     <div className="min-h-screen bg-black text-white pt-24 px-4">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">Producers</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center">Producers</h1>
         <ProducerList producers={producers} />
       </div>
     </div>
