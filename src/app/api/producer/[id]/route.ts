@@ -10,7 +10,10 @@ export async function GET(
 
   const existingProducer = await prisma.producer.findUnique({
     where: { id: Number(id) },
-    include: { movies: true },
+    include: { 
+      movies: true,
+      series: true,
+    },
   });
 
   if (!existingProducer)
@@ -20,7 +23,7 @@ export async function GET(
     );
 
   return NextResponse.json(
-    { message: "Producer fetched successfully", ok: true },
+    { message: "Producer fetched successfully", ok: true, data: existingProducer },
     { status: 200 },
   );
 }
