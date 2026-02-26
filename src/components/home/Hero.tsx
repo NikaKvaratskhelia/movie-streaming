@@ -10,7 +10,7 @@ import { Play } from "lucide-react";
 import { useMovies } from "@/src/hooks/useMovie";
 import { useRef } from "react";
 
-const Hero = () => {
+export default function Hero() {
   const { movies, isLoading } = useMovies();
   const swiperRef = useRef<SwiperRef>(null);
 
@@ -32,12 +32,12 @@ const Hero = () => {
         {heroMovies.map((movie) => (
           <SwiperSlide key={movie.id}>
             <div
-              className="h-screen w-full bg-cover bg-center flex flex-col gap-[20%] mb-10 py-10"
+              className="h-screen w-full bg-cover bg-center flex flex-col px-20 gap-20 mb-10"
               style={{ backgroundImage: `url(${movie.coverPhoto})` }}
             >
-              <div className="flex mt-[20%] justify-center px-4">
+              <div className="flex mt-10 lg:mt-50 justify-center px-4">
                 <div className="flex flex-wrap gap-4 lg:gap-6">
-                  <button 
+                  <button
                     onClick={() => swiperRef.current?.swiper.slideNext()}
                     className="flex items-center justify-center w-full sm:w-55.75 h-14 lg:h-19 bg-[#FF0000] text-white text-[18px] lg:text-[24px] font-bold gap-2.5"
                   >
@@ -47,7 +47,7 @@ const Hero = () => {
                     </span>
                   </button>
 
-                  <button 
+                  <button
                     onClick={() => swiperRef.current?.swiper.slideNext()}
                     className="flex items-center justify-center w-full sm:w-55.75 h-14 lg:h-19 border-[3px] border-[#FF0000] text-white text-[18px] lg:text-[24px] font-bold"
                   >
@@ -56,7 +56,7 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div className="w-full p-6 sm:p-10 flex justify-start">
+              <div className="w-full p-10 flex justify-start">
                 <div className="max-w-2xl text-white">
                   <h1 className="text-[22px] sm:text-[26px] lg:text-[32px] font-bold mb-4 leading-tight">
                     {movie.title}
@@ -86,7 +86,6 @@ const Hero = () => {
         ))}
       </Swiper>
 
-      {/* Custom Navigation Arrows */}
       <button
         onClick={() => swiperRef.current?.swiper.slidePrev()}
         className="absolute left-4 top-[45%] -translate-y-1/2 z-10 flex items-center justify-center w-16 h-16 rounded-full bg-[#FF0000] backdrop-blur-sm border-2 border-white/30 text-white hover:bg-[#CC0000] hover:scale-110 hover:shadow-xl hover:shadow-red-500/25 active:scale-95 transition-all duration-300 cursor-pointer"
@@ -128,6 +127,4 @@ const Hero = () => {
       </button>
     </section>
   );
-};
-
-export default Hero;
+}
