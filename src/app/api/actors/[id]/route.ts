@@ -11,6 +11,7 @@ export async function GET(
     where: { id: Number(id) },
     include: {
       movies: true,
+      series: true,
     },
   });
 
@@ -20,7 +21,7 @@ export async function GET(
       { status: 404 },
     );
 
-  return NextResponse.json({ wantedActor, ok: true }, { status: 200 });
+  return NextResponse.json(wantedActor, { status: 200 });
 }
 
 export async function PUT(
