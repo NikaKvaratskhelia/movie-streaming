@@ -7,8 +7,7 @@ export default function ResultCard({
 }: {
   data: (Movie & { type: "movie" }) | (Series & { type: "series" });
 }) {
-  const href =
-    data.type === "series" ? `/series/${data.id}` : `/movies/${data.id}`;
+  const href = `/details/${data.type}/${data.id}`;
   return (
     <Link
       href={href}
