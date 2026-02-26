@@ -1,9 +1,3 @@
-interface ApiResponse<T> {
-  message: string;
-  ok: boolean;
-  data?: T;
-}
-
 export async function getProducers() {
   const res = await fetch("/api/producer");
 
@@ -11,7 +5,7 @@ export async function getProducers() {
     throw new Error("Failed to fetch producers");
   }
 
-  const data: ApiResponse<any[]> = await res.json();
+  const data = await res.json();
 
   if (!data.ok) {
     throw new Error(data.message);

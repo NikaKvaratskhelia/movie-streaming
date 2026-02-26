@@ -1,7 +1,8 @@
+import { Movie } from "@/generated/prisma/browser";
 import MovieCard from "@/src/components/shared/MovieCard";
 
 interface MovieListProps {
-  movies: any[];
+  movies: Movie[];
 }
 
 export default function MovieList({ movies }: MovieListProps) {

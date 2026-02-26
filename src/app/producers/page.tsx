@@ -3,13 +3,18 @@
 import { useProducers } from "@/src/hooks/useProducers";
 import ProducerList from "@/src/components/producers/ProducerList";
 import ErrorDisplay from "../../components/producers/ErrorDisplay";
+import { Loader } from "lucide-react";
 
 export default function ProducersPage() {
-  const { producers, error } = useProducers();
+  const { data: producers, error, isLoading } = useProducers();
+
+  if (isLoading) return <Loader />;
 
   if (error) {
-    return <ErrorDisplay error={error} />;
+    return <ErrorDisplay error={error.message} />;
   }
+
+  if (!producers) return null;
 
   return (
     <div className="min-h-screen bg-black text-white pt-24 px-4">

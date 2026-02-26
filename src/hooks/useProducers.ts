@@ -1,25 +1,18 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getProducers } from "../services/producer-service";
 
+export interface Producer {
+  id: number;
+  fullName: string;
+  nationality: string;
+  dateOfBirth: string;
+  debutYear: number;
+}
+
 export const useProducers = () => {
-  const [producers, setProducers] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchProducers = async () => {
-      try {
-        const data = await getProducers();
-        setProducers(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to fetch producers");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducers();
-  }, []);
-
-  return { producers, loading, error };
+  return useQuery({
+    queryKey: ["producers"],
+    queryFn: getProducers,
+    staleTime: 1000 * 60 * 5,
+  });
 };

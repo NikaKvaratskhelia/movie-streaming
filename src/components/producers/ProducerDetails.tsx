@@ -5,23 +5,19 @@ import ErrorDisplay from "./ErrorDisplay";
 import ProducerInfo from "./ProducerInfo";
 import MovieList from "./MovieList";
 import SeriesList from "./SeriesList";
+import { Loader } from "lucide-react";
 
-interface ProducerDetailsProps {
-  id: string;
-}
+export default function ProducerDetails({ id }: { id: string }) {
+  const { data: producer, error, isLoading } = useProducerDetails(id);
 
-export default function ProducerDetails({ id }: ProducerDetailsProps) {
-  const { producer, error } = useProducerDetails(id);
-
+  if (isLoading) return <Loader />;
 
   if (error) {
-    return <ErrorDisplay error={error} />;
+    return <ErrorDisplay error={error.message} />;
   }
 
   if (!producer) {
-    return (
-      <div className="text-white text-xl">Producer not found</div>
-    );
+    return <div className="text-white text-xl">Producer not found</div>;
   }
 
   return (

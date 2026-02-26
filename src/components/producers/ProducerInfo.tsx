@@ -13,28 +13,48 @@ interface ProducerInfoProps {
 
 export default function ProducerInfo({ producer }: ProducerInfoProps) {
   return (
-    <div className="bg-black border-2 border-red-600 rounded-lg p-8 mb-8">
-      <h1 className="text-4xl font-bold mb-6">{producer.fullName}</h1>
-      <div className="flex justify-around flex-wrap">
-        <div>
-          <span className="text-gray-500">Nationality:</span>
-          <p className="text-lg">{producer.nationality}</p>
-        </div>
-        <div>
-          <span className="text-gray-500">Date of Birth:</span>
-          <p className="text-lg">
-            {new Date(producer.dateOfBirth).toLocaleDateString()}
-          </p>
-        </div>
-        <div>
-          <span className="text-gray-500">Debut Year:</span>
-          <p className="text-lg">{producer.debutYear}</p>
-        </div>
-        <div>
-          <span className="text-gray-500">Total Movies:</span>
-          <p className="text-lg">{producer.movies.length}</p>
+    <section className="relative mb-12 overflow-hidden rounded-3xl bg-linear-to-br from-zinc-900 via-black to-zinc-950 border border-zinc-800 p-10">
+      <div className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-red-600/10 blur-3xl" />
+
+      <div className="relative z-10">
+        <h1 className="text-5xl font-extrabold tracking-tight text-white">
+          {producer.fullName}
+        </h1>
+
+        <div className="mt-6 h-px w-full bg-linear-to-r from-transparent via-zinc-700 to-transparent" />
+
+        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+          <InfoBlock label="Nationality" value={producer.nationality} />
+
+          <InfoBlock
+            label="Born"
+            value={new Date(producer.dateOfBirth).toLocaleDateString()}
+          />
+
+          <InfoBlock label="Debut" value={producer.debutYear} />
+
+          <InfoBlock label="Movies" value={producer.movies.length} />
         </div>
       </div>
+    </section>
+  );
+}
+
+function InfoBlock({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | number;
+}) {
+  return (
+    <div className="group">
+      <p className="text-xs uppercase tracking-widest text-zinc-500 mb-2">
+        {label}
+      </p>
+      <p className="text-2xl font-semibold text-zinc-200 transition-colors duration-300 group-hover:text-red-500">
+        {value}
+      </p>
     </div>
   );
 }

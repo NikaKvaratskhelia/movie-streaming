@@ -1,9 +1,10 @@
 "use client";
 
+import { Producer } from "@/generated/prisma/browser";
 import ProducerCard from "@/src/components/shared/ProducerCard";
 
 interface ProducerListProps {
-  producers: any[];
+  producers: Producer[];
 }
 
 export default function ProducerList({ producers }: ProducerListProps) {
