@@ -12,7 +12,7 @@ export default function Episodes({
 }) {
   return (
     <div
-      className={`${active ? "bg-[#ff0000] text-white" : "bg-white text-black"} p-2.5 pl-4 rounded-md flex gap-4 cursor-pointer select-none max-w-136 w-full`}
+      className={`${active ? "bg-[#ff0000] text-white" : "bg-white text-black"} p-2.5 pl-4 rounded-md flex gap-4 cursor-pointer select-none max-w-134 w-full`}
       onClick={onClick}
     >
       <div className="flex gap-2">

@@ -21,7 +21,7 @@ interface EpisodesSectionProps {
 
 export default function EpisodesSection({ series }: EpisodesSectionProps) {
   const [currentEp, setCurrentEp] = useState(0);
-  const [currentSeason, setCurrentSeason] = useState(0);
+  const [currentSeason, setCurrentSeason] = useState(1);
 
   if (!series?.seasons?.length) return null;
 
@@ -31,12 +31,12 @@ export default function EpisodesSection({ series }: EpisodesSectionProps) {
     <div className="flex flex-col gap-3 relative text-white w-full mt-8 sm:mt-14">
       <div className="relative">
         <Dropdown
-          value={"0"}
-          options={series.seasons.map((s, idx) => ({
+          value={currentSeason.toString()}
+          options={series.seasons.map((s) => ({
             label: `Season ${s.countInSerie}`,
-            value: idx.toString(),
+            value: s.countInSerie.toString(),
           }))}
-          onChange={(val) => setCurrentSeason(parseInt(val))}
+          onChange={(val) => setCurrentSeason(Number(val))}
         />
       </div>
 
