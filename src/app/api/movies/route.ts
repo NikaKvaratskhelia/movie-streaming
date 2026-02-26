@@ -2,12 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/src/lib/prisma";
 
 export async function GET() {
-  const data = await prisma.movie.findMany({
-    include: {
-      producer: true,
-      actors: true,
-    },
-  });
+  const data = await prisma.movie.findMany();
 
   if (data.length === 0) {
     return NextResponse.json(
