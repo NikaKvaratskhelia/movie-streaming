@@ -8,7 +8,6 @@ const navItems = [
   { href: "/series", label: "Series" },
   { href: "/producers", label: "Producers" },
   { href: "/actors", label: "Actors" },
-  { href: "/country", label: "Country" },
 ];
 
 export default function Header() {
