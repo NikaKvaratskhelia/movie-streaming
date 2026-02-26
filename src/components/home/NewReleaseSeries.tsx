@@ -29,7 +29,7 @@ export default function NewReleaseSeries({
       </div>
       <div className="w-full flex justify-center px-4">
         <div className="flex flex-wrap gap-8 justify-center">
-          {series.slice(0, limit).map((seriesItem) => (
+          {series.slice(0, limit).map((seriesItem: SeriesWithCount) => (
             <SeriesCard key={seriesItem.id} series={seriesItem} />
           ))}
         </div>

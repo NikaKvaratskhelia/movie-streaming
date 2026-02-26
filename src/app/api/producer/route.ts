@@ -12,7 +12,7 @@ export async function GET() {
   }
 
   return NextResponse.json(
-    { message: "Producers fetched successfully", ok: true },
+    { message: "Producers fetched successfully", ok: true, data },
     { status: 200 },
   );
 }
