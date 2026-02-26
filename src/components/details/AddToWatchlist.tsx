@@ -38,8 +38,7 @@ export default function AddToWatchlist({
   return (
 <button
   className="
-    flex items-center justify-center gap-2
-    p-4 bg-[#ff0000] rounded-2xl cursor-pointer text-nowrap
+    flex items-center justify-center gap-2 bg-[#ff0000] rounded-2xl cursor-pointer text-nowrap
 
     sm:p-4 p-2
     sm:text-base text-sm
@@ -50,14 +49,14 @@ export default function AddToWatchlist({
 >
   {isInWatchlist ? (
     <>
-      <Check className="w-5 sm:w-5 w-4" />
+      <Check className="w-5 sm:w-5" />
       <p className="ml-2">
         Added To Watchlist
       </p>
     </>
   ) : (
     <>
-      <Plus className="w-5 sm:w-5 w-4" />
+      <Plus className="w-5 sm:w-5" />
       <p className="ml-2 sm:block hidden">
         Add To Watchlist
       </p>
