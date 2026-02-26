@@ -94,3 +94,38 @@ export async function deleteProfile(token: string | null, pass: string | null) {
 
   return data.message;
 }
+
+export async function deleteUserADMIN(token: string | null, id: string | null) {
+  if (!token) throw new Error("Token is required");
+  if (!id) throw new Error("User ID is required!");
+
+  const res = await fetch("/api/users/admin", {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ id }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) throw new Error(data.message);
+
+  return data;
+}
+
+export async function getAllUsersADMIN(token: string | null) {
+  if (!token) throw new Error("Token is required");
+
+  const res = await fetch("/api/users/admin", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data  = await res.json();
+
+  if (!res.ok) throw new Error(data.message);
+
+  return data.data;
+}
