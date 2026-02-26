@@ -9,7 +9,7 @@ import Loader from "../ui/Loader";
 export default function CardsLayout() {
   const { movies, isLoading: loading1 } = useMovies();
   const { series, isLoading: loading2 } = useSeries();
-  const { data: producers, isLoading: loading3 } = useProducers();
+  const { producers, isLoading: loading3 } = useProducers();
 
   const isLoading = loading1 || loading2 || loading3;
 
