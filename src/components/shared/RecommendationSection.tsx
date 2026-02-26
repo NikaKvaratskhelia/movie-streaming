@@ -14,10 +14,10 @@ export default function RecommendationSection() {
   const swiperRef = useRef<SwiperRef>(null);
 
   if (isLoading) return <Loader />;
-  if (!data || data.length === 0) return <p>No recommendations available.</p>;  
+  if (!data || data.length === 0) return <p>No recommendations available.</p>;
 
   return (
-    <div className="flex flex-col gap-10 mt-12 lg:mt-20 max-w-[80vw]">
+    <div className="flex flex-col gap-10 mt-12 lg:mt-20 max-w-[82vw]">
       <h1 className="text-white text-[24px] font-bold px-10">
         Recommendations
       </h1>
@@ -26,10 +26,9 @@ export default function RecommendationSection() {
           ref={swiperRef}
           modules={[Autoplay]}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
-          pagination={{ clickable: true }}
-          loop={true}
-          slidesPerView={4}
-          spaceBetween={32}
+          loop
+          slidesPerView={1}
+          spaceBetween={16}
           breakpoints={{
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
