@@ -47,6 +47,8 @@ export default function UserLink() {
   }
 
   const initials = user?.firstName?.[0]?.toUpperCase() || "U";
+  
+  const isAdmin = user?.role === "ADMIN";
 
   return (
     <div className="relative ml-2">
@@ -80,6 +82,14 @@ export default function UserLink() {
           >
             Settings
           </Link>
+          {isAdmin && (
+            <Link
+              href={"/admin"}
+              className="block px-3 py-2 rounded-lg hover:bg-white/10 transition text-white"
+            >
+              Admin Dashboard
+            </Link>
+          )}
         </div>
       )}
     </div>
