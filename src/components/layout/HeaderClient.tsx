@@ -19,7 +19,7 @@ export default function HeaderClient() {
   return (
     <>
       <div className="hidden md:flex items-center gap-6">
-        <div className="w-65">
+        <div className="w-70">
           <SearchInput />
         </div>
         <UserLink />

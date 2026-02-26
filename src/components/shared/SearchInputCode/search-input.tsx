@@ -12,15 +12,16 @@ const SearchInput = () => {
   const filteredItems = useMemo(() => {
     const combined = [
       ...movies.map((m) => ({ ...m, type: "movie" as const })),
-      ...series.map((s) => ({ ...s, type: "series" as const })),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ...series.map((s: any) => ({ ...s, type: "series" as const })),
     ];
     return combined.filter((item) =>
-      item.title.toLowerCase().includes(searchTerm.toLowerCase()),
+      item.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [movies, series, searchTerm]);
 
   return (
-    <div className="relative w-70">
+    <div className="relative w-auto">
       <div className="relative">
         <input
           type="text"
