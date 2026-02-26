@@ -32,7 +32,7 @@ export default function Hero() {
         {heroMovies.map((movie) => (
           <SwiperSlide key={movie.id}>
             <div
-              className="h-screen w-full bg-cover bg-center flex flex-col px-20 gap-20 mb-10"
+              className=" h-screen w-full  bg-cover bg-center flex flex-col justify-end lg:justify-start px-4 sm:px-10 lg:px-20 gap-6 lg:gap-20 mb-6 lg:mb-1 "
               style={{ backgroundImage: `url(${movie.coverPhoto})` }}
             >
               <div className="flex mt-10 lg:mt-50 justify-center px-4">
