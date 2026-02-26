@@ -25,7 +25,8 @@ export default function EpisodesSection({ series }: EpisodesSectionProps) {
 
   if (!series?.seasons?.length) return null;
 
-  const currentEpisodes = series.seasons[currentSeason]?.episodes || [];
+  const currentEpisodes =
+    series.seasons[currentSeason]?.episodes.sort((a, b) => a.countInSeason - b.countInSeason) || [];
 
   return (
     <div className="flex flex-col gap-3 relative text-white w-full mt-8 sm:mt-14">
