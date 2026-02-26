@@ -11,14 +11,12 @@ import { useFormatDuration } from "@/src/hooks/useFormatDuration";
 import Link from "next/link";
 import { Actor } from "@/generated/prisma/browser";
 import EpisodesSection from "./EpisodesSection";
-import { useSettings } from "@/src/hooks/useSettings";
 
 export default function DetailsPage() {
   const params = useParams();
 
   const type = params?.type as "movie" | "series" | undefined;
   const id = params?.id ? Number(params.id) : null;
-  const { user } = useSettings();
 
   const isMovie = type === "movie";
 
@@ -39,7 +37,6 @@ export default function DetailsPage() {
   const error = isMovie ? movieError : seriesError;
 
   const time = useFormatDuration(data?.duration);
-  const isAdmin = user.role === "ADMIN";
 
   if (isLoading) return <Loader />;
   if (error)
@@ -66,24 +63,7 @@ export default function DetailsPage() {
               {data.title}
             </h3>
 
-            <div className="flex gap-2 flex-wrap">
-              {isAdmin && (
-                <Link
-                  href={`/edit/${type}/${id}`}
-                  className="
-    flex items-center justify-center gap-2 bg-[#ff0000] rounded-2xl cursor-pointer text-nowrap
-
-    sm:p-4 p-2
-    sm:text-base text-sm
-
-    max-[400px]:px-3
-  "
-                >
-                  Edit {type}
-                </Link>
-              )}
-              <AddToWatchlist type={type} id={id} />
-            </div>
+            <AddToWatchlist type={type} id={id} />
           </div>
 
           <div className="mt-6 lg:mt-10 mb-5 flex flex-wrap gap-2 select-none">
