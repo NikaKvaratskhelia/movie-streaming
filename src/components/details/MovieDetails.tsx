@@ -38,9 +38,13 @@ export default function DetailsPage() {
 
   const time = useFormatDuration(data?.duration);
 
-
   if (isLoading) return <Loader />;
-  if (error) return <div className="fixed inset-0 bg-[#000000] z-10 text-white flex items-center justify-center"><h1 className="text-[40px]">Error fetching data!</h1></div>;
+  if (error)
+    return (
+      <div className="fixed inset-0 bg-[#000000] z-10 text-white flex items-center justify-center">
+        <h1 className="text-[40px]">Error fetching data!</h1>
+      </div>
+    );
   if (!data) return <p className="text-white">No data found</p>;
 
   return (
@@ -55,7 +59,7 @@ export default function DetailsPage() {
         />
         <div className="flex flex-col w-full">
           <div className="flex justify-between items-center gap-4">
-            <h3 className="text-[24px] sm:text-[28px] lg:text-[34px] font-semibold text-nowrap select-none">
+            <h3 className="text-[24px] sm:text-[28px] lg:text-[34px] font-semibold text-anywhere select-none">
               {data.title}
             </h3>
 

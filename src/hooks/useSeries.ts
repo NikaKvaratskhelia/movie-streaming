@@ -7,6 +7,7 @@ import {
   updateSeries,
 } from "@/src/services/seriesService";
 import { SeriesWithCount } from "../types/SeriesWithCount";
+import { toast } from "sonner";
 
 export const useSeries = () => {
   const queryClient = useQueryClient();
@@ -22,67 +23,108 @@ export const useSeries = () => {
 
   const addSeriesMutation = useMutation({
     mutationFn: (series: SeriesWithCount) => addSeries(series),
+
     onMutate: async (newSeries) => {
       await queryClient.cancelQueries({ queryKey });
-      const previous = queryClient.getQueryData(queryKey);
+
+      const previous = queryClient.getQueryData<SeriesWithCount[]>(queryKey);
+
       queryClient.setQueryData<SeriesWithCount[]>(queryKey, (old = []) => [
         ...old,
         newSeries,
       ]);
+
       return { previous };
     },
+
     onError: (_err, _series, context) => {
       if (context?.previous) {
         queryClient.setQueryData(queryKey, context.previous);
       }
+      toast.error("Failed to add series");
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey }),
+
+    onSuccess: () => {
+      toast.success("Series added successfully");
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
   });
 
   const removeSeriesMutation = useMutation({
     mutationFn: (id: number) => deleteSeries(id),
+
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey });
-      const previous = queryClient.getQueryData(queryKey);
+
+      const previous = queryClient.getQueryData<SeriesWithCount[]>(queryKey);
+
       queryClient.setQueryData<SeriesWithCount[]>(queryKey, (old = []) =>
         old.filter((s) => s.id !== id),
       );
+
       return { previous };
     },
+
     onError: (_err, _id, context) => {
       if (context?.previous) {
         queryClient.setQueryData(queryKey, context.previous);
       }
+      toast.error("Failed to delete series");
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey }),
+
+    onSuccess: () => {
+      toast.success("Series deleted successfully");
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
   });
 
   const updateSeriesMutation = useMutation({
     mutationFn: ({ id, data }: { id: number; data: Partial<Series> }) =>
       updateSeries(id, data),
+
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey });
-      const previous = queryClient.getQueryData(queryKey);
+
+      const previous = queryClient.getQueryData<SeriesWithCount[]>(queryKey);
+
       queryClient.setQueryData<SeriesWithCount[]>(queryKey, (old = []) =>
         old.map((s) => (s.id === id ? { ...s, ...data } : s)),
       );
+
       return { previous };
     },
+
     onError: (_err, _vars, context) => {
       if (context?.previous) {
         queryClient.setQueryData(queryKey, context.previous);
       }
+      toast.error("Failed to update series");
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey }),
+
+    onSuccess: () => {
+      toast.success("Series updated successfully");
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
   });
 
   return {
     series: seriesQuery.data ?? [],
-    isLoading: seriesQuery.isFetching,
+    isLoading: seriesQuery.isLoading,
     error: seriesQuery.error,
+
     addSeries: addSeriesMutation.mutateAsync,
     removeSeries: removeSeriesMutation.mutate,
     updateSeries: updateSeriesMutation.mutate,
+
     isAddingSeries: addSeriesMutation.isPending,
     isRemovingSeries: removeSeriesMutation.isPending,
     isUpdatingSeries: updateSeriesMutation.isPending,
