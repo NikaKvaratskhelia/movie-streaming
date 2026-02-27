@@ -2,12 +2,12 @@
 
 import { useAdminUsers } from "@/src/hooks/useAdminUsers";
 import { DynamicTable } from "./Table";
-import { Loader } from "lucide-react";
+import Loader from "../ui/Loader";
 
 export default function UsersTable() {
-  const { users, loading, handleDeleteUser, deleting } = useAdminUsers();
+  const { users, loading, handleDeleteUser } = useAdminUsers();
 
-  if (loading || deleting) return <Loader />;
+  if (loading) return <Loader />;
 
   return (
     <DynamicTable

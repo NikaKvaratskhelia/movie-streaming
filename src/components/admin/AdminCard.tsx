@@ -7,7 +7,7 @@ export default function AdminCard({
   count: string;
 }) {
   return (
-    <div className="flex flex-col p-5 rounded-[10px] bg-[#13131A] w-full">
+    <div className="w-70 flex flex-col p-5 rounded-[10px] bg-[#13131A]">
       <h2 className="text-[14px] font-medium uppercase tracking-[0.2em] text-white/40">
         Total {text}
       </h2>

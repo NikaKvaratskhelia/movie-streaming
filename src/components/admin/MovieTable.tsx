@@ -4,9 +4,9 @@ import Loader from "../ui/Loader";
 import { DynamicTable } from "./Table";
 
 export default function MovieTable() {
-  const { movies, isLoading, isRemovingMovie, isUpdatingMovie, removeMovie } = useMovies();
+  const { movies, isLoading, removeMovie } = useMovies();
 
-  if (isLoading || isRemovingMovie || isUpdatingMovie) return <Loader />;
+  if (isLoading) return <Loader />;
   return (
     <DynamicTable
       data={movies ?? []}

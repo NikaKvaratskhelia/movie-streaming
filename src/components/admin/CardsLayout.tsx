@@ -15,19 +15,10 @@ export default function CardsLayout() {
 
   if (isLoading) return <Loader />;
   return (
-    <div className="flex justify-between gap-5 items-center max-w-300 mx-auto my-30">
-      <AdminCard
-        text="Movies"
-        count={movies.length.toString()}
-      />
-      <AdminCard
-        text="Series"
-        count={series.length.toString()}
-      />
-      <AdminCard
-        text="Users"
-        count={producers.length.toString()}
-      />
+    <div className="flex gap-6 flex-wrap items-center justify-between mt-4">
+      <AdminCard text="Movies" count={movies.length.toString()} />
+      <AdminCard text="Series" count={series.length.toString()} />
+      <AdminCard text="Users" count={producers.length.toString()} />
     </div>
   );
-}
+} 

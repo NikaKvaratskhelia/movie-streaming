@@ -1,5 +1,6 @@
 import { Actor } from "@/generated/prisma/browser";
 import { prisma } from "@/src/lib/prisma";
+import { checkJwt } from "@/src/utils/check-auth";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -70,6 +71,15 @@ export async function DELETE(
 ) {
   const { id } = await params;
 
+  const userId = await checkJwt(req);
+
+  if (!userId) {
+    return NextResponse.json(
+      { message: "Unauthorized", ok: false },
+      { status: 401 },
+    );
+  }
+
   const wantedActor = await prisma.actor.findUnique({
     where: { id: Number(id) },
   });
@@ -80,12 +90,11 @@ export async function DELETE(
       { status: 404 },
     );
 
-  const deletedActor = prisma.actor.delete({ where: { id: Number(id) } });
+  await prisma.actor.delete({ where: { id: Number(id) } });
 
   return NextResponse.json(
     {
-      deletedActor,
-      message: "Actor updated successfully!",
+      message: "Actor updated successfully! jajaja",
       ok: true,
     },
     { status: 200 },

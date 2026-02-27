@@ -22,23 +22,7 @@ export function AdminHeader() {
 
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <Link href="/admin" className="group flex items-center gap-3">
-            <div className="relative flex h-8 w-8 items-center justify-center">
-              <div className="absolute inset-0 rounded-sm bg-red-600 opacity-20 blur-sm transition-all group-hover:opacity-40 group-hover:blur-md" />
-              <div className="relative flex h-8 w-8 items-center justify-center rounded-sm border border-red-600/40 bg-red-600/10">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#ef4444"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                >
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-              </div>
-            </div>
-            <span className="text-[11px] font-black uppercase tracking-[0.25em] text-white">
+            <span className="text-[18px] font-black uppercase tracking-[0.25em] text-white">
               Admin Panel
             </span>
           </Link>
