@@ -67,7 +67,6 @@ export function DynamicTable<
 
                 {headers.map((key) => {
                   const value = row[key];
-
                   const display =
                     typeof value === "string" && value.length > 70
                       ? value.slice(0, 70) + "…"
