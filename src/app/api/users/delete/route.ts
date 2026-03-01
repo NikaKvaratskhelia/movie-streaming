@@ -24,7 +24,7 @@ export async function DELETE(req: Request) {
 
   const { pass } = await req.json();
 
-  const isValid = bcrypt.compare(pass, user.password);
+  const isValid = await bcrypt.compare(pass, user.password);
 
   if (!isValid) {
     return NextResponse.json(

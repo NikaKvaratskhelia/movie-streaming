@@ -3,15 +3,15 @@
 import { useMovies } from "@/src/hooks/useMovie";
 import { useSeries } from "@/src/hooks/useSeries";
 import AdminCard from "./AdminCard";
-import { useProducers } from "@/src/hooks/useProducers";
 import Loader from "../ui/Loader";
+import { useAdminUsers } from "@/src/hooks/useAdminUsers";
 
 export default function CardsLayout() {
   const { movies, isLoading: loading1 } = useMovies();
   const { series, isLoading: loading2 } = useSeries();
-  const { producers, isLoading: loading3 } = useProducers();
+  const { users, loading } = useAdminUsers();
 
-  const isLoading = loading1 || loading2 || loading3;
+  const isLoading = loading1 || loading2 || loading;
 
   if (isLoading) return <Loader />;
   return (
