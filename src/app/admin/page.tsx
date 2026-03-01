@@ -1,7 +1,7 @@
-import React from 'react'
+import Hero from "@/src/components/admin/Hero";
 
 export default function sidebaraq() {
   return (
-    <div className='text-white'>side bar aq</div>
-  )
+      <Hero />
+  );
 }
