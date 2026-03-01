@@ -6,12 +6,17 @@ import { useProducers } from "@/src/hooks/useProducers";
 import { useSeries } from "@/src/hooks/useSeries";
 import { CircleUser, Film, Tv, Users } from "lucide-react";
 import StatisticCard from "./StatisticCard";
+import Loader from "../ui/Loader";
 
 export default function StatisticsLayout() {
-  const { users } = useAdminUsers();
-  const { movies } = useMovies();
-  const { series } = useSeries();
-  const { producers } = useProducers();
+  const { users, loading } = useAdminUsers();
+  const { movies, isLoading } = useMovies();
+  const { series, isLoading: loading1 } = useSeries();
+  const { producers, isLoading: loading2 } = useProducers();
+
+  const showLoader = loading || isLoading || loading1 || loading2;
+
+  if (showLoader) return <Loader />;
 
   const statistics = [
     {

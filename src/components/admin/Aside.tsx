@@ -94,7 +94,7 @@ export default function Aside() {
         <button
           type="button"
           onClick={() => setCollapsed((v) => !v)}
-          className={`grid h-9 w-9 place-items-center rounded-xl border border-white/5 bg-white/0 text-white/70 hover:bg-white/5 hover:text-white transition cursor-pointer ${collapsed ? "rotate-180" : ""}`}
+          className={`sm:grid h-9 w-9 place-items-center rounded-xl border border-white/5 bg-white/0 text-white/70 hover:bg-white/5 hover:text-white transition cursor-pointer hidden ${collapsed ? "rotate-180" : ""}`}
           title={collapsed ? "Expand" : "Collapse"}
         >
           <ChevronLeft size={18} />
