@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="relative h-48 overflow-hidden rounded-xl">
+    <section className="relative h-58 overflow-hidden rounded-xl">
       <Image
         src={bg}
         alt="Dashboard banner"

@@ -1,7 +1,5 @@
-import Hero from "@/src/components/admin/Hero";
+import AdminPage from "@/src/components/admin/AdminPage";
 
 export default function sidebaraq() {
-  return (
-      <Hero />
-  );
+  return <AdminPage />;
 }
