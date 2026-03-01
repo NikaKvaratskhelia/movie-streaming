@@ -1,22 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useMovies } from "@/src/hooks/useMovie";
 import { Movie } from "@/generated/prisma/browser";
 import MovieHeader from "./MovieHeader";
 import MovieGrid from "./Movies";
 
-interface MoviePageLayoutProps {
-  movies: Movie[];
-  isLoading: boolean;
-  error: Error | null;
-}
-
-export default function MoviePageLayout({
-  movies,
-  isLoading,
-  error,
-}: MoviePageLayoutProps) {
-  const [filteredMovies, setFilteredMovies] = useState<Movie[]>(movies);
+export default function MoviePageLayout() {
+  const { movies, isLoading, error } = useMovies();
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>(movies || []);
 
   if (isLoading) {
     return (
