@@ -7,6 +7,9 @@ import Link from "next/link";
 import { SeriesWithCount } from "@/src/types/SeriesWithCount";
 
 export default function SeriesCard({ series }: { series: SeriesWithCount }) {
+
+  console.log(series);
+  
   
   return (
     <div className="w-[256px] h-auto  overflow-hidden bg-black text-white group">
@@ -52,7 +55,7 @@ export default function SeriesCard({ series }: { series: SeriesWithCount }) {
           </div>
           <div className="w-20 h-8 border border-[#FF0000] rounded-md flex items-center justify-center gap-1 text-[12px]">
             <Tv size={14} />
-            {/* <span>{series._count.seasons} Seasons</span> */}
+            <span>{series?._count?.seasons} Seasons</span>
           </div>
         </div>
       </Link>

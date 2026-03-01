@@ -2,11 +2,11 @@
 
 import { useProducers } from "@/src/hooks/useProducers";
 import ProducerList from "@/src/components/producers/ProducerList";
-import ErrorDisplay from "../../components/producers/ErrorDisplay";
 import { Loader } from "lucide-react";
+import ErrorDisplay from "@/src/components/producers/ErrorDisplay";
 
 export default function ProducersPage() {
-  const { data: producers, error, isLoading } = useProducers();
+  const { producers, error, isLoading } = useProducers();
 
   if (isLoading) return <Loader />;
 

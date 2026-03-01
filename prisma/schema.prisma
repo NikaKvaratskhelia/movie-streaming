@@ -14,13 +14,14 @@ datasource db {
 }
 
 model Movie {
-  id            Int     @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   title         String
   description   String
   coverPhoto    String
   yearPublished Int
-  duration      Int     @default(0)
-  rating        Decimal @default(0) @db.Decimal(3, 1)
+  duration      Int      @default(0)
+  rating        Decimal  @default(0) @db.Decimal(3, 1)
+  createdAt     DateTime @default(now())
 
   genres String[] @default([])
 

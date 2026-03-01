@@ -1,14 +1,7 @@
-import { AdminHeader } from "@/src/components/admin/Header";
-
-export default function RootLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div>
-      <AdminHeader />
-      {children}
-    </div>
-  );
+  return <div className="min-h-screen bg-black text-white">{children}</div>;
 }

@@ -1,11 +1,17 @@
-import { Actor } from "@/generated/prisma/browser";
+"use client";
+
 import ActorCard from "../shared/ActorCard";
+import { useActors } from "@/src/hooks/useActor";
+import Loader from "../ui/Loader";
+import { Actor } from "@/generated/prisma/browser";
 
-interface ActorProps {
-  actors: Actor[];
-}
+export default function ActorGrid() {
+  const { actors, isLoading } = useActors();
 
-export default function ActorGrid({ actors }: ActorProps) {
+  if (isLoading) {
+    return <Loader />;
+  }
+
   if (actors.length === 0) {
     return (
       <div className="text-center py-12 lg:py-20">
@@ -21,7 +27,7 @@ export default function ActorGrid({ actors }: ActorProps) {
 
   return (
     <div className="flex flex-wrap justify-center items-center gap-4 lg:gap-8">
-      {actors.map((actor) => (
+      {actors.map((actor: Actor) => (
         <ActorCard key={actor.id} actor={actor} />
       ))}
     </div>

@@ -4,7 +4,17 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const series = await prisma.series.findMany();
+    const series = await prisma.series.findMany({
+      select: {
+        id: true,
+        coverPhoto:true,
+        title: true,
+        genres: true,
+        rating: true,
+        yearPublished: true,
+        _count: { select: { seriesWatchlists: true, seasons:true } },
+      },
+    });
 
     if (series.length === 0) {
       return NextResponse.json(

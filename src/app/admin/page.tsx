@@ -1,11 +1,7 @@
-import CardsLayout from "@/src/components/admin/CardsLayout";
-import UsersTable from "@/src/components/admin/UsersTable";
+import React from 'react'
 
-export default function AdminDashboard() {
+export default function sidebaraq() {
   return (
-    <div className="text-white max-w-300 mx-auto">
-      <CardsLayout />
-      <UsersTable />
-    </div>
-  );
+    <div className='text-white'>side bar aq</div>
+  )
 }

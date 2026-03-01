@@ -12,7 +12,17 @@ export async function GET(
     where: { id: Number(id) },
     include: {
       movies: true,
-      series: true,
+      series: {
+        select: {
+          id: true,
+          coverPhoto: true,
+          title: true,
+          genres: true,
+          rating: true,
+          yearPublished: true,
+          _count: { select: { seriesWatchlists: true, seasons: true } },
+        },
+      },
     },
   });
 
