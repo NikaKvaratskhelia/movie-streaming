@@ -72,8 +72,8 @@ export default function Aside() {
   return (
     <aside
       className={`sticky top-0 h-dvh shrink-0
-        border-r border-white/5 bg-[#0a0c0f] backdrop-blur
-        transition-[width] duration-200 ease-out ${collapsed ? "w-16" : "w-64"}`}
+        border-r border-white/5 bg-[#0a0c0f] backdrop-blur  w-16
+        transition-[width] duration-200 ease-out ${collapsed ? "w-16" : "sm:w-64"}`}
     >
       <div className="flex h-16 items-center justify-between px-3">
         <div className="flex items-center gap-2 overflow-hidden">
@@ -82,7 +82,7 @@ export default function Aside() {
           </div>
 
           {!collapsed && (
-            <div className="min-w-0">
+            <div className="min-w-0 hidden sm:block">
               <p className="truncate text-sm font-semibold text-white">
                 Admin Panel
               </p>
@@ -105,7 +105,7 @@ export default function Aside() {
         {SECTIONS.map((section) => (
           <div key={section.key} className="flex flex-col gap-2">
             <p
-              className={`px-2 text-xs font-medium uppercase tracking-wider text-neutral-500 ${collapsed ? "sr-only" : ""}`}
+              className={`px-2 text-xs font-medium uppercase tracking-wider text-neutral-500  ${collapsed ? "sr-only" : "sr-only sm:not-sr-only"}`}
             >
               {section.label}
             </p>
