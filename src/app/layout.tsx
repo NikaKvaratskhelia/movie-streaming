@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/src/components/layout/header";
 import Providers from "./providers";
 import Loader from "../components/ui/Loader";
 import { Toaster } from "sonner";
@@ -20,10 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col justify-between bg-black pb-20">
+      <body className="min-h-screen flex flex-col bg-black pb-20">
         <Providers>
-          <Header />
-          <div className="mt-21">{children}</div>
+          {children}
           <Loader />
           <Toaster richColors position="bottom-right" theme="dark" />
         </Providers>
