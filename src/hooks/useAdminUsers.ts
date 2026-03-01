@@ -31,7 +31,7 @@ export function useAdminUsers() {
   });
 
   return {
-    users: usersQuery.data,
+    users: usersQuery.data ?? [],
     loading: usersQuery.isLoading,
     deleting: deleteMutation.isPending,
 
