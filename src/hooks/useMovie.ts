@@ -19,7 +19,7 @@ export const useMovies = () => {
     queryFn: async () => {
       const resp = await fetchMovies();
       const data = resp.data as Movie[];
-      return [...data].sort((a, b) => b.id - a.id); 
+      return [...data].sort((a, b) => a.id - b.id); 
     },
   });
 

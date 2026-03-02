@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/src/lib/prisma";
-import { Producer } from "@/generated/prisma/browser";
 
 export async function GET(
   req: Request,
@@ -49,30 +48,64 @@ export async function PUT(
   const body = await req.json();
   const { id } = await params;
 
-  const existingProducer = await prisma.producer.findUnique({
-    where: { id: Number(id) },
+  const producerId = Number(id);
+  if (!Number.isFinite(producerId)) {
+    return NextResponse.json(
+      { message: "Invalid id", ok: false },
+      { status: 400 },
+    );
+  }
+
+  const existing = await prisma.producer.findUnique({
+    where: { id: producerId },
   });
 
-  if (!existingProducer)
+  if (!existing) {
     return NextResponse.json(
       { message: `Producer with id of ${id} does not exist`, ok: false },
       { status: 404 },
     );
+  }
 
-  const newData: Partial<Producer> = {};
+  const b = body as Partial<{
+    fullName: unknown;
+    nationality: unknown;
+    dateOfBirth: unknown;
+    debutYear: unknown;
+  }>;
 
-  if (body.fullName !== null) newData.fullName = body.fullName;
-  if (body.nationality !== null) newData.nationality = body.nationality;
-  if (body.dateOfBirth !== null) newData.dateOfBirth = body.dateOfBirth;
-  if (body.debutYear !== null) newData.debutYear = body.debutYear;
+  const newData: {
+    fullName?: string;
+    nationality?: string;
+    dateOfBirth?: Date;
+    debutYear?: number;
+  } = {};
 
-  await prisma.producer.update({
-    where: { id: Number(id) },
+  if (typeof b.fullName === "string") newData.fullName = b.fullName;
+  if (typeof b.nationality === "string") newData.nationality = b.nationality;
+
+  if (typeof b.dateOfBirth === "string") {
+    const d = new Date(b.dateOfBirth);
+    if (Number.isNaN(d.getTime())) {
+      return NextResponse.json(
+        { message: "Invalid dateOfBirth", ok: false },
+        { status: 400 },
+      );
+    }
+    newData.dateOfBirth = d;
+  }
+
+  if (typeof b.debutYear === "number" && Number.isFinite(b.debutYear)) {
+    newData.debutYear = b.debutYear;
+  }
+
+  const updated = await prisma.producer.update({
+    where: { id: producerId },
     data: newData,
   });
 
   return NextResponse.json(
-    { message: "Producer updated successfully!", ok: true },
+    { message: "Producer updated successfully!", ok: true, data: updated },
     { status: 200 },
   );
 }

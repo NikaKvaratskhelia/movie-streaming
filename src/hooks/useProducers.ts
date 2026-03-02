@@ -1,38 +1,29 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { getProducers, deleteProducer } from "../services/producer-service";
+import {
+  getProducers,
+  deleteProducer,
+  updateProducer,
+} from "../services/producer-service";
 import { useAuthStore } from "../store/useLoginStore";
-import { Producer } from "@/generated/prisma/browser";
+import type { Producer } from "@/generated/prisma/browser";
 
-export async function updateProducer(token: string | null, producer: Producer) {
-  const res = await fetch("/api/producer", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(producer),
-  });
-
-  if (!res.ok) throw new Error("Failed to update producer");
-
-  const data = await res.json();
-  if (!data.ok) throw new Error(data.message);
-
-  return data.producer;
-}
+type UpdateProducer = {
+  id: number;
+  producer: Partial<Producer>;
+};
 
 export const useProducers = () => {
   const queryClient = useQueryClient();
-  const queryKey = ["producers"];
-
+  const queryKey = ["producers"] as const;
   const { token } = useAuthStore();
 
   const producersQuery = useQuery({
     queryKey,
     queryFn: async () => {
       const resp = await getProducers();
-      return resp;
+      const data = resp as Producer[];
+      return [...data].sort((a, b) => a.id - b.id);
     },
     staleTime: 1000 * 60 * 5,
   });
@@ -42,47 +33,59 @@ export const useProducers = () => {
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey });
       const previous = queryClient.getQueryData<Producer[]>(queryKey);
+
       queryClient.setQueryData<Producer[]>(queryKey, (old = []) =>
         old.filter((p) => p.id !== id),
       );
+
       return { previous };
     },
-    onError: (_err, _id, context) => {
-      if (context?.previous)
-        queryClient.setQueryData(queryKey, context.previous);
+    onError: (_err, _id, ctx) => {
+      if (ctx?.previous) queryClient.setQueryData(queryKey, ctx.previous);
       toast.error("Failed to delete producer");
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey });
-    },
     onSuccess: () => toast.success("Producer deleted successfully!"),
+    onSettled: () => queryClient.invalidateQueries({ queryKey }),
   });
 
   const updateProducerMutation = useMutation({
-    mutationFn: (producer: Producer) => updateProducer(token, producer),
-    onMutate: async (updatedProducer) => {
+    mutationFn: ({ id, producer }: UpdateProducer) =>
+      updateProducer(token, id, producer),
+
+    onMutate: async ({ id, producer }) => {
       await queryClient.cancelQueries({ queryKey });
       const previous = queryClient.getQueryData<Producer[]>(queryKey);
+
       queryClient.setQueryData<Producer[]>(queryKey, (old = []) =>
-        old.map((p) => (p.id === updatedProducer.id ? updatedProducer : p)),
+        old.map((p) => (p.id === id ? { ...p, ...producer } : p)),
       );
+
       return { previous };
     },
-    onError: (_err, _producer, context) => {
-      if (context?.previous)
-        queryClient.setQueryData(queryKey, context.previous);
+
+    onError: (_err, _vars, ctx) => {
+      if (ctx?.previous) queryClient.setQueryData(queryKey, ctx.previous);
       toast.error("Failed to update producer");
     },
+
+    onSuccess: (saved) => {
+      queryClient.setQueryData<Producer[]>(queryKey, (old = []) =>
+        old.map((p) => (p.id === saved.id ? saved : p)),
+      );
+      toast.success("Producer updated successfully!");
+    },
+
     onSettled: () => queryClient.invalidateQueries({ queryKey }),
-    onSuccess: () => toast.success("Producer updated successfully!"),
   });
 
   return {
     producers: producersQuery.data ?? [],
     isLoading: producersQuery.isFetching,
     error: producersQuery.error,
+
     removeProducer: removeProducerMutation.mutate,
     updateProducer: updateProducerMutation.mutate,
+
     isRemovingProducer: removeProducerMutation.isPending,
     isUpdatingProducer: updateProducerMutation.isPending,
   };
