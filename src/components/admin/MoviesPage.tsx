@@ -5,10 +5,9 @@ import { Table } from "./Table";
 import { Star } from "lucide-react";
 import MovieForm from "./MovieForm";
 import { useState } from "react";
-import { toast } from "sonner";
 import { Movie } from "@/generated/prisma/browser";
 export default function MoviesPage() {
-  const { movies } = useMovies();
+  const { movies, removeMovie, addMovie, updateMovie } = useMovies();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<Movie | null>(null);
 
@@ -58,17 +57,16 @@ export default function MoviesPage() {
           setFormData(m);
           setShowForm(true);
         }}
-        onDelete={(m) =>
-          toast.info(`Delete "${m.title}" — connect a backend to persist`)
-        }
+        onDelete={(m) => removeMovie(m.id)}
       />
-      
+
       <MovieForm
         open={showForm}
         onOpenChange={setShowForm}
         mode={formData ? "edit" : "add"}
-        entityName="Movie"
         data={formData ?? undefined}
+        onAdd={(d) => addMovie(d)}
+        onUpdate={(id, d) => updateMovie({ id, data: d })}
       />
     </>
   );

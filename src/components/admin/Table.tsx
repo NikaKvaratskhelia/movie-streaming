@@ -52,7 +52,7 @@ export function Table<T extends { id: number | string }>({
                 </th>
               ))}
               {(onView || onEdit || onDelete) && (
-                <th className="w-32">Actions</th>
+                <th className="text-sm text-[#737b8c] font-medium p-4 text-left">Actions</th>
               )}
             </tr>
           </thead>
@@ -74,7 +74,7 @@ export function Table<T extends { id: number | string }>({
                     <div className="flex gap-1">
                       {onView && (
                         <button
-                          className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                          className="h-8 w-8 hover:bg-red-500 rounded-lg transition-colors duration-300 flex items-center justify-center cursor-pointer"
                           onClick={() => onView(row)}
                         >
                           <Eye className="h-3.5 w-3.5" />
@@ -82,7 +82,7 @@ export function Table<T extends { id: number | string }>({
                       )}
                       {onEdit && (
                         <button
-                          className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                          className="h-8 w-8 hover:bg-red-500 rounded-lg transition-colors duration-300 flex items-center justify-center cursor-pointer"
                           onClick={() => onEdit(row)}
                         >
                           <Pencil className="h-3.5 w-3.5" />
@@ -90,7 +90,7 @@ export function Table<T extends { id: number | string }>({
                       )}
                       {onDelete && (
                         <button
-                          className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                          className="h-8 w-8 hover:bg-red-500 rounded-lg transition-colors duration-300 flex items-center justify-center cursor-pointer"
                           onClick={() => onDelete(row)}
                         >
                           <Trash2 className="h-3.5 w-3.5" />

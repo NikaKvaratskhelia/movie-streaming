@@ -17,7 +17,7 @@ export async function deleteMovie(id: number) {
   return await res.json();
 }
 
-export async function addMovie(movie: Movie) {
+export async function addMovie(movie: Partial<Movie>) {
   const res = await fetch("/api/movies", {
     method: "POST",
     body: JSON.stringify(movie),
@@ -32,5 +32,9 @@ export async function updateMovie(id: number, movie: Partial<Movie>) {
     method: "PUT",
     body: JSON.stringify(movie),
   });
-  return await res.json();
+  const data = await res.json()
+  console.log(res);
+  console.log(data);
+  
+  return data;
 }

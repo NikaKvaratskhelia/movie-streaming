@@ -7,10 +7,12 @@ export default function Select({
   label,
   valueId,
   options,
+  onChange,
 }: {
   label: string;
   valueId: number | null;
   options: { id: number; label: string }[];
+  onChange: (id: number) => void;
 }) {
   const [showOptions, setShowOptions] = useState(false);
 
@@ -37,14 +39,30 @@ export default function Select({
 
       {showOptions && (
         <div className="absolute select-none z-50 mt-2 w-full bg-[#14161c] border border-[#2a2f3a] rounded-md shadow-lg overflow-hidden animate-in fade-in slide-in-from-top-1 duration-150">
-          {options.map((o) => (
-            <div
-              key={o.id}
-              className="px-3 py-2 text-sm text-neutral-300 cursor-pointer transition-colors hover:bg-red-600/20 hover:text-white"
-            >
-              {o.label}
-            </div>
-          ))}
+          {options.map((o) => {
+            const isSelected = o.id === valueId;
+
+            return (
+              <button
+                key={o.id}
+                type="button"
+                disabled={isSelected}
+                onClick={() => {
+                  if (!isSelected) {
+                    onChange(o.id);
+                    setShowOptions(false);
+                  }
+                }}
+                className={`w-full text-left px-3 py-2 text-sm transition-colors ${
+                  isSelected
+                    ? "bg-red-600/20 text-white cursor-not-allowed"
+                    : "text-neutral-300 hover:bg-red-600/20 hover:text-white"
+                }`}
+              >
+                {o.label}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
