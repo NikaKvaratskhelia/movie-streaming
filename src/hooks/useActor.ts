@@ -14,7 +14,7 @@ export const useActors = () => {
     queryKey,
     queryFn: async () => {
       const resp = await fetchActors();
-      return resp;
+      return resp as Actor[];
     },
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,

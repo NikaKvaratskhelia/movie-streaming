@@ -13,7 +13,7 @@ export default function ProducersPage() {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<Producer | null>(null);
 
-  if (isUpdatingProducer) return <Loader loadingProp={true}/>;
+  if (isUpdatingProducer) return <Loader loadingProp={true} />;
 
   return (
     <>
@@ -24,7 +24,15 @@ export default function ProducersPage() {
           { header: "ID", accessor: "id" },
           { header: "Full name", accessor: "fullName" },
           { header: "Nationality", accessor: "nationality" },
-          { header: "Date of Birth", accessor: "dateOfBirth" },
+          {
+            header: "Date of Birth",
+            accessor: (a) => {
+              const d = a.dateOfBirth ? new Date(a.dateOfBirth) : null;
+              return d && !Number.isNaN(d.getTime())
+                ? d.toLocaleDateString()
+                : "-";
+            },
+          },
           { header: "Debut Year", accessor: "debutYear" },
         ]}
         onAdd={() => {
@@ -46,7 +54,7 @@ export default function ProducersPage() {
         onUpdate={(id: number, d: Partial<Producer>) =>
           updateProducer({ id, producer: d })
         }
-        onAdd={()=>console.log("daemata")}
+        onAdd={() => console.log("daemata")}
       />
     </>
   );
