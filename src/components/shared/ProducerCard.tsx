@@ -5,7 +5,7 @@ export default function ProducerCard({ producer }: { producer: Producer }) {
   return (
     <Link
       href={`/producers/${producer.id}`}
-      className="group relative block w-full max-w-sm mx-auto"
+      className="group relative block w-full max-w-sm "
     >
       <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-zinc-900 via-zinc-950 to-black p-px transition-all duration-500 hover:scale-[1.02]">
         <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-linear-to-r from-red-600/40 via-transparent to-red-600/40 blur-xl" />
