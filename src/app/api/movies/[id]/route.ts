@@ -48,18 +48,41 @@ export async function PUT(
       );
 
     const body = await request.json();
-    const { title, description, coverPhoto, yearPublished } = body;
+    const {
+      title,
+      description,
+      coverPhoto,
+      yearPublished,
+      producerId,
+      rating,
+      duration,
+      genres,
+    } = body;
 
     const updateData: Partial<Movie> = {};
-
-    if (title !== undefined) updateData.title = title;
-    if (description !== undefined) updateData.description = description;
-    if (coverPhoto !== undefined) updateData.coverPhoto = coverPhoto;
-    if (yearPublished !== undefined) updateData.yearPublished = yearPublished;
-
     const existingMovie = await prisma.movie.findUnique({
       where: { id: Number(id) },
     });
+
+    if (title !== undefined && title !== existingMovie?.title)
+      updateData.title = title;
+    if (description !== undefined && description !== existingMovie?.description)
+      updateData.description = description;
+    if (coverPhoto !== undefined && coverPhoto !== existingMovie?.coverPhoto)
+      updateData.coverPhoto = coverPhoto;
+    if (
+      yearPublished !== undefined &&
+      yearPublished !== existingMovie?.yearPublished
+    )
+      updateData.yearPublished = yearPublished;
+    if (producerId !== undefined && producerId !== existingMovie?.producerId)
+      updateData.producerId = producerId;
+    if (rating !== undefined && rating !== existingMovie?.rating)
+      updateData.rating = rating;
+    if (duration !== undefined && duration !== existingMovie?.duration)
+      updateData.duration = duration * 60;
+    if (genres !== undefined && genres !== existingMovie?.genres)
+      updateData.genres = genres;
 
     if (!existingMovie) {
       return NextResponse.json(
@@ -80,7 +103,7 @@ export async function PUT(
   } catch (error: unknown) {
     if (error instanceof Error) {
       return NextResponse.json(
-        { message: "Something went wrong", ok: false },
+        { message: "Something went wrong", ok: false, mess: error.message },
         { status: 500 },
       );
     }

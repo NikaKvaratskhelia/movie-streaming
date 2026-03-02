@@ -6,6 +6,7 @@ export default function Input({
   min,
   max,
   label,
+  onChange,
 }: {
   id: string;
   type: string;
@@ -14,6 +15,7 @@ export default function Input({
   value: string;
   min?: number;
   max?: number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
     <div className="flex flex-col w-full">
@@ -30,6 +32,8 @@ export default function Input({
         placeholder={placeholder}
         min={min}
         max={max}
+        step="0.1"
+        onChange={onChange}
         className="px-3 py-2 rounded-md bg-[#1a1e26] border border-[#2a2f3a] hover:border-red-500/70 focus-within:border-red-500 transition-all duration-150"
       />
     </div>

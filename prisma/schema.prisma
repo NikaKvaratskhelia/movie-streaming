@@ -20,7 +20,7 @@ model Movie {
   coverPhoto    String
   yearPublished Int
   duration      Int      @default(0)
-  rating        Decimal  @default(0) @db.Decimal(3, 1)
+  rating        Float  @default(0)
   createdAt     DateTime @default(now())
 
   genres String[] @default([])
@@ -96,7 +96,7 @@ model Series {
   description   String
   coverPhoto    String
   yearPublished Int
-  rating        Decimal  @default(0) @db.Decimal(3, 1)
+  rating        Float  @default(0)
   genres        String[] @default([])
   isSeries      Boolean  @default(true)
 
