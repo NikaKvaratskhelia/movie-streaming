@@ -25,7 +25,7 @@ export default function NavLink({
     <Link
       href={href}
       title={collapsed ? text : undefined}
-      className={`group relative flex items-center gap-3 rounded-xl px-3 py-2
+      className={`group relative flex items-center gap-3 rounded-xl px-2 py-0.5
         text-sm transition ${
           active
             ? "bg-white/8 text-white"
