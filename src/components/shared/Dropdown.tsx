@@ -42,7 +42,7 @@ export function Dropdown({
   }
 
   return (
-    <div ref={ref} className="relative w-44">
+    <div ref={ref} className="relative w-full">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
