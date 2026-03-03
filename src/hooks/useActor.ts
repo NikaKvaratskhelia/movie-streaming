@@ -1,7 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Actor } from "@/generated/prisma/browser";
-import { fetchActors, deleteActor } from "@/src/services/actor-service";
+import {
+  fetchActors,
+  deleteActor,
+  addActor,
+  updateActor,
+} from "@/src/services/actor-service";
 import { useAuthStore } from "../store/useLoginStore";
 
 export const useActors = () => {
@@ -22,30 +27,35 @@ export const useActors = () => {
 
   const removeActorMutation = useMutation({
     mutationFn: (id: number) => deleteActor(token, id),
-    onMutate: async (id) => {
-      await queryClient.cancelQueries({ queryKey });
-      const previous = queryClient.getQueryData<Actor[]>(queryKey);
-
-      queryClient.setQueryData<Actor[]>(queryKey, (old = []) =>
-        old.filter((actor) => actor.id !== id),
-      );
-
-      return { previous };
-    },
-    onError: (_err, _id, context) => {
-      if (context?.previous)
-        queryClient.setQueryData(queryKey, context.previous);
-      toast.error("Failed to delete actor");
-    },
     onSettled: () => queryClient.invalidateQueries({ queryKey }),
     onSuccess: () => toast.success("Actor deleted successfully!"),
+  });
+
+  const addActorMutation = useMutation({
+    mutationFn: (data: Partial<Actor>) => addActor(token, data),
+    onSettled: () => queryClient.invalidateQueries({ queryKey }),
+    onSuccess: () => toast.success("Actor added successfully!"),
+  });
+
+  const updateActorMutation = useMutation({
+    mutationFn: ({ data, id }: { data: Partial<Actor>; id: number }) =>
+      updateActor(token, data, id),
+    onSettled: () => queryClient.invalidateQueries({ queryKey }),
+    onSuccess: () => toast.success("Actor added successfully!"),
   });
 
   return {
     actors: actorsQuery.data ?? [],
     isLoading: actorsQuery.isLoading,
     error: actorsQuery.error,
+
     removeActor: removeActorMutation.mutate,
     isRemovingActor: removeActorMutation.isPending,
+
+    addActor: addActorMutation.mutate,
+    isAddingActor: addActorMutation.isPending,
+
+    updateActor: updateActorMutation.mutate,
+    isUpdatingActor: updateActorMutation.isPending,
   };
 };
