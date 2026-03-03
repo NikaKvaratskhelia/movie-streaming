@@ -6,12 +6,24 @@ import type { Actor } from "@/generated/prisma/browser";
 import { Table } from "./Table";
 import ActorsForm from "./ActorsForm";
 import { useActors } from "@/src/hooks/useActor";
+import Loader from "../ui/Loader";
 
 export default function ActorsPage() {
-  const { actors, removeActor } = useActors();
+  const {
+    actors,
+    removeActor,
+    addActor,
+    updateActor,
+    isAddingActor,
+    isRemovingActor,
+    isUpdatingActor,
+  } = useActors();
 
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<Actor | null>(null);
+
+  if (isAddingActor || isRemovingActor || isUpdatingActor)
+    return <Loader loadingProp={true} />;
 
   return (
     <>
@@ -48,9 +60,8 @@ export default function ActorsPage() {
         onOpenChange={setShowForm}
         mode={formData ? "edit" : "add"}
         data={formData ?? undefined}
-        // eseni unda gavaketo
-        onAdd={(d) => console.log("daemata")}
-        onUpdate={(id, d) => console.log("ganaxlda")}
+        onAdd={(d) => addActor(d)}
+        onUpdate={(id, d) => updateActor({ data: d, id })}
       />
     </>
   );

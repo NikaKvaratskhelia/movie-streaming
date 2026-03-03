@@ -41,6 +41,22 @@ export async function PUT(
 ) {
   const { id } = await params;
 
+  const userId = await checkJwt(req);
+  if (!userId) {
+    return NextResponse.json(
+      { message: "token invalid!", ok: false },
+      { status: 401 },
+    );
+  }
+
+  const existingUser = await prisma.user.findUnique({ where: { id: userId } });
+  if (existingUser?.role !== "ADMIN") {
+    return NextResponse.json(
+      { message: "U do not have permission!", ok: false },
+      { status: 401 },
+    );
+  }
+
   const wantedActor = await prisma.actor.findUnique({
     where: { id: Number(id) },
   });
@@ -82,10 +98,17 @@ export async function DELETE(
   const { id } = await params;
 
   const userId = await checkJwt(req);
-
   if (!userId) {
     return NextResponse.json(
-      { message: "Unauthorized", ok: false },
+      { message: "token invalid!", ok: false },
+      { status: 401 },
+    );
+  }
+
+  const existingUser = await prisma.user.findUnique({ where: { id: userId } });
+  if (existingUser?.role !== "ADMIN") {
+    return NextResponse.json(
+      { message: "U do not have permission!", ok: false },
       { status: 401 },
     );
   }
@@ -109,58 +132,4 @@ export async function DELETE(
     },
     { status: 200 },
   );
-}
-
-export async function POST(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const { id } = await params;
-  const { movieIds } = await req.json();
-
-  if (!Array.isArray(movieIds) || movieIds.length === 0) {
-    return NextResponse.json(
-      { message: "movieIds must be a non-empty array of numbers", ok: false },
-      { status: 400 },
-    );
-  }
-
-  const numericMovieIds = movieIds.map((id) => Number(id));
-
-  const existingMovies = await prisma.movie.findMany({
-    where: {
-      id: { in: numericMovieIds },
-    },
-    select: { id: true },
-  });
-
-  if (existingMovies.length !== numericMovieIds.length) {
-    return NextResponse.json(
-      { message: "Some movies do not exist", ok: false },
-      { status: 400 },
-    );
-  }
-
-  const actor = await prisma.actor.findUnique({
-    where: { id: Number(id) },
-    include: { movies: true },
-  });
-
-  if (!actor)
-    return NextResponse.json(
-      { message: `No actor with id of ${id}`, ok: false },
-      { status: 404 },
-    );
-
-  const updated = await prisma.actor.update({
-    where: { id: Number(id) },
-    data: {
-      movies: {
-        connect: movieIds.map((id) => ({ id })),
-      },
-    },
-    include: { movies: true },
-  });
-
-  return NextResponse.json({ updated, ok: true }, { status: 200 });
 }
