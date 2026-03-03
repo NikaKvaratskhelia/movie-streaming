@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/src/lib/prisma";
+import { checkJwt } from "@/src/utils/check-auth";
 
 export async function GET(
   req: Request,
@@ -47,6 +48,24 @@ export async function PUT(
 ) {
   const body = await req.json();
   const { id } = await params;
+
+  const userId = await checkJwt(req);
+
+  if (!userId) {
+    return NextResponse.json(
+      { message: "token invalid!", ok: false },
+      { status: 401 },
+    );
+  }
+
+  const existingUser = await prisma.user.findUnique({ where: { id: userId } });
+
+  if (existingUser?.role !== "ADMIN") {
+    return NextResponse.json(
+      { message: "U do not have permission!", ok: false },
+      { status: 401 },
+    );
+  }
 
   const producerId = Number(id);
   if (!Number.isFinite(producerId)) {
@@ -115,6 +134,24 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
+
+  const userId = await checkJwt(req);
+
+  if (!userId) {
+    return NextResponse.json(
+      { message: "token invalid!", ok: false },
+      { status: 401 },
+    );
+  }
+
+  const existingUser = await prisma.user.findUnique({ where: { id: userId } });
+
+  if (existingUser?.role !== "ADMIN") {
+    return NextResponse.json(
+      { message: "U do not have permission!", ok: false },
+      { status: 401 },
+    );
+  }
 
   const existingProducer = await prisma.producer.findUnique({
     where: { id: Number(id) },

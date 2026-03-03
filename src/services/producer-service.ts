@@ -60,3 +60,25 @@ export async function updateProducer(
 
   return data.data as Producer;
 }
+
+export async function addProducer(
+  token: string | null,
+  producer: Partial<Producer>,
+) {
+  const res = await fetch("/api/producer/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify(producer),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) throw new Error(data?.message ?? "Failed to update producer");
+  if (!data.ok) throw new Error(data.message ?? "Failed to update producer");
+  if (!data.data) throw new Error("No producer returned from API");
+
+  return data;
+}

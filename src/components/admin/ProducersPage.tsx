@@ -8,12 +8,20 @@ import ProducerForm from "./ProducerForm";
 import Loader from "../ui/Loader";
 
 export default function ProducersPage() {
-  const { producers, removeProducer, updateProducer, isUpdatingProducer } =
-    useProducers();
+  const {
+    producers,
+    removeProducer,
+    updateProducer,
+    isUpdatingProducer,
+    addProducer,
+    isAdding,
+    isRemovingProducer,
+  } = useProducers();
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<Producer | null>(null);
 
-  if (isUpdatingProducer) return <Loader loadingProp={true} />;
+  if (isUpdatingProducer || isAdding || isRemovingProducer)
+    return <Loader loadingProp={true} />;
 
   return (
     <>
@@ -54,7 +62,7 @@ export default function ProducersPage() {
         onUpdate={(id: number, d: Partial<Producer>) =>
           updateProducer({ id, producer: d })
         }
-        onAdd={() => console.log("daemata")}
+        onAdd={(producer) => addProducer(producer)}
       />
     </>
   );

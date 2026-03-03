@@ -4,6 +4,7 @@ import {
   getProducers,
   deleteProducer,
   updateProducer,
+  addProducer,
 } from "../services/producer-service";
 import { useAuthStore } from "../store/useLoginStore";
 import type { Producer } from "@/generated/prisma/browser";
@@ -30,18 +31,7 @@ export const useProducers = () => {
 
   const removeProducerMutation = useMutation({
     mutationFn: (id: number) => deleteProducer(token, id),
-    onMutate: async (id) => {
-      await queryClient.cancelQueries({ queryKey });
-      const previous = queryClient.getQueryData<Producer[]>(queryKey);
-
-      queryClient.setQueryData<Producer[]>(queryKey, (old = []) =>
-        old.filter((p) => p.id !== id),
-      );
-
-      return { previous };
-    },
-    onError: (_err, _id, ctx) => {
-      if (ctx?.previous) queryClient.setQueryData(queryKey, ctx.previous);
+    onError: () => {
       toast.error("Failed to delete producer");
     },
     onSuccess: () => toast.success("Producer deleted successfully!"),
@@ -52,27 +42,22 @@ export const useProducers = () => {
     mutationFn: ({ id, producer }: UpdateProducer) =>
       updateProducer(token, id, producer),
 
-    onMutate: async ({ id, producer }) => {
-      await queryClient.cancelQueries({ queryKey });
-      const previous = queryClient.getQueryData<Producer[]>(queryKey);
-
-      queryClient.setQueryData<Producer[]>(queryKey, (old = []) =>
-        old.map((p) => (p.id === id ? { ...p, ...producer } : p)),
-      );
-
-      return { previous };
-    },
-
-    onError: (_err, _vars, ctx) => {
-      if (ctx?.previous) queryClient.setQueryData(queryKey, ctx.previous);
+    onError: () => {
       toast.error("Failed to update producer");
     },
 
-    onSuccess: (saved) => {
-      queryClient.setQueryData<Producer[]>(queryKey, (old = []) =>
-        old.map((p) => (p.id === saved.id ? saved : p)),
-      );
+    onSuccess: () => {
       toast.success("Producer updated successfully!");
+    },
+
+    onSettled: () => queryClient.invalidateQueries({ queryKey }),
+  });
+
+  const addProducerMutation = useMutation({
+    mutationFn: (producer: Partial<Producer>) => addProducer(token, producer),
+
+    onSuccess: () => {
+      toast.success("Producer added successfully!");
     },
 
     onSettled: () => queryClient.invalidateQueries({ queryKey }),
@@ -85,7 +70,9 @@ export const useProducers = () => {
 
     removeProducer: removeProducerMutation.mutate,
     updateProducer: updateProducerMutation.mutate,
+    addProducer: addProducerMutation.mutate,
 
+    isAdding: addProducerMutation.isPending,
     isRemovingProducer: removeProducerMutation.isPending,
     isUpdatingProducer: updateProducerMutation.isPending,
   };
