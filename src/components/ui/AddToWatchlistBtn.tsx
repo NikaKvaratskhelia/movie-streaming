@@ -55,11 +55,12 @@ export default function AddToWatchlistBtn({
     }
   }
 
+  const newLocal = "absolute cursor-pointer top-3 right-3 w-10 h-10 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 disabled:opacity-50";
   return (
     <button
       onClick={handleClick}
       disabled={isPending}
-      className="absolute top-3 right-3 w-10 h-10 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 transform group-hover:opacity-100 group-hover:scale-100 opacity-0 scale-75 hover:bg-black/80 hover:scale-110 cursor-pointer disabled:opacity-50"
+      className={newLocal}
     >
       <Heart
         size={18}

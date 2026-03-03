@@ -1,4 +1,5 @@
 import { Movie } from "@/generated/prisma/browser";
+import { SeriesWithCount } from "@/src/types/SeriesWithCount";
 import BackButton from "../shared/BackButton";
 
 interface ProducerInfoProps {
@@ -9,6 +10,7 @@ interface ProducerInfoProps {
     dateOfBirth: string | Date;
     debutYear: number;
     movies: Movie[];
+    series: SeriesWithCount[];
   };
 }
 
@@ -26,7 +28,7 @@ export default function ProducerInfo({ producer }: ProducerInfoProps) {
 
           <div className="mt-6 h-px w-full bg-linear-to-r from-transparent via-zinc-700 to-transparent" />
 
-          <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="flex flex-wrap mt-10  justify-around gap-8 sm:gap-6 md:gap">
             <InfoBlock label="Nationality" value={producer.nationality} />
 
             <InfoBlock
@@ -37,6 +39,8 @@ export default function ProducerInfo({ producer }: ProducerInfoProps) {
             <InfoBlock label="Debut" value={producer.debutYear} />
 
             <InfoBlock label="Movies" value={producer.movies.length} />
+
+            <InfoBlock label="Series" value={producer.series.length} />
           </div>
         </div>
       </section>

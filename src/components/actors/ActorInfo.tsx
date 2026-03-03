@@ -1,7 +1,11 @@
 import { Actor } from "@/generated/prisma/browser";
+import { SeriesWithCount } from "@/src/types/SeriesWithCount";
 
 interface ActorInfoProps {
-  actor: Actor;
+  actor: Actor & {
+    movies?: any[];
+    series?: SeriesWithCount[];
+  };
 }
 
 export default function ActorInfo({ actor }: ActorInfoProps) {
@@ -31,8 +35,7 @@ export default function ActorInfo({ actor }: ActorInfoProps) {
         </h1>
 
         <div className="mt-6 h-px w-full bg-linear-to-r from-transparent via-zinc-700 to-transparent" />
-
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-3 gap-8">
+ <div className="flex flex-wrap mt-10  justify-around gap-8 sm:gap-6 md:gap">
           <InfoBlock label="Nationality" value={actor.nationality} />
 
           <InfoBlock
@@ -41,6 +44,10 @@ export default function ActorInfo({ actor }: ActorInfoProps) {
           />
 
           <InfoBlock label="Debut" value={actor.debutYear} />
+
+          <InfoBlock label="Movies" value={actor.movies?.length || 0} />
+
+          <InfoBlock label="Series" value={actor.series?.length || 0} />
         </div>
       </div>
     </section>

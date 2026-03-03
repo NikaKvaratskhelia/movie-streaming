@@ -9,7 +9,7 @@ interface StyledMovieCardProps {
   movie: Movie;
 }
 
-export default function StyledMovieCard({ movie }: StyledMovieCardProps) {
+export default function MovieCardRating({ movie }: StyledMovieCardProps) {
   const coverPhoto =
     movie.coverPhoto && isValidUrl(movie.coverPhoto) ? movie.coverPhoto : null;
 
