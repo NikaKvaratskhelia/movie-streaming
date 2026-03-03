@@ -15,7 +15,7 @@ export default function Loader({
 
   const showLoader = loading || loading1 || isLoading || loadingProp;
   return showLoader ? (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black">
+    <div className="fixed inset-0 z-500 flex items-center justify-center bg-black">
       <div className="relative flex flex-col items-center gap-6">
         <div className="absolute h-56 w-56 rounded-full bg-red-600/30 blur-3xl animate-pulse"></div>
 

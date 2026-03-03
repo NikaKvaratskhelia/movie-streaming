@@ -123,7 +123,7 @@ export async function getAllUsersADMIN(token: string | null) {
     },
   });
 
-  const data  = await res.json();
+  const data = await res.json();
 
   if (!res.ok) throw new Error(data.message);
 

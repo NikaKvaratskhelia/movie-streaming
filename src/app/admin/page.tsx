@@ -1,7 +1,5 @@
-import React from 'react'
+import AdminPage from "@/src/components/admin/AdminPage";
 
 export default function sidebaraq() {
-  return (
-    <div className='text-white'>side bar aq</div>
-  )
+  return <AdminPage />;
 }
