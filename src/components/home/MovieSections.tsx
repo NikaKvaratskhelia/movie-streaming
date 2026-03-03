@@ -1,6 +1,5 @@
 "use client";
 import MovieCardRating from "../shared/MovieCardRating";
-import ViewAllLink from "../shared/ViewAllLink";
 import { useMovies } from "@/src/hooks/useMovie";
 
 export default function MovieSections() {
@@ -12,7 +11,6 @@ export default function MovieSections() {
         <h2 className="text-xl lg:text-2xl font-semibold text-white px-8">
           Trending
         </h2>
-        <ViewAllLink href="/trending" />
       </div>
 
       <div className="flex justify-center">
