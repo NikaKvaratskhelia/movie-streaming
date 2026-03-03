@@ -43,8 +43,8 @@ export default function HeaderClient() {
           }`}
         />
       </button>
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed top-20 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-white/10 z-40">
+      
+        <div className={`lg:hidden fixed -top-100 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-white/10 z-40 ${mobileMenuOpen ?"top-20" :""}`}>
           <div className="px-4 py-6 space-y-6">
             <nav className="flex flex-col space-y-4">
               {navItems.map((item, index) => (
@@ -66,7 +66,7 @@ export default function HeaderClient() {
             </div>
           </div>
         </div>
-      )}
+      
     </>
   );
 }
